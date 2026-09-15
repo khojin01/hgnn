@@ -335,3 +335,7 @@
 - [2026-09-15 19:14 KST] 갱신 요청: `results/result_118.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님
 
 - [2026-09-15 19:14 KST] 갱신 요청: `results/result_aminer_MaskGAE_cluster.txt` — 원장 Community detection 표에 AMiner 열이 없음
+
+- [2026-09-15 19:23 KST] 갱신 요청: `results/result_citeseer_cite_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
+
+- [2026-09-15 19:23 KST] 갱신 요청: `results/result_cora_coauth_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
