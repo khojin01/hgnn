@@ -750,7 +750,14 @@ def git_log(n=12):
     if not (ROOT / ".git").exists():
         return None
     out = sh(f"git -C '{ROOT}' log -{n} --date=iso-strict --format='%h|%ad|%s'")
+    ahead = sh(f"git -C '{ROOT}' rev-list --count origin/main..HEAD 2>/dev/null").strip()
+    last_push = mtime(ROOT / ".git" / "refs" / "remotes" / "origin" / "main") or mtime(ROOT / ".git" / "FETCH_HEAD")
     return dict(head=sh(f"git -C '{ROOT}' rev-parse --short HEAD").strip(),
+                head_full=sh(f"git -C '{ROOT}' rev-parse HEAD").strip(),
+                origin_main=sh(f"git -C '{ROOT}' rev-parse --short origin/main 2>/dev/null").strip(),
+                ahead=int(ahead) if ahead.isdigit() else None,
+                dirty=int(sh(f"git -C '{ROOT}' status --porcelain | wc -l").strip() or 0),
+                last_push=last_push.isoformat() if last_push else None,
                 remote=sh(f"git -C '{ROOT}' remote get-url origin 2>/dev/null").strip(),
                 commits=[dict(zip(("hash", "date", "msg"), l.split("|", 2))) for l in out.strip().splitlines() if l.count("|") >= 2])
 
