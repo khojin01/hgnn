@@ -9,32 +9,38 @@ python3 dashboard/collector.py
 python3 dashboard/server.py --port 8765
 ```
 
-## 자동 갱신 (30분마다)
+## 자동 갱신 (1분마다)
 
 `state.json`은 `collector.py`가 만들고, 화면은 그걸 10초마다 다시 읽는다.
-그래서 자동화 대상은 `collector.py`다. cron이 30분마다 부른다.
+`collector.py`는 혼자 돌지 않는다. 원장을 쓰는 단계가 먼저 끝나야 하므로
+`tools/refresh_all.sh`가 파이프라인 전체를 한 줄로 이어서 돌린다. cron이 1분마다 부른다.
 
 ```
-*/30 * * * * /home/dms2/hojin_workspace/hgnn/dashboard/refresh.sh
+* * * * * /home/dms2/hojin_workspace/hgnn/tools/refresh_all.sh
 ```
 
-`refresh.sh`가 하는 일:
+`refresh_all.sh`가 순서대로 하는 일 (전부 합쳐 0.3초쯤):
 
-- `collector.py`를 돌려 `experiment_now.md` → `state.json`을 다시 만든다
-- `flock`으로 겹쳐 도는 것을 막는다 (원장이 커지면 한 번에 몇 초 걸린다)
+1. `clerk_refresh.py` — `results/` · `full-runs/` → `experiment_now.md` (원장)
+2. `collector.py` — 원장 → `state.json`, 그리고 논문 기준값 대조
+3. `build_report.py` — `state.json` → `hypergc-report.html`
+4. `vault_build.py` — `state.json` · 서버 상태 → `vault/` 노트 · `live.json`
+5. `git` — 내용이 바뀐 노트만 커밋·푸시
+
+그 밖에:
+
+- `flock`으로 겹쳐 도는 것을 막고, 앞 단계가 실패하면 뒤 단계를 돌리지 않는다
 - `paper_reference.json`이 없을 때만 PDF에서 논문 기준값을 다시 뽑는다
-  (PDF가 바뀌지 않는 한 매번 할 일이 아니다)
-- 결과를 `dashboard/refresh.log`에 한 줄씩 남기고, 400줄만 유지한다
+- 결과를 `dashboard/pipeline.log`에 한 줄씩 남기고, 400줄만 유지한다
 
 cron은 대화형 셸의 PATH를 물려받지 않으므로 `python3`를 절대 경로로 부른다.
 
 ### 확인과 조작
 
 ```bash
-tail -f dashboard/refresh.log     # 갱신 이력
-dashboard/refresh.sh              # 즉시 한 번 갱신
+tail -f dashboard/pipeline.log    # 갱신 이력
+tools/refresh_all.sh              # 즉시 한 번 갱신
 crontab -l                        # 등록 상태
-crontab -e                        # 주기 변경 (*/30 → */10 등)
 ```
 
 로그는 이런 모양이다.
@@ -61,11 +67,10 @@ crontab -e                        # 주기 변경 (*/30 → */10 등)
 
 | 단계 | 누가 | 비용 | 지속성 |
 |---|---|---|---|
-| `state.json` 생성 | cron → `collector.py` | 없음 | 재부팅 후에도 유지 |
-| `hypergc-report.html` 생성 | cron → `build_report.py` | 없음 | 재부팅 후에도 유지 |
+| 원장 · `state.json` · 리포트 · 노트 생성 | cron → `refresh_all.sh` | 없음 | 재부팅 후에도 유지 |
 | 아티팩트 발행 | Claude 세션 | 매 실행마다 토큰 | **세션이 살아 있는 동안만** |
 
-앞의 두 단계는 `refresh.sh`가 30분마다 한다. 그래서 **디스크의 리포트 HTML은 항상
+앞 단계는 `refresh_all.sh`가 1분마다 한다. 그래서 **디스크의 리포트 HTML은 항상
 최신**이고, 발행은 한 번의 도구 호출로 끝난다.
 
 발행 자동화의 한계:

@@ -22,7 +22,7 @@
 
 - `vault/knowledge/` 전체와 모든 노트의 `AUTO:BEGIN ~ AUTO:END` 구간 — `tools/vault_build.py` 가 1분마다 덮어쓴다.
 - 결과 수치를 노트에 직접 적지 않는다. `results/*.txt` 에 남기면 clerk → collector → vault_build 가 올린다.
-  올라오지 않으면 `dashboard/refresh.log` · `.agents/env-status/clerk-refresh-loop.log` 를 본다.
+  올라오지 않으면 `dashboard/pipeline.log` 를 본다.
 - 정식 결과 파일(`results/result_<dataset>_<Dir>_<task>.txt`)을 지우거나 덮어쓰지 않는다. 재실행은 새 run_id 로.
 
 ## 실행 규칙 요약
@@ -35,7 +35,7 @@
 
 ## 에이전트
 
-- `clerk` — 결과 원장 `.agents/clerk-reports/experiment_now.md` 관리. 10분 루프 `clerk-refresh-loop.sh`.
+- `clerk` — 결과 원장 `.agents/clerk-reports/experiment_now.md` 관리. cron 파이프라인 `tools/refresh_all.sh` 가 1분마다 갱신한다.
 - `env-builder` / `env-checker` — 환경 구축·검증. 정의서 `.agents/*.md`. 정식 실행 전 게이트 `*-check.ok`.
 
 ## 볼트 구조
