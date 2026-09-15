@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 6
 hp_done: 6
 hp_agree: 6
-cd_done: 0
-cd_agree: 0
+cd_done: 2
+cd_agree: 2
 max_abs_delta: 0.9
 worst_cell: "노드 분류 IMDB −0.9"
 status: complete
-updated: 2026-09-15 19:19
+updated: 2026-09-15 22:09
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # GraphMAE2
 
-실행법 → [[GraphMAE2 실행]] · 코드 `GraphMAE2/` · 결과 `results/result_*_GraphMAE2_*.txt` · <small>갱신 2026-09-15 19:19</small>
+실행법 → [[GraphMAE2 실행]] · 코드 `GraphMAE2/` · 결과 `results/result_*_GraphMAE2_*.txt` · <small>갱신 2026-09-15 22:09</small>
 
-NC 6/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 IMDB −0.9
+NC 6/6 일치 · HP 6/6 일치 · CD 2/2 일치 · 최대 편차 노드 분류 IMDB −0.9
 
 ## Node classification — Table 3 · Accuracy
 
@@ -52,8 +52,8 @@ NC 6/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 IMDB −0.9
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
-| [[Citeseer]] | — | 42.1 |  | pending |
-| [[Cora-CA]] | — | 42.1 |  | pending |
+| [[Citeseer]] | 42.1 <span class="sd">±0.4</span> | 42.1 | <span class="d ok">+0.0</span> |  |
+| [[Cora-CA]] | 42.0 <span class="sd">±0.9</span> | 42.1 | <span class="d ok">−0.1</span> |  |
 | [[IMDB]] | — | 6.0 |  | pending |
 | [[House]] | — | 0.1 |  | pending |
 | [[Pubmed]] | — | 20.0 |  | pending |
