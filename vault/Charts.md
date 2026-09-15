@@ -1,6 +1,6 @@
 ---
 type: overview
-updated: 2026-09-15 14:48
+updated: 2026-09-15 15:02
 tags: [hgnn/overview]
 cssclasses: [hg-wide, wide-page]
 ---
@@ -8,9 +8,9 @@ cssclasses: [hg-wide, wide-page]
 <!-- AUTO:BEGIN -->
 # 차트
 
-<span class="lgn">clerk 원장의 정식 결과 · 막대에 마우스를 올리면 값이 보인다 · 갱신 2026-09-15 14:48</span>
+<small>clerk 원장의 정식 결과 · 막대에 마우스를 올리면 값이 보인다 · 갱신 2026-09-15 15:02</small>
 
-## Node classification <span class="m">Accuracy · 데이터셋 6개 평균</span>
+## Node classification — Accuracy · 데이터셋 6개 평균
 
 ```chart
 type: bar
@@ -31,12 +31,11 @@ height: 320px
 ```
 
 > [!note]- 데이터셋별 히트맵 (PNG)
->
 > ![[node-heatmap-light.png]]
 >
 > 다크 테마에서는 같은 이름의 `-dark.png` 를 쓰면 된다.
 
-## Hyperedge prediction <span class="m">AUROC · 데이터셋 6개 평균</span>
+## Hyperedge prediction — AUROC · 데이터셋 6개 평균
 
 ```chart
 type: bar
@@ -57,7 +56,6 @@ height: 320px
 ```
 
 > [!note]- 데이터셋별 히트맵 (PNG)
->
 > ![[edge-heatmap-light.png]]
 >
 > 다크 테마에서는 같은 이름의 `-dark.png` 를 쓰면 된다.
