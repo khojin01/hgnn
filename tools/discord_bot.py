@@ -136,8 +136,22 @@ def q_gpu():
             bar = "█" * round(u / 10) + "·" * (10 - round(u / 10))
             rows.append("GPU%s  %s %3d%%   %.1f/%.0f GB   %s" % (p[0], bar, u, int(p[3]) / 1024, int(p[4]) / 1024, p[1]))
     procs = sh("nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader,nounits")
-    rows.append("계산 프로세스 %d개" % (len(procs.splitlines()) if procs else 0))
-    return "```\n" + "\n".join(rows) + "\n```"
+    n = len(procs.splitlines()) if procs else 0
+    rows.append("계산 프로세스 %d개" % n)
+    out = "```\n" + "\n".join(rows) + "\n```"
+    # 0%만 보면 "못 읽은 것"과 "정말 쉬는 중"이 구별되지 않는다. 맥락을 한 줄 붙인다.
+    if n == 0:
+        d = live()
+        jobs = d.get("jobs", [])
+        if jobs:
+            out += "\n%d개 실험이 프로세스로는 잡히는데 GPU를 쓰고 있지 않다 — 확인이 필요하다." % len(jobs)
+        else:
+            runs = sorted(d.get("runs", []), key=lambda r: r.get("latest", ""), reverse=True)
+            if runs:
+                out += "\n돌고 있는 실험이 없다. 마지막 활동은 %s · %s." % (runs[0]["id"], runs[0]["latest"][5:16].replace("T", " "))
+            else:
+                out += "\n돌고 있는 실험이 없다."
+    return out
 
 
 def q_status():
