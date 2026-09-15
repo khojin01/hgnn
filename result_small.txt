@@ -237,3 +237,5 @@ aminer,TriCL,33.6 ± 2.5
 citeseer_cite,GraphMAE2,51.7 ± 12.9
 cora_coauth,GraphMAE2,64.0 ± 5.8
 imdb,GraphMAE2,44.6 ± 4.5
+house,GraphMAE2,52.0 ± 3.2
+pubmed_cite,GraphMAE2,75.9 ± 3.2
