@@ -8,15 +8,15 @@ max_abs_delta: 5.4
 worst_cell: "하이퍼엣지 예측 House −5.4"
 status: complete
 code_dir: TriCL
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/model]
-cssclasses: [hg-model]
+cssclasses: [hg-model, table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # TriCL
 
-<span class="lgn">코드 `TriCL/` · 결과 `results/result_*_TriCL_*.txt` · 갱신 2026-09-15 14:20</span>
+<span class="lgn">코드 `TriCL/` · 결과 `results/result_*_TriCL_*.txt` · 갱신 2026-09-15 14:48</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">6/6</span><span class="note">|Δ| 중앙값 1.00</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">1/6</span><span class="note">|Δ| 중앙값 4.20</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">−5.4</span><span class="note">하이퍼엣지 예측 · House</span></div></div>
 

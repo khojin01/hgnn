@@ -6,14 +6,15 @@ nc_best_value: 57.6
 hp_models: 18
 hp_best: SE-HSSL
 hp_best_value: 90.6
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/dataset]
+cssclasses: [table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # Citeseer
 
-<span class="lgn">갱신 2026-09-15 14:20</span>
+<span class="lgn">갱신 2026-09-15 14:48</span>
 
 ## Node classification <span class="m">Accuracy</span>
 

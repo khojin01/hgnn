@@ -1,14 +1,14 @@
 ---
 type: overview
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/overview]
-cssclasses: [hg-wide]
+cssclasses: [hg-wide, wide-page]
 ---
 
 <!-- AUTO:BEGIN -->
 # 차트
 
-<span class="lgn">clerk 원장의 정식 결과 · 막대에 마우스를 올리면 값이 보인다 · 갱신 2026-09-15 14:20</span>
+<span class="lgn">clerk 원장의 정식 결과 · 막대에 마우스를 올리면 값이 보인다 · 갱신 2026-09-15 14:48</span>
 
 ## Node classification <span class="m">Accuracy · 데이터셋 6개 평균</span>
 

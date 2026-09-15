@@ -6,14 +6,15 @@ nc_best_value: 76.7
 hp_models: 17
 hp_best: TriCL
 hp_best_value: 96.1
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/dataset]
+cssclasses: [table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # Pubmed
 
-<span class="lgn">갱신 2026-09-15 14:20</span>
+<span class="lgn">갱신 2026-09-15 14:48</span>
 
 ## Node classification <span class="m">Accuracy</span>
 

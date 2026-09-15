@@ -8,15 +8,15 @@ max_abs_delta: 45.5
 worst_cell: "노드 분류 Cora-CA −45.5"
 status: partial
 code_dir: HyperGCL
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/model]
-cssclasses: [hg-model]
+cssclasses: [hg-model, table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGCL
 
-<span class="lgn">코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · 갱신 2026-09-15 14:20</span>
+<span class="lgn">코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · 갱신 2026-09-15 14:48</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">0/3</span><span class="note">|Δ| 중앙값 24.90</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">0/4</span><span class="note">|Δ| 중앙값 22.00</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">−45.5</span><span class="note">노드 분류 · Cora-CA</span></div></div>
 

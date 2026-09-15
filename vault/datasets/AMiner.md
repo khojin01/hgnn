@@ -6,14 +6,15 @@ nc_best_value: 34.8
 hp_models: 16
 hp_best: HypeBoy
 hp_best_value: 89.7
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/dataset]
+cssclasses: [table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # AMiner
 
-<span class="lgn">갱신 2026-09-15 14:20</span>
+<span class="lgn">갱신 2026-09-15 14:48</span>
 
 ## Node classification <span class="m">Accuracy</span>
 

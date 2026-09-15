@@ -319,7 +319,7 @@ def note_paper(state, tasks, dry):
     lines += ["", f"원본: `.agents/clerk-reports/experiment_now.md` → `dashboard/state.json` · 기준값 `dashboard/paper_reference.json`",
               "", "관련: [[Home]] · [[대시보드]]"]
     return write_note(VAULT / "논문 대조.md", "\n".join(lines),
-                      front("overview", css="hg-wide, hg-sticky", nc_agree=n3[1], nc_total=n3[0],
+                      front("overview", css="hg-wide, hg-sticky, wide-page, table-wide, row-alt, table-nowrap", nc_agree=n3[1], nc_total=n3[0],
                             hp_agree=n4[1], hp_total=n4[0], outliers=total_outliers), dry)
 
 
@@ -393,7 +393,7 @@ def note_models(state, tasks, dry):
             lines.append("")
         lines += [legend_html(), "", "관련: [[논문 대조]] · [[모델 비교]] · [[Home]]"]
         if write_note(VAULT / "models" / f"{m}.md", "\n".join(lines),
-                      front("model", css="hg-model", **props), dry):
+                      front("model", css="hg-model, table-wide, row-alt", **props), dry):
             changed += 1
     return changed
 
@@ -443,7 +443,7 @@ def note_datasets(state, tasks, dry):
                 lines += ["", chart_block(names, [("우리", ours), ("논문", refs_)], height="260px"), ""]
             lines.append("")
         lines += ["관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]"]
-        if write_note(VAULT / "datasets" / f"{ds}.md", "\n".join(lines), front("dataset", **props), dry):
+        if write_note(VAULT / "datasets" / f"{ds}.md", "\n".join(lines), front("dataset", css="table-wide, row-alt", **props), dry):
             changed += 1
     return changed
 
@@ -734,7 +734,7 @@ def note_dashboard(dry):
         lines.append("")
     lines += ["관련: [[에이전트]] · [[논문 대조]] · [[Home]]"]
     return write_note(VAULT / "대시보드.md", "\n".join(lines),
-                      front("overview", css="hg-wide", host=HOST, running=len(live), active_runs=len(active_runs)),
+                      front("overview", css="hg-wide, wide-page, table-wide, table-nowrap", host=HOST, running=len(live), active_runs=len(active_runs)),
                       dry, volatile=True)
 
 
@@ -853,7 +853,7 @@ def note_agents(dry):
             if oks:
                 lines += ["게이트 파일: " + " · ".join(f"`{p.name}` ({mtime(p).strftime('%m-%d %H:%M')})" for p in oks), ""]
     lines += ["관련: [[대시보드]] · [[Home]]"]
-    return write_note(VAULT / "에이전트.md", "\n".join(lines), front("overview", host=HOST), dry)
+    return write_note(VAULT / "에이전트.md", "\n".join(lines), front("overview", css="table-wide, row-alt", host=HOST), dry)
 
 
 # --------------------------------------------------------------------------
@@ -995,7 +995,7 @@ def note_charts(tasks, dry):
                   "> [!note]- 데이터셋별 히트맵 (PNG)", ">", f"> ![[{short}-heatmap-light.png]]", ">",
                   "> 다크 테마에서는 같은 이름의 `-dark.png` 를 쓰면 된다.", ""]
     lines += ["관련: [[논문 대조]] · [[모델 비교]] · [[Home]]"]
-    return write_note(VAULT / "Charts.md", "\n".join(lines), front("overview", css="hg-wide"), dry)
+    return write_note(VAULT / "Charts.md", "\n".join(lines), front("overview", css="hg-wide, wide-page"), dry)
 
 
 # --------------------------------------------------------------------------

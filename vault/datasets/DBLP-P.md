@@ -1,13 +1,14 @@
 ---
 type: dataset
-updated: 2026-09-15 14:20
+updated: 2026-09-15 14:48
 tags: [hgnn/dataset]
+cssclasses: [table-wide, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # DBLP-P
 
-<span class="lgn">갱신 2026-09-15 14:20</span>
+<span class="lgn">갱신 2026-09-15 14:48</span>
 
 ## Hyperedge prediction <span class="m">AUROC</span>
 
