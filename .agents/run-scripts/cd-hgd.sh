@@ -46,7 +46,7 @@ for row in "${settings[@]}"; do
   if [[ ! -f "$emb" ]]; then
     timeout 24h "$CONDA" run --no-capture-output -n "$ENV" \
       python "$MODEL/${MODEL}_train.py" --data "$ds" --num_seeds 20 --lr "$lr" \
-        --device "$GPU" --task node --alpha "$alpha" --p "$pp" --save-emb "$emb" >> "$log" 2>&1
+        --device "cuda:$GPU" --task node --p_e "$pe" --p_x "$px" --save-emb "$emb" >> "$log" 2>&1
     code=$?
     if (( code == 124 )); then say "$ds" OOT; continue; fi
     if grep -qi "out of memory" "$log"; then say "$ds" OOM; continue; fi

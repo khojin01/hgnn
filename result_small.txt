@@ -222,3 +222,4 @@ imdb,MaskGAE,44.7 ± 3.5
 house,MaskGAE,52.2 ± 3.0
 pubmed_cite,MaskGAE,74.6 ± 4.2
 aminer,MaskGAE,32.5 ± 1.7
+citeseer_cite,HGD,27.5 ± 6.4
