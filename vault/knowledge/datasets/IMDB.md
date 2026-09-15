@@ -4,16 +4,16 @@ nc_models: 17
 nc_best: SE-HSSL
 hp_models: 18
 hp_best: HGNN
-cd_models: 6
+cd_models: 7
 cd_best: HypeBoy
-updated: 2026-09-15 22:18
+updated: 2026-09-15 22:44
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # IMDB
 
-<small>갱신 2026-09-15 22:18</small>
+<small>갱신 2026-09-15 22:44</small>
 
 ## Node classification — Accuracy
 
@@ -72,10 +72,11 @@ tags: [hgnn/dataset]
 | 2 | [[GraphMAE2]] | 5.7 <span class="sd">±0.2</span> | 6.0 | <span class="d ok">−0.3</span> |
 | 3 | [[TriCL]] | 5.4 <span class="sd">±0.1</span> | 5.5 | <span class="d ok">−0.1</span> |
 | 4 | [[MaskGAE]] | 3.2 <span class="sd">±0.0</span> | 2.9 | <span class="d ok">+0.3</span> |
-| 5 | [[GGD]] | 0.3 <span class="sd">±0.1</span> | 0.3 | <span class="d ok">+0.0</span> |
-| 6 | [[VilLain]] | 0.0 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">−0.1</span> |
+| 5 | [[SE-HSSL]] | 0.5 <span class="sd">±0.2</span> | 0.3 | <span class="d ok">+0.2</span> |
+| 6 | [[GGD]] | 0.3 <span class="sd">±0.1</span> | 0.3 | <span class="d ok">+0.0</span> |
+| 7 | [[VilLain]] | 0.0 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">−0.1</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: HyperGCL (pending), HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 

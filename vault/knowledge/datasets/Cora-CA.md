@@ -4,16 +4,16 @@ nc_models: 19
 nc_best: HypeBoy
 hp_models: 18
 hp_best: HypeBoy
-cd_models: 6
+cd_models: 7
 cd_best: TriCL
-updated: 2026-09-15 22:18
+updated: 2026-09-15 22:44
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Cora-CA
 
-<small>갱신 2026-09-15 22:18</small>
+<small>갱신 2026-09-15 22:44</small>
 
 ## Node classification — Accuracy
 
@@ -70,12 +70,13 @@ tags: [hgnn/dataset]
 |---:|---|---:|---:|---:|
 | 1 | [[TriCL]] | 45.2 <span class="sd">±0.9</span> | 40.9 | <span class="d warn">+4.3</span> |
 | 2 | [[HypeBoy]] | 44.7 <span class="sd">±0.9</span> | 41.9 | <span class="d warn">+2.8</span> |
-| 3 | [[GraphMAE2]] | 42.0 <span class="sd">±0.9</span> | 42.1 | <span class="d ok">−0.1</span> |
-| 4 | [[MaskGAE]] | 39.4 <span class="sd">±1.3</span> | 38.0 | <span class="d ok">+1.4</span> |
-| 5 | [[VilLain]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |
-| 6 | [[GGD]] | 6.7 <span class="sd">±0.4</span> | 6.0 | <span class="d ok">+0.7</span> |
+| 3 | [[SE-HSSL]] | 44.5 <span class="sd">±0.1</span> | 44.4 | <span class="d ok">+0.1</span> |
+| 4 | [[GraphMAE2]] | 42.0 <span class="sd">±0.9</span> | 42.1 | <span class="d ok">−0.1</span> |
+| 5 | [[MaskGAE]] | 39.4 <span class="sd">±1.3</span> | 38.0 | <span class="d ok">+1.4</span> |
+| 6 | [[VilLain]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |
+| 7 | [[GGD]] | 6.7 <span class="sd">±0.4</span> | 6.0 | <span class="d ok">+0.7</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: HyperGCL (pending), HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 

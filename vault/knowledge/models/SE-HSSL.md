@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 4
 hp_done: 6
 hp_agree: 6
-cd_done: 1
-cd_agree: 1
+cd_done: 3
+cd_agree: 3
 max_abs_delta: 12.7
 worst_cell: "노드 분류 House +12.7"
 status: complete
-updated: 2026-09-15 22:42
+updated: 2026-09-15 22:44
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # SE-HSSL
 
-실행법 → [[SE-HSSL 실행]] · 코드 `SEHSSL/` · 결과 `results/result_*_SEHSSL_*.txt` · <small>갱신 2026-09-15 22:42</small>
+실행법 → [[SE-HSSL 실행]] · 코드 `SEHSSL/` · 결과 `results/result_*_SEHSSL_*.txt` · <small>갱신 2026-09-15 22:44</small>
 
-NC 4/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 House +12.7
+NC 4/6 일치 · HP 6/6 일치 · CD 3/3 일치 · 최대 편차 노드 분류 House +12.7
 
 ## Node classification — Table 3 · Accuracy
 
@@ -53,8 +53,8 @@ NC 4/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 H
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
 | [[Citeseer]] | 38.5 <span class="sd">±0.0</span> | 38.5 | <span class="d ok">+0.0</span> |  |
-| [[Cora-CA]] | — | 44.4 |  | pending |
-| [[IMDB]] | — | 0.3 |  | pending |
+| [[Cora-CA]] | 44.5 <span class="sd">±0.1</span> | 44.4 | <span class="d ok">+0.1</span> |  |
+| [[IMDB]] | 0.5 <span class="sd">±0.2</span> | 0.3 | <span class="d ok">+0.2</span> |  |
 | [[House]] | — | 0.7 |  | pending |
 | [[Pubmed]] | — | 15.0 |  | pending |
 | [[AMiner]] | — | 41.8 |  | pending |
