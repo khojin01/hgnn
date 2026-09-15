@@ -2,7 +2,8 @@
 """디스코드 — 실험 알림(서버가 먼저 말한다)과 조회(내가 묻는다).
 
     python3 tools/discord_bot.py notify      # 상태 변화가 있으면 웹훅으로 알린다. refresh_all.sh 가 매분 부른다
-    python3 tools/discord_bot.py send "글"   # 한 줄 보내기
+    python3 tools/discord_bot.py send "글"   # 웹훅 채널로 한 줄
+    python3 tools/discord_bot.py report "글" # 봇 계정으로 보고 채널(#order)에 한 줄
     python3 tools/discord_bot.py ask 상태    # 봇 없이 답만 확인
     ~/.venvs/discord/bin/python tools/discord_bot.py bot         # 명령을 받는 게이트웨이 루프 (상주)
     python3 tools/discord_bot.py ensure-bot  # 루프가 죽어 있으면 되살린다. refresh_all.sh 가 매분 부른다
@@ -100,6 +101,32 @@ def send(text):
 def embed(title, body, color=BLUE):
     return post({"embeds": [{"title": title[:250], "description": body[:3900], "color": color,
                              "footer": {"text": datetime.now(KST).strftime("%m-%d %H:%M") + " · dms2"}}]})
+
+
+def say_to(text, channel=None):
+    """봇 계정으로 채널에 글을 올린다. channel 을 안 주면 설정의 report 채널, 그것도 없으면 channel.
+
+    웹훅은 만든 채널에만 갈 수 있어서 진행 보고를 #order 로 보낼 수 없다. 이 경로를 쓴다.
+    """
+    c = conf()
+    ch = channel or c.get("report") or c.get("channel")
+    token = c.get("token")
+    if not ch or not token:
+        return False
+    import urllib.request
+    ok = True
+    for i in range(0, max(1, len(text)), 1900):
+        body = json.dumps({"content": text[i:i + 1900]}).encode("utf-8")
+        req = urllib.request.Request(
+            "https://discord.com/api/v10/channels/%s/messages" % ch, data=body,
+            headers={"Content-Type": "application/json", "Authorization": "Bot " + token,
+                     "User-Agent": "hgnn-lab/1.0"})
+        try:
+            urllib.request.urlopen(req, timeout=20).read()
+        except Exception as e:
+            print("discord 전송 실패: %s: %s" % (type(e).__name__, e), file=sys.stderr)
+            ok = False
+    return ok
 
 
 def live():
@@ -424,6 +451,8 @@ def main():
         return bot()
     elif cmd == "ensure-bot":
         ensure_bot()
+    elif cmd == "report":
+        print("보냄" if say_to(" ".join(sys.argv[2:])) else "보내지 못함")
     elif cmd == "send":
         print("보냄" if send(" ".join(sys.argv[2:])) else "보내지 못함")
     elif cmd == "test":
