@@ -339,3 +339,7 @@
 - [2026-09-15 19:23 KST] 갱신 요청: `results/result_citeseer_cite_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
 
 - [2026-09-15 19:23 KST] 갱신 요청: `results/result_cora_coauth_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
+
+- [2026-09-15 19:24 KST] 갱신 요청: `results/result_imdb_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
+
+- [2026-09-15 19:24 KST] 갱신 요청: `results/result_house_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
