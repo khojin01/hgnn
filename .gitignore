@@ -61,3 +61,4 @@ dashboard/.refresh.lock
 /.discord.json
 dashboard/.discord_seen.json
 dashboard/discord.log
+dashboard/inbox.jsonl

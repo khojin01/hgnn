@@ -38,6 +38,7 @@ CONF = ROOT / ".discord.json"
 SEEN = ROOT / "dashboard" / ".discord_seen.json"
 LIVE = ROOT / "dashboard" / "live.json"
 VENV = Path.home() / ".venvs" / "discord" / "bin" / "python"
+PY3 = "/home/dms2/miniconda/bin/python3"      # 봇은 venv 로 돌지만 도구들은 기본 파이썬으로 부른다
 KST = timezone(timedelta(hours=9))
 
 BLUE, GREEN, AMBER, RED, GREY = 0x3D7FB5, 0x3C7A5C, 0xE0761F, 0xB53B2C, 0x87A2B4
@@ -196,15 +197,18 @@ def record_order(text, who):
         return "무엇을 적을지 내용이 없다. `지시 TriCL num_edges 확장 방식 확인` 처럼 쓴다."
     payload = json.dumps({"id": "discord-" + datetime.now(KST).strftime("%H%M%S"), "kind": "free",
                           "text": "%s  (디스코드 · %s)" % (text, who)}, ensure_ascii=False)
-    r = subprocess.run([sys.executable if "venvs" not in sys.executable else "/home/dms2/miniconda/bin/python3",
-                        str(ROOT / "tools" / "order_exec.py"), payload], capture_output=True, timeout=30)
+    r = subprocess.run([PY3, str(ROOT / "tools" / "order_exec.py"), payload], capture_output=True, timeout=30)
     try:
         out = json.loads(r.stdout.decode("utf-8", "replace").strip().splitlines()[-1])
     except Exception:
         return "기록하지 못했다: " + r.stderr.decode("utf-8", "replace")[-300:]
     if out.get("status") != "done":
         return "기록하지 못했다: " + str(out.get("result"))
-    return ("적었다." + "\n" + "\n" + out["result"] + "\n" + "\n" +
+    # 클로드 세션이 가져갈 수 있게 지시함에도 넣는다 (관제 갱신이 여기를 비운다)
+    subprocess.run([PY3, str(ROOT / "tools" / "inbox.py"), "add",
+                    json.dumps({"text": text, "who": "디스코드 · " + who}, ensure_ascii=False)],
+                   capture_output=True, timeout=30)
+    return ("적었다. 클로드가 다음 관제 갱신 때 가져간다." + "\n" + "\n" + out["result"] + "\n" + "\n" +
             "실행·중지는 여기서 하지 않는다. 클로드가 세션에서 프로토콜을 읽고 판단해서 한다.")
 
 
