@@ -5,17 +5,19 @@ nc_done: 6
 nc_agree: 2
 hp_done: 6
 hp_agree: 0
+cd_done: 0
+cd_agree: 0
 max_abs_delta: 37.9
 worst_cell: "하이퍼엣지 예측 House −37.9"
 status: complete
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # GGD
 
-실행법 → [[GGD 실행]] · 코드 `H-GD/` · 결과 `results/result_*_H-GD_*.txt` · <small>갱신 2026-09-15 15:36</small>
+실행법 → [[GGD 실행]] · 코드 `H-GD/` · 결과 `results/result_*_H-GD_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 2/6 일치 · HP 0/6 일치 · 최대 편차 하이퍼엣지 예측 House −37.9
 
@@ -45,6 +47,19 @@ NC 2/6 일치 · HP 0/6 일치 · 최대 편차 하이퍼엣지 예측 House −
 | [[AMiner]] | 50.7 <span class="sd">±8.3</span> | 84.9 | <span class="d bad">−34.2</span> |  |
 | [[DBLP-P]] | — | 91.6 |  | pending |
 | [[20News]] | — | 87.9 |  | blocked-data |
+
+## Community detection — Table 5 · NMI
+
+| 데이터셋 | 우리 | 논문 | Δ | 비고 |
+|---|---:|---:|---:|---|
+| [[Citeseer]] | — | 6.3 |  | pending |
+| [[Cora-CA]] | — | 6.0 |  | pending |
+| [[IMDB]] | — | 0.3 |  | pending |
+| [[House]] | — | 0.1 |  | pending |
+| [[Pubmed]] | — | 6.7 |  | pending |
+| [[AMiner]] | — | 4.4 |  | pending |
+| [[DBLP-P]] | — | 2.6 |  | pending |
+| [[20News]] | — | 0.0 |  | pending |
 
 표기 · 값 <span class="sd">±표준편차</span> · Δ = 우리 − 논문 · <span class="d ok">+0.3</span> ±2 이내 · <span class="d warn">+3.0</span> 2–5 · <span class="d bad">+7.0</span> 5 초과 · <span class="lim">OOM</span> 논문이 수치를 못 낸 칸 · — 미실행·보류
 <!-- AUTO:END -->

@@ -77,12 +77,17 @@
 
 ## Community detection — Table 5 · NMI
 
-| Model | Cora-CA | DBLP-P | 20News |
-|---|---|---|---|
-| VilLain | **9.7 ± 2.2** (Δ **−0.0**) | — pending | — pending |
-| HyperGCL | — pending | O.O.M skip | — pending |
-| MaskGAE | **39.4 ± 1.3** (Δ **+1.4**) | — pending | O.O.T skip |
-| HyperGRL | — pending | — pending | O.O.T skip |
+| Model | Citeseer | Cora-CA | IMDB | House | Pubmed | AMiner | DBLP-P | 20News |
+|---|---|---|---|---|---|---|---|---|
+| GraphMAE2 | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
+| MaskGAE | — pending | **39.4 ± 1.3** (Δ **+1.4**) | — pending | — pending | — pending | — pending | — pending | O.O.T skip |
+| GGD (H-GD) | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
+| TriCL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
+| HyperGCL | — pending | — pending | — pending | — pending | — pending | — pending | O.O.M skip | — pending |
+| HyperGRL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | O.O.T skip |
+| HypeBoy | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
+| VilLain | — pending | **9.7 ± 2.2** (Δ **−0.0**) | — pending | — pending | — pending | — pending | — pending | — pending |
+| SE-HSSL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
 
 ## Evidence and data contract
 

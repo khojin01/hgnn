@@ -4,14 +4,14 @@ nc_models: 17
 nc_best: SE-HSSL
 hp_models: 18
 hp_best: HGNN
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # IMDB
 
-<small>갱신 2026-09-15 15:36</small>
+<small>갱신 2026-09-15 19:19</small>
 
 ## Node classification — Accuracy
 
@@ -61,6 +61,12 @@ tags: [hgnn/dataset]
 | 18 | [[MLP]] | 41.7 <span class="sd">±2.5</span> | 42.0 | <span class="d ok">−0.3</span> |
 
 <small>미실행·보류: HyperGRL (unavailable: EP implementation missing)</small>
+
+## Community detection — NMI
+
+정식 결과 없음.
+
+<small>미실행·보류: GraphMAE2 (pending), MaskGAE (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), VilLain (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 

@@ -10,14 +10,14 @@ cd_agree: 1
 max_abs_delta: 3.3
 worst_cell: "노드 분류 Cora-CA −3.3"
 status: complete
-updated: 2026-09-15 19:12
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # MaskGAE
 
-실행법 → [[MaskGAE 실행]] · 코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · <small>갱신 2026-09-15 19:12</small>
+실행법 → [[MaskGAE 실행]] · 코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 Cora-CA −3.3
 
@@ -52,7 +52,12 @@ NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 C
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
+| [[Citeseer]] | — | 34.8 |  | pending |
 | [[Cora-CA]] | 39.4 <span class="sd">±1.3</span> | 38.0 | <span class="d ok">+1.4</span> |  |
+| [[IMDB]] | — | 2.9 |  | pending |
+| [[House]] | — | 1.4 |  | pending |
+| [[Pubmed]] | — | 28.9 |  | pending |
+| [[AMiner]] | — | 36.3 |  | pending |
 | [[DBLP-P]] | — | 61.6 |  | pending |
 | [[20News]] | <span class="lim">OOT</span> | — |  | O.O.T skip |
 

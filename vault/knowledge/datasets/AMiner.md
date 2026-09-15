@@ -4,14 +4,14 @@ nc_models: 16
 nc_best: GraphMAE2
 hp_models: 16
 hp_best: HypeBoy
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # AMiner
 
-<small>갱신 2026-09-15 15:36</small>
+<small>갱신 2026-09-15 19:19</small>
 
 ## Node classification — Accuracy
 
@@ -58,6 +58,12 @@ tags: [hgnn/dataset]
 | 16 | [[UniGCN2]] | 46.2 <span class="sd">±4.5</span> | 45.9 | <span class="d ok">+0.3</span> |
 
 <small>미실행·보류: PhenomNN (OOM), HyperGCL (pending), HyperGRL (unavailable: EP implementation missing)</small>
+
+## Community detection — NMI
+
+정식 결과 없음.
+
+<small>미실행·보류: GraphMAE2 (pending), MaskGAE (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), VilLain (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 

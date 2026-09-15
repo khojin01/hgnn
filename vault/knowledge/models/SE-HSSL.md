@@ -5,17 +5,19 @@ nc_done: 6
 nc_agree: 4
 hp_done: 6
 hp_agree: 6
+cd_done: 0
+cd_agree: 0
 max_abs_delta: 12.7
 worst_cell: "노드 분류 House +12.7"
 status: complete
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # SE-HSSL
 
-실행법 → [[SE-HSSL 실행]] · 코드 `SEHSSL/` · 결과 `results/result_*_SEHSSL_*.txt` · <small>갱신 2026-09-15 15:36</small>
+실행법 → [[SE-HSSL 실행]] · 코드 `SEHSSL/` · 결과 `results/result_*_SEHSSL_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 4/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 House +12.7
 
@@ -45,6 +47,19 @@ NC 4/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 House +12.7
 | [[AMiner]] | 87.4 <span class="sd">±0.6</span> | 87.5 | <span class="d ok">−0.1</span> |  |
 | [[DBLP-P]] | — | 94.0 |  | pending |
 | [[20News]] | — | 95.2 |  | blocked-data |
+
+## Community detection — Table 5 · NMI
+
+| 데이터셋 | 우리 | 논문 | Δ | 비고 |
+|---|---:|---:|---:|---|
+| [[Citeseer]] | — | 38.5 |  | pending |
+| [[Cora-CA]] | — | 44.4 |  | pending |
+| [[IMDB]] | — | 0.3 |  | pending |
+| [[House]] | — | 0.7 |  | pending |
+| [[Pubmed]] | — | 15.0 |  | pending |
+| [[AMiner]] | — | 41.8 |  | pending |
+| [[DBLP-P]] | — | 55.2 |  | pending |
+| [[20News]] | — | 38.2 |  | pending |
 
 표기 · 값 <span class="sd">±표준편차</span> · Δ = 우리 − 논문 · <span class="d ok">+0.3</span> ±2 이내 · <span class="d warn">+3.0</span> 2–5 · <span class="d bad">+7.0</span> 5 초과 · <span class="lim">OOM</span> 논문이 수치를 못 낸 칸 · — 미실행·보류
 <!-- AUTO:END -->

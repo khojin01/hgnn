@@ -10,14 +10,14 @@ cd_agree: 0
 max_abs_delta: 45.5
 worst_cell: "노드 분류 Cora-CA −45.5"
 status: partial
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGCL
 
-실행법 → [[HyperGCL 실행]] · 코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · <small>갱신 2026-09-15 15:36</small>
+실행법 → [[HyperGCL 실행]] · 코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 0/3 일치 · HP 0/4 일치 · 최대 편차 노드 분류 Cora-CA −45.5
 
@@ -52,7 +52,12 @@ NC 0/3 일치 · HP 0/4 일치 · 최대 편차 노드 분류 Cora-CA −45.5
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
+| [[Citeseer]] | — | 22.2 |  | pending |
 | [[Cora-CA]] | — | 30.6 |  | pending |
+| [[IMDB]] | — | 1.4 |  | pending |
+| [[House]] | — | 11.5 |  | pending |
+| [[Pubmed]] | — | 24.2 |  | pending |
+| [[AMiner]] | — | 31.9 |  | pending |
 | [[DBLP-P]] | <span class="lim">OOM</span> | — |  | O.O.M skip |
 | [[20News]] | — | 38.2 |  | pending |
 

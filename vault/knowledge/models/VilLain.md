@@ -10,14 +10,14 @@ cd_agree: 1
 max_abs_delta: 5.1
 worst_cell: "노드 분류 Citeseer −5.1"
 status: complete
-updated: 2026-09-15 19:07
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # VilLain
 
-실행법 → [[VilLain 실행]] · 코드 `VilLain/` · 결과 `results/result_*_VilLain_*.txt` · <small>갱신 2026-09-15 19:07</small>
+실행법 → [[VilLain 실행]] · 코드 `VilLain/` · 결과 `results/result_*_VilLain_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 Citeseer −5.1
 
@@ -52,7 +52,12 @@ NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 C
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
+| [[Citeseer]] | — | 11.3 |  | pending |
 | [[Cora-CA]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |  |
+| [[IMDB]] | — | 0.1 |  | pending |
+| [[House]] | — | 0.1 |  | pending |
+| [[Pubmed]] | — | 32.9 |  | pending |
+| [[AMiner]] | — | 16.2 |  | pending |
 | [[DBLP-P]] | — | 40.1 |  | pending |
 | [[20News]] | — | 38.8 |  | pending |
 

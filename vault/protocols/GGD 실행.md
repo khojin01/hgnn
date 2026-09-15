@@ -2,14 +2,14 @@
 type: protocol
 model: GGD
 env: hgnn-pyg
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # GGD 실행
 
-결과 → [[GGD]] · 코드 `H-GD/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 15:36</small>
+결과 → [[GGD]] · 코드 `H-GD/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 19:19</small>
 
 ## 정식 명령 (`H-GD/118.sh`)
 
@@ -38,7 +38,7 @@ conda run --no-capture-output -n hgnn-pyg bash -lc '\
 | 스크립트 | `118.sh` · `exp_node.sh` · `time_node.sh` |
 | 실행에 쓴 run-scripts | `edge-hgd-six-gpu0.sh` · `formal118-hgd-node-gpu0.sh` · `formal118-house-gpu0.sh` |
 | 게이트 파일 | `villain-edge-check.ok` |
-| 정식 완료 | NC 6칸 · HP 6칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 0칸 |
 | 돌리지 말 것 | 없음 |
 
 ## info.txt

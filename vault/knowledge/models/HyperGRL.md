@@ -10,14 +10,14 @@ cd_agree: 0
 max_abs_delta: 0.2
 worst_cell: "노드 분류 Cora-CA +0.2"
 status: partial
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGRL
 
-실행법 → [[HyperGRL 실행]] · 코드 `HyperGRL/` · 결과 `results/result_*_HyperGRL_*.txt` · <small>갱신 2026-09-15 15:36</small>
+실행법 → [[HyperGRL 실행]] · 코드 `HyperGRL/` · 결과 `results/result_*_HyperGRL_*.txt` · <small>갱신 2026-09-15 19:19</small>
 
 NC 2/2 일치 · 최대 편차 노드 분류 Cora-CA +0.2
 
@@ -52,7 +52,12 @@ NC 2/2 일치 · 최대 편차 노드 분류 Cora-CA +0.2
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
+| [[Citeseer]] | — | 26.0 |  | pending |
 | [[Cora-CA]] | — | 34.5 |  | pending |
+| [[IMDB]] | — | 1.8 |  | pending |
+| [[House]] | — | 0.0 |  | pending |
+| [[Pubmed]] | — | 27.8 |  | pending |
+| [[AMiner]] | — | 0.2 |  | pending |
 | [[DBLP-P]] | — | 57.4 |  | pending |
 | [[20News]] | <span class="lim">OOT</span> | — |  | O.O.T skip |
 

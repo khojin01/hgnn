@@ -4,14 +4,14 @@ nc_models: 18
 nc_best: HypeBoy
 hp_models: 18
 hp_best: SE-HSSL
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:19
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Citeseer
 
-<small>갱신 2026-09-15 15:36</small>
+<small>갱신 2026-09-15 19:19</small>
 
 ## Node classification — Accuracy
 
@@ -62,6 +62,12 @@ tags: [hgnn/dataset]
 | 18 | [[AllSet]] | 50.7 <span class="sd">±3.3</span> | 51.8 | <span class="d ok">−1.1</span> |
 
 <small>미실행·보류: HyperGRL (unavailable: EP implementation missing)</small>
+
+## Community detection — NMI
+
+정식 결과 없음.
+
+<small>미실행·보류: GraphMAE2 (pending), MaskGAE (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), VilLain (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 
