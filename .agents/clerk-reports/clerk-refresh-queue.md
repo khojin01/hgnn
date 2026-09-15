@@ -303,3 +303,5 @@
 - [2026-09-15 19:07 KST] 갱신 요청: `results/result_imdb_VilLain_cluster.txt` — 원장 Community detection 표에 IMDB 열이 없음
 
 - [2026-09-15 19:07 KST] 갱신 요청: `results/result_pubmed_cite_VilLain_cluster.txt` — 원장 Community detection 표에 Pubmed 열이 없음
+
+- [2026-09-15 19:08 KST] 갱신 요청: `results/result_aminer_VilLain_cluster.txt` — 원장 Community detection 표에 AMiner 열이 없음
