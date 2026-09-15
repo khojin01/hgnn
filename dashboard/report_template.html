@@ -1,0 +1,449 @@
+<title>HyperGC 베이스라인 재현 대조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Δ 칩의 3단계(±2 이내 / 2–5 / 5 초과)가 의미를 지는 유일한 색이다.
+     주황과 빨강은 색만으로는 서로 충분히 갈리지 않으므로, 칩 안에 항상
+     부호 붙은 숫자를 함께 둔다 — 색은 보강이고 값은 글자가 말한다. */
+  :root {
+    color-scheme: light;
+    --bg: #f6f7f9; --surface: #ffffff; --line: #dfe3e8; --line2: #eceff3;
+    --ink: #171c22; --ink2: #4a545f; --ink3: #7c8894;
+    --accent: #0f6b66; --ok: #3f7d5f; --warn: #a86a12; --bad: #a83a2e;
+    --okbg: #e9f2ec; --warnbg: #faf0dd; --badbg: #f9e8e5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0e1216; --surface: #151b21; --line: #28313a; --line2: #1e262e;
+      --ink: #e6ebf0; --ink2: #a3b0bc; --ink3: #71808d;
+      --accent: #4fb3ac; --ok: #6fbf92; --warn: #d9a445; --bad: #e0776a;
+      --okbg: #16281e; --warnbg: #2c2313; --badbg: #2e1a17;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0e1216; --surface: #151b21; --line: #28313a; --line2: #1e262e;
+    --ink: #e6ebf0; --ink2: #a3b0bc; --ink3: #71808d;
+    --accent: #4fb3ac; --ok: #6fbf92; --warn: #d9a445; --bad: #e0776a;
+    --okbg: #16281e; --warnbg: #2c2313; --badbg: #2e1a17;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding-block: 40px 72px; padding-inline: 24px;
+    background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px; line-height: 1.55;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+
+  header { display: flex; flex-direction: column; gap: 10px;
+           border-bottom: 2px solid var(--ink); padding-bottom: 20px; }
+  .hrow { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; justify-content: space-between; }
+  h1 { font-family: Spectral, Georgia, "Times New Roman", serif; font-weight: 600;
+       font-size: clamp(26px, 4vw, 36px); margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+  .sub { color: var(--ink2); max-width: 66ch; margin: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 12.5px; color: var(--ink3);
+          font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .meta b { color: var(--ink2); font-weight: 500; }
+
+  .switch { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink2);
+            font-family: "IBM Plex Mono", ui-monospace, monospace; cursor: pointer;
+            border: 1px solid var(--line); border-radius: 3px; padding: 5px 11px; background: var(--surface); }
+  .switch input { accent-color: var(--accent); margin: 0; }
+  .switch:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 3px;
+          padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+  .card .k { font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink3); }
+  .card .big { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 27px;
+               font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .card.alarm .big { color: var(--bad); }
+  .card .note { font-size: 12.5px; color: var(--ink2); }
+
+  section { display: flex; flex-direction: column; gap: 12px; }
+  h2 { font-family: Spectral, Georgia, serif; font-weight: 600; font-size: 20px; margin: 0;
+       display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+  h2 .m { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; font-weight: 400;
+          color: var(--ink3); letter-spacing: .05em; text-transform: uppercase; }
+
+  .tw { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line2); white-space: nowrap; }
+  thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3);
+             font-weight: 500; border-bottom: 1px solid var(--line); }
+  thead th:first-child { text-align: left; }
+  tbody th { text-align: left; font-weight: 500; color: var(--ink); font-size: 13px; }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+  tbody tr:hover td, tbody tr:hover th { background: var(--line2); }
+
+  .v { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums;
+       font-weight: 500; }
+  .sd { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+        color: var(--ink3); margin-left: 3px; }
+  .tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; padding: 1px 5px;
+         border-radius: 2px; border: 1px solid var(--line); color: var(--ink3);
+         letter-spacing: .04em; margin-left: 6px; }
+  .d { display: inline-block; min-width: 44px; margin-left: 9px; padding: 1px 5px; border-radius: 2px;
+       font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+       font-variant-numeric: tabular-nums; text-align: right; }
+  .d.ok { background: var(--okbg); color: var(--ok); }
+  .d.warn { background: var(--warnbg); color: var(--warn); }
+  .d.bad { background: var(--badbg); color: var(--bad); }
+  .d.none { color: var(--ink3); }
+  .ref { display: none; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+         color: var(--ink3); margin-top: 2px; }
+  body.show-paper .ref { display: block; }
+  td.na { color: var(--ink3); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; }
+  /* 논문이 수치 대신 O.O.M / O.O.T 로 보고했거나 입력이 결손인 칸 — 미실행과 구분한다 */
+  td.lim { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; font-weight: 500;
+           color: var(--ink3); letter-spacing: .04em;
+           background: repeating-linear-gradient(135deg, transparent 0 5px, var(--line2) 5px 6px); }
+  /* 원장이 적어 둔 Δ가 논문값과 어긋나는 칸. 색이 아니라 기호와 점선이 표시를 맡는다. */
+  td.suspect .v { text-decoration: underline dotted var(--bad); text-underline-offset: 3px; }
+  .flag { color: var(--bad); font-weight: 600; margin-left: 5px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 7px 16px; font-size: 12px; color: var(--ink2);
+            font-family: "IBM Plex Mono", ui-monospace, monospace; align-items: center; }
+  .legend .lgn { color: var(--ink3); margin-left: -11px; }
+  .legend .lim { font-size: 11px; padding: 1px 6px; border-radius: 3px; color: var(--ink3);
+                 background: repeating-linear-gradient(135deg, transparent 0 5px, var(--line2) 5px 6px); }
+  .legend .na2 { color: var(--ink3); }
+  /* 프로토콜이 달라 논문과 견줄 수 없는 행 */
+  .mark { color: var(--warn); font-weight: 600; margin-left: 3px; }
+  .fnote { font-size: 12px; color: var(--ink2); display: flex; gap: 7px;
+           font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .fnote .mark { margin: 0; }
+  .fnote span:last-child { font-family: "IBM Plex Sans", system-ui, sans-serif;
+                           max-width: 78ch; }
+
+  ul.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;
+            border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  ul.rows li { display: flex; align-items: center; gap: 11px; padding: 10px 15px;
+               border-bottom: 1px solid var(--line2); flex-wrap: wrap; }
+  ul.rows li:last-child { border-bottom: none; }
+  .task { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px;
+          padding: 2px 6px; border-radius: 2px; border: 1px solid var(--line);
+          color: var(--ink2); letter-spacing: .05em; }
+  .ds { color: var(--ink3); font-size: 12.5px; }
+  .nums { margin-left: auto; font-family: "IBM Plex Mono", ui-monospace, monospace;
+          font-size: 12.5px; color: var(--ink2); font-variant-numeric: tabular-nums; }
+  .nums em { font-style: normal; color: var(--ink3); margin: 0 3px; }
+  .why { flex-basis: 100%; color: var(--ink3); font-size: 11.5px;
+         font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  .notes { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+           border-radius: 3px; padding: 16px 19px; display: flex; flex-direction: column; gap: 9px; }
+  .notes.alarm { border-left-color: var(--bad); }
+  .notes p { margin: 0; font-size: 13.5px; color: var(--ink2); max-width: 74ch; }
+  .notes b { color: var(--ink); }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .9em; color: var(--ink); }
+  footer { color: var(--ink3); font-size: 12px; border-top: 1px solid var(--line); padding-top: 14px;
+           font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  @media (max-width: 700px) { body { padding-block: 24px 56px; padding-inline: 16px; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<div class="wrap">
+  <header>
+    <div class="hrow">
+      <h1>HyperGC 베이스라인 재현 대조</h1>
+      <label class="switch" for="showPaper">
+        <input type="checkbox" id="showPaper"> 논문값 함께 보기
+      </label>
+    </div>
+    <p class="sub">전임자 스크립트(<code>118.sh</code>)를 Blackwell GPU용으로 승격한 환경에서 재실행하고,
+      KDD&nbsp;&rsquo;26 HyperGC 논문 Table&nbsp;3&middot;4&middot;5와 셀 단위로 대조했다.
+      <b>Δ는 이 문서가 직접 계산한다</b> &mdash; 내 평균에서 논문 PDF의 해당 칸을 뺀 값이다.</p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+  <section id="updates"></section>
+  <div id="sections"></div>
+  <section id="outlierSection"></section>
+  <section id="auditSection"></section>
+  <section id="notesSection"></section>
+  <footer id="foot"></footer>
+</div>
+
+<script>
+'use strict';
+const DATA = __PAYLOAD__;
+
+const $ = (id) => document.getElementById(id);
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+const fmt = (n, p) => (n === null || n === undefined ? '—' : n.toFixed(p === undefined ? 1 : p));
+const signed = (n) => (n >= 0 ? '+' : '−') + Math.abs(n).toFixed(1);
+function severity(d) {
+  if (d === null || d === undefined) return 'none';
+  const a = Math.abs(d);
+  return a <= 2 ? 'ok' : a <= 5 ? 'warn' : 'bad';
+}
+const GRADE = { formal: null, '1split': '1 split', smoke: 'smoke' };
+const SUSPECT = new Set(DATA.mismatches.map((m) => `${m.task}|${m.model}|${m.ds}`));
+const CAVEAT = new Map((DATA.caveats || []).map((c) => [`${c.task}|${c.model}`, c]));
+
+// ── 머리말 ─────────────────────────────────────────────────────
+const t3 = DATA.tasks.find((t) => t.key === 'T3');
+const blocked = t3 ? t3.datasets.filter((_, i) => !t3.live.includes(i)) : [];
+$('meta').replaceChildren(...[
+  ['조건', 'num_seeds 20 · epoch 200 · 118.sh 고정 설정'],
+  ['모델', `${t3 ? t3.rows.length : 0}개`],
+  ['데이터셋', t3 ? `11개 중 ${t3.live.length}개 실행` : '—'],
+  ['결손', blocked.length ? blocked.join(' · ') : '없음'],
+].map(([k, v]) => {
+  const s = el('span');
+  s.append(el('b', null, k), document.createTextNode(' ' + v));
+  return s;
+}));
+
+// ── 요약 ───────────────────────────────────────────────────────
+const S = DATA.summary;
+$('cards').replaceChildren(...[
+  ['재현 일치율', `${S.matched}/${S.compared}`, `Δ ±2%p 이내 · 중앙값 ${fmt(S.median, 2)}`, false],
+  ['정식 결과', `${S.formal}/${S.cells}`, '20 split/seed · 200 epoch', false],
+  ['이상치', String(S.outliers), 'Δ 3.0%p 초과 셀', false],
+  ['원장 Δ 오류', String(S.mismatches), '기준으로 삼은 논문값이 틀린 칸', true],
+].map(([k, big, note, alarm]) => {
+  const c = el('div', 'card' + (alarm && Number(big) > 0 ? ' alarm' : ''));
+  c.append(el('span', 'k', k), el('span', 'big', big), el('span', 'note', note));
+  return c;
+}));
+
+// ── 최근 완료 ──────────────────────────────────────────────────
+if (DATA.updates && DATA.updates.items && DATA.updates.items.length) {
+  const h2 = el('h2');
+  const when = (DATA.updates.title || '').split('—').pop().trim();
+  h2.append(document.createTextNode('최근 완료'), el('span', 'm', when));
+  const box = el('div', 'notes');
+  for (const item of DATA.updates.items) {
+    const p = el('p');
+    const colon = item.indexOf(':');
+    if (colon > 0 && colon < 24) {
+      p.append(el('b', null, item.slice(0, colon)), document.createTextNode(item.slice(colon)));
+    } else p.textContent = item;
+    box.appendChild(p);
+  }
+  $('updates').replaceChildren(h2, box);
+}
+
+// ── 매트릭스 ───────────────────────────────────────────────────
+function cellNode(cell, task, model, ds) {
+  const td = el('td');
+  if (cell.mean === null) {
+    const hatch = cell.state === 'limit' || cell.state === 'blocked';
+    td.className = hatch ? 'lim' : 'na';
+    td.textContent = hatch ? cell.label : '— ' + cell.label;
+    return td;
+  }
+  const line = el('div');
+  line.appendChild(el('span', 'v', fmt(cell.mean)));
+  if (cell.std !== null) line.appendChild(el('span', 'sd', '±' + fmt(cell.std)));
+  if (cell.grade && GRADE[cell.grade]) line.appendChild(el('span', 'tag', GRADE[cell.grade]));
+  if (cell.delta === null) {
+    line.appendChild(el('span', 'd none', '—'));
+  } else {
+    line.appendChild(el('span', 'd ' + severity(cell.delta), signed(cell.delta)));
+  }
+  if (SUSPECT.has(`${task}|${model}|${ds}`)) {
+    td.classList.add('suspect');
+    const f = el('span', 'flag', '⚠');
+    f.title = '원장이 이 칸의 Δ를 다른 행의 논문값으로 계산했다 — 아래 “원장 Δ 오류” 참고';
+    line.appendChild(f);
+  }
+  td.appendChild(line);
+  if (cell.paper !== null && cell.paper !== undefined) {
+    td.appendChild(el('div', 'ref', `논문 ${fmt(cell.paper)}`));
+  }
+  return td;
+}
+
+$('sections').replaceChildren(...DATA.tasks.map((task, index) => {
+  const section = el('section');
+  const h2 = el('h2');
+  h2.append(document.createTextNode(task.base), el('span', 'm', task.metric));
+  section.appendChild(h2);
+
+  // 범례는 첫 표에만 둔다. 세 표가 같은 규칙을 쓰므로 반복하면 소음이다.
+  if (index === 0) {
+    const legend = el('div', 'legend');
+    legend.append(el('span', null, '우리값 ±표준편차'),
+      el('span', 'd ok', '±2 이내'), el('span', 'd warn', '2–5'), el('span', 'd bad', '5 초과'),
+      ...(SUSPECT.size ? [el('span', 'flag', '⚠'), el('span', 'lgn', '원장 Δ 오류')] : []),
+      el('span', 'lim', 'OOM'), el('span', 'lgn', '논문이 수치를 못 낸 칸'),
+      el('span', 'na2', '—'), el('span', 'lgn', '미실행'));
+    section.appendChild(legend);
+  }
+
+  const tw = el('div', 'tw');
+  const table = el('table');
+  table.appendChild(el('caption', null, `${task.base} — ${task.metric}`));
+  const thead = el('thead');
+  const hr = el('tr');
+  hr.appendChild(el('th', null, 'Model'));
+  for (const i of task.live) hr.appendChild(el('th', null, task.datasets[i]));
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  const tbody = el('tbody');
+  for (const row of task.rows) {
+    const tr = el('tr');
+    const th = el('th', null, row.name);
+    const caveat = CAVEAT.get(`${task.key}|${row.name}`);
+    if (caveat) th.appendChild(el('span', 'mark', caveat.mark));
+    tr.appendChild(th);
+    for (const i of task.live) {
+      tr.appendChild(cellNode(row.cells[i], task.key, row.name, task.datasets[i]));
+    }
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  tw.appendChild(table);
+  section.appendChild(tw);
+
+  const hidden = task.datasets.filter((_, i) => !task.live.includes(i));
+  if (hidden.length) {
+    section.appendChild(el('div', 'legend',
+      `결과가 없는 ${hidden.length}개 열 생략 — ${hidden.join(' · ')}`));
+  }
+  for (const c of (DATA.caveats || []).filter((c) => c.task === task.key)) {
+    const note = el('div', 'fnote');
+    note.append(el('span', 'mark', c.mark), el('span', null, c.text.replace(/`/g, '')));
+    section.appendChild(note);
+  }
+  return section;
+}));
+
+// ── 이상치 ─────────────────────────────────────────────────────
+{
+  const h2 = el('h2');
+  h2.append(document.createTextNode('이상치'), el('span', 'm', '논문 대비 3.0%p 초과'));
+  const ul = el('ul', 'rows');
+  for (const o of DATA.outliers) {
+    const li = el('li');
+    li.append(el('span', 'task', o.task), el('b', null, o.model), el('span', 'ds', o.ds));
+    const oc = CAVEAT.get(`${o.task}|${o.model}`);
+    if (oc) li.appendChild(el('span', 'mark', oc.mark));
+    const nums = el('span', 'nums');
+    nums.append(document.createTextNode(fmt(o.mine)), el('em', null, 'vs'),
+                document.createTextNode(fmt(o.paper)));
+    li.append(nums, el('span', 'd ' + severity(o.delta), signed(o.delta)));
+    ul.appendChild(li);
+  }
+  $('outlierSection').replaceChildren(h2, ul);
+}
+
+// ── 원장 Δ 오류 ────────────────────────────────────────────────
+{
+  const h2 = el('h2');
+  h2.append(document.createTextNode('기준값 검증'), el('span', 'm', 'experiment_now.md 대조'));
+  if (!DATA.mismatches.length) {
+    const ok = el('div', 'notes');
+    const p = el('p');
+    p.append(el('b', null, `원장에 적힌 Δ ${S.compared}칸이 모두 논문값과 일치한다.`),
+      document.createTextNode(' Δ = 내 평균 − 논문 평균이므로 (값, Δ)에서 원장이 기준 삼은 논문값을 '
+        + '되돌려 PDF의 해당 칸과 대조했다. 이전 판에서 29칸이 다른 모델 행의 값을 기준으로 삼고 있었고, '
+        + '측정값은 그대로 둔 채 Δ만 논문 기준으로 정정했다.'));
+    ok.appendChild(p);
+    $('auditSection').replaceChildren(h2, ok);
+  } else {
+  const intro = el('div', 'notes alarm');
+  const p = el('p');
+  p.append(el('b', null, `Clerk 원장이 적어 둔 Δ ${S.compared}칸 중 ${S.mismatches}칸이 다른 행의 논문값으로 계산돼 있다.`),
+    document.createTextNode(' Δ = 내 평균 − 논문 평균이므로 (값, Δ)에서 원장이 기준으로 삼은 논문값을 되돌릴 수 있는데, '
+      + '그 값이 PDF의 해당 칸과 다르다. 위 표의 Δ는 PDF에서 다시 계산한 값이며, 아래는 원장 쪽 수치와의 차이다.'));
+  intro.appendChild(p);
+  const ul = el('ul', 'rows');
+  for (const m of DATA.mismatches) {
+    const li = el('li');
+    li.append(el('span', 'task', m.task), el('b', null, m.model), el('span', 'ds', m.ds));
+    const nums = el('span', 'nums');
+    nums.append(document.createTextNode(`원장 ${signed(m.ledger_delta)}`), el('em', null, '→'),
+                document.createTextNode(`실제 ${signed(m.delta)}`));
+    li.append(nums, el('span', 'd ' + severity(m.delta), signed(m.delta)));
+    li.appendChild(el('div', 'why',
+      `내 결과 ${fmt(m.mine)} · 원장이 기준 삼은 값 ${fmt(m.assumed)} · 논문 실제값 ${fmt(m.paper)}`
+      + (m.owners && m.owners.length ? `  ← ${m.owners.join(', ')} 행의 값` : '')));
+    ul.appendChild(li);
+  }
+  $('auditSection').replaceChildren(h2, intro, ul);
+  }
+}
+
+// ── 유의할 점 ──────────────────────────────────────────────────
+{
+  const h2 = el('h2', null, '읽을 때 유의할 점');
+  const box = el('div', 'notes');
+  const notes = [];
+
+  const perfect = DATA.tasks.flatMap((t) => t.rows.flatMap((r) =>
+    t.live.map((i) => ({ m: r.name, d: t.datasets[i], c: r.cells[i] }))))
+    .filter((x) => x.c.delta !== null && Math.abs(x.c.delta) <= 0.1 && x.c.grade === 'formal');
+  notes.push(['대부분 재현된다.',
+    `Δ가 ±2%p 이내인 칸이 ${S.matched}/${S.compared}이고, 그중 ${perfect.length}칸은 ±0.1%p 안에 든다. `
+    + `torch 1.11 → 2.7.1 승격과 PyG API 호환 패치가 수치를 바꾸지 않았다는 근거다.`]);
+
+  if (blocked.length) {
+    notes.push(['데이터셋 결손은 환경 문제가 아니다.',
+      `${blocked.join(', ')}는 공용 로더가 요구하는 파일(DBLP-A ${'`data_split_0.01.pickle`'}, `
+      + `MN-40·20News ${'`edge_bucket.pickle`'})이 원본에도 없어 모든 모델에서 차단됐다.`]);
+  }
+
+  notes.push(['Δ는 논문 PDF에서 직접 계산했다.',
+    S.mismatches
+      ? `Clerk 원장에도 Δ가 적혀 있지만 ${S.mismatches}칸이 다른 모델 행의 논문값을 기준으로 삼고 있어 `
+        + `그대로 쓰지 않았다.`
+      : `이전에는 원장의 Δ 29칸이 다른 모델 행의 논문값을 기준으로 삼고 있었다. 가장 뚜렷한 건 `
+        + `HyperGCN으로, 6칸 전부가 VilLain 행 기준이라 실제로는 거의 완전히 재현됐는데도 ±14%p `
+        + `어긋난 것처럼 적혀 있었다. 반대로 GGD AMiner는 −14.9%p 미달이 +0.2%p로 가려져 있었다. `
+        + `측정값은 그대로 둔 채 Δ만 정정했고, 지금은 원장과 이 문서가 일치한다.`]);
+
+  notes.push(['smoke와 1 split은 재현 검증이 아니다.',
+    `배지 없는 값만 정식(20 split/seed · 200 epoch)이다. ${'`smoke`'}는 단기 실행 가능성 확인이고 `
+    + `${'`1 split`'}은 분할 하나만 돌린 값이라, 이들의 Δ는 참고치다.`]);
+
+  for (const c of (DATA.caveats || [])) {
+    notes.push([`${c.model} ${c.task === 'T3' ? '노드 분류' : ''}는 분할 비율이 다르다.`, c.text]);
+  }
+
+  notes.push(['VilLain은 분할이 어긋나 있었고, 바로잡았다.',
+    'VilLain/eval.py가 노드 분할을 data_split_118.pickle(10%/10%/80%)에서 읽고 있었다. '
+    + '저장소에서 공용 로더를 거치지 않고 분할을 직접 여는 유일한 코드였고, 나머지 18개 모델은 '
+    + '모두 data_split_0.01.pickle(1%/1%/98%)을 쓴다. 레이블을 10배 더 받은 탓에 Cora-CA가 '
+    + '논문보다 25.8%p 높게 나왔다. 논문 프로토콜로 바로잡아 재평가한 결과 Cora-CA 31.4 ± 4.1, '
+    + 'Pubmed 73.7 ± 3.3, AMiner 19.9 ± 1.2로 표준편차까지 논문과 일치한다. Citeseer만 −5.1%p '
+    + '차이가 남아 있다. 자기지도라 임베딩은 분할과 무관해 재학습 없이 MLP probe만 다시 돌렸다.']);
+
+  notes.push(['논문이 수치를 내지 못한 칸은 재현 대상이 아니다.',
+    `빗금 친 ${'`OOM`'} 칸은 논문이 O.O.M / O.O.T로 보고한 조합이다. 미실행(—)과 구분해 표시했다.`]);
+
+  for (const [head, body] of notes) {
+    const p = el('p');
+    p.append(el('b', null, head), document.createTextNode(' ' + body.replace(/`/g, '')));
+    box.appendChild(p);
+  }
+  $('notesSection').replaceChildren(h2, box);
+}
+
+// ── 바닥글 ─────────────────────────────────────────────────────
+const at = DATA.generated_at ? new Date(DATA.generated_at) : null;
+$('foot').textContent =
+  `스냅샷 ${at ? at.toLocaleString('ko-KR', { hour12: false }) : '—'}`
+  + ' · 원장 .agents/clerk-reports/experiment_now.md'
+  + ' · 논문 기준 HyperGC.pdf Table 3·4·5 · 실행 로그 .agents/env-status/full-runs/';
+
+// 논문값 열기/접기
+$('showPaper').addEventListener('change', (e) => {
+  document.body.classList.toggle('show-paper', e.target.checked);
+});
+</script>

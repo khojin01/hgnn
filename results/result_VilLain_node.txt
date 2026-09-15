@@ -1,0 +1,13 @@
+houselr0.0001_51.9 ± 0.0
+citeseer_citelr0.0001_51.5 ± 2.9
+cora_coauthlr0.001_57.2 ± 1.8
+imdblr0.01_45.4 ± 1.0
+houselr0.0001_51.8 ± 0.9
+pubmed_citelr0.01_80.9 ± 0.9
+aminerlr0.01_30.2 ± 0.5
+citeseer_citelr0.0001_28.5 ± 8.2
+cora_coauthlr0.001_31.4 ± 4.1
+imdblr0.01_39.2 ± 3.9
+houselr0.0001_49.3 ± 1.5
+pubmed_citelr0.01_73.7 ± 3.3
+aminerlr0.01_19.9 ± 1.2

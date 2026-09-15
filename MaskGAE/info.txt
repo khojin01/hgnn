@@ -1,0 +1,8 @@
+Hyperparameter
+- num_layers(encoder_layers,decoder_layers): 2
+- hidden_dim(encoder_channels,hidden_channels,decoder_channels): 128
+- drop rate(encoder_dropout,decoder_drop_out): 0.5
+- weight decay,nodeclas_weight_decay: 1e^-6
+- lr: {0.01,0.001,0.0001}
+- alpha: {0.001,0.002,0.003}
+- p: {0.25,0.5,0.75}

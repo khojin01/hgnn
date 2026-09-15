@@ -1,0 +1,7 @@
+data:cora_coauth, NMI: 9.45
+data:cora_coauth, NMI: 9.73
+data:pubmed_cite, NMI: 32.88
+data:aminer, NMI: 16.24
+data:house, NMI: 0.10
+data:citeseer_cite, NMI: 5.67
+data:imdb, NMI: 0.14

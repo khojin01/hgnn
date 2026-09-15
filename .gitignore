@@ -1,0 +1,48 @@
+# ---- 데이터 · 학습 산출물 (수 GB) ----
+data/
+**/embs/
+**/checkpoints/
+**/ckpt/
+*.pt
+*.pth
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.model
+pre_trained.model
+*.zip
+*.tar
+*.tar.gz
+
+# ---- 실행 로그 (대용량, 재생성 가능) ----
+logs/
+.agents/env-status/full-runs/*/*.log
+.agents/env-status/full-runs/*.log
+.agents/env-status/*.log
+dashboard/refresh.log
+dashboard/orders.log
+vault/.sync.log
+*.hprof
+
+# ---- 매분 바뀌는 것 · 잠금 · 상태 ----
+vault/대시보드.md
+vault/.sync.lock
+dashboard/.refresh.lock
+dashboard/.pixel-bridge-sessions.json
+dashboard/.report-fingerprint
+.agents/env-status/clerk-refresh-loop.pid
+.agents/clerk-reports/.clerk-refresh-state.json
+
+# ---- 백업 사본 ----
+*.bak
+*.bak-*
+*.bak.*
+
+# ---- 파이썬 · 편집기 ----
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store

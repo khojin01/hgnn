@@ -1,0 +1,3 @@
+Namespace(data='pubmed_cite', num_seeds=20, lr=0.01, device='cuda:0', dropout=0.5, All_num_layers=2, MLP_hidden=128, lam0=10.0, lam1=5.0, alp=1.0, prop_step=16, phenomNN_variant=False, normalize_type='full', H=False, HisI=False, notresidual=False, twoHgamma=False, task='node', epoch=200, num_features=500, num_classes=3, method='PhenomNN')=> tensor([76.7535, 78.8523, 70.6164, 70.7492, 72.9543, 78.8257, 76.8066, 76.3549,
+        76.0893, 69.6334, 80.2072, 82.8374, 78.1881, 78.9320, 81.2168, 80.0213,
+        75.9299, 78.7726, 73.2200, 77.6833]),76.7 ± 3.6

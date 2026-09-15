@@ -1,0 +1,10 @@
+verified_at=2026-09-13T01:21:00+09:00
+mode=isolated-temporary-embedding-path-test
+command=python VilLain/eval.py --data cora_coauth --num_seeds 1 --task edge --device 1 --num_step 4 --num_step_gen 10 --lr 0.001
+exit_code=0
+result_path=results/result_cora_coauth_VilLain_edge.txt
+metric=AUROC
+diagnostic_value=76.4
+split_results_count=1
+required_embeddings_per_split=7
+note=Seven temporary links representing nl2..8 were used solely to validate strict discovery/PCA/evaluator/output flow; this value is not a formal EP result.

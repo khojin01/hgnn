@@ -1,0 +1,11 @@
+hypergrl citeseer_cite 1
+hypergrl cora_coauth 0
+hypergrl imdb 1
+hypergrl pubmed_cite 1
+hypergrl aminer 1
+phenomnn citeseer_cite 0
+phenomnn cora_coauth 0
+phenomnn imdb 0
+phenomnn pubmed_cite 0
+phenomnn aminer 1
+hypergcl citeseer_cite 0

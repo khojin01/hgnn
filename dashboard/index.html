@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HyperGC 베이스라인 재현 대조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* 색이 뜻을 지는 곳은 Δ 칩뿐이고, 세 단계가 아니라 두 단계다.
+     '일치'(|Δ|≤2)는 다수라서 무채색으로 물러나고 — 덤으로 초록↔빨강 CVD 쌍이 사라진다 —
+     남는 '주의'(2–5)와 '벗어남'(>5)만 같은 난색의 두 단계로 둔다.
+     부호와 크기는 칩 안의 숫자가 직접 말하므로 색이 단독으로 뜻을 지지 않는다. */
+  :root {
+    color-scheme: light;
+    --bg: #f6f7f9; --surface: #ffffff; --line: #dfe3e8; --line2: #eceff3;
+    --ink: #171c22; --ink2: #4a545f; --ink3: #7c8894;
+    --accent: #0f6b66;
+    --warn: #b8791b; --bad: #94271f;
+    --warnbg: #faf1de; --badbg: #f9e7e4; --okbg: #f1f3f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0e1216; --surface: #151b21; --line: #28313a; --line2: #1e262e;
+      --ink: #e6ebf0; --ink2: #a3b0bc; --ink3: #71808d; --accent: #4fb3ac;
+      --warn: #e8b155; --bad: #e56a5c;
+      --warnbg: #2e2513; --badbg: #2f1a17; --okbg: #1c242c;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0e1216; --surface: #151b21; --line: #28313a; --line2: #1e262e;
+    --ink: #e6ebf0; --ink2: #a3b0bc; --ink3: #71808d; --accent: #4fb3ac;
+    --warn: #e8b155; --bad: #e56a5c;
+    --warnbg: #2e2513; --badbg: #2f1a17; --okbg: #1c242c;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 24px 72px; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px; line-height: 1.55;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+
+  header { display: flex; flex-direction: column; gap: 10px;
+           border-bottom: 2px solid var(--ink); padding-bottom: 20px; }
+  .hrow { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; }
+  h1 { font-family: Spectral, Georgia, "Times New Roman", serif; font-weight: 600;
+       font-size: clamp(26px, 4vw, 36px); margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+  .sub { color: var(--ink2); max-width: 70ch; margin: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 12.5px; color: var(--ink3);
+          font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .meta b { color: var(--ink2); font-weight: 500; }
+  .ghost { background: transparent; border: 1px solid var(--line); color: var(--ink2);
+           font: inherit; font-size: 12px; padding: 5px 12px; border-radius: 3px; cursor: pointer; }
+  .ghost:hover { border-color: var(--ink3); color: var(--ink); }
+  .ghost[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .controls { display: flex; gap: 7px; flex-wrap: wrap; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 3px;
+          padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+  .card .k { font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink3); }
+  .card .big { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 27px;
+               font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .card.alarm .big { color: var(--bad); }
+  .card .note { font-size: 12.5px; color: var(--ink2); }
+
+  section { display: flex; flex-direction: column; gap: 12px; }
+  h2 { font-family: Spectral, Georgia, serif; font-weight: 600; font-size: 20px; margin: 0;
+       display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+  h2 .m { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; font-weight: 400;
+          color: var(--ink3); letter-spacing: .05em; text-transform: uppercase; }
+
+  .tw { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line2); white-space: nowrap; }
+  thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3);
+             font-weight: 500; border-bottom: 1px solid var(--line); background: var(--surface);
+             position: sticky; top: 0; z-index: 2; }
+  thead th:first-child { text-align: left; }
+  tbody th { text-align: left; font-weight: 500; color: var(--ink); font-size: 13px; }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+  tbody tr:hover td, tbody tr:hover th { background: var(--okbg); }
+
+  .v { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums;
+       font-weight: 500; }
+  .sd { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+        color: var(--ink3); margin-left: 3px; }
+  .tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; padding: 1px 5px;
+         border-radius: 2px; border: 1px solid var(--line); color: var(--ink3);
+         letter-spacing: .04em; margin-left: 6px; }
+  .d { display: inline-block; min-width: 46px; margin-left: 9px; padding: 1px 5px; border-radius: 2px;
+       font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px;
+       font-variant-numeric: tabular-nums; text-align: right; }
+  .d.ok { background: var(--okbg); color: var(--ink3); }
+  .d.warn { background: var(--warnbg); color: var(--warn); }
+  .d.bad { background: var(--badbg); color: var(--bad); }
+  .d.none { color: var(--ink3); }
+  /* 원장이 적어 둔 Δ의 기준값이 틀린 칸. 색이 아니라 기호와 밑줄이 표시를 맡는다. */
+  .flag { color: var(--bad); font-weight: 600; margin-left: 5px; cursor: help; }
+  td.suspect .v { text-decoration: underline dotted var(--bad); text-underline-offset: 3px; }
+  td.na { color: var(--ink3); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; }
+  td.lim { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; font-weight: 500;
+           color: var(--ink3); letter-spacing: .04em;
+           background: repeating-linear-gradient(135deg, transparent 0 5px, var(--line2) 5px 6px); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 7px 16px; font-size: 12px; color: var(--ink2);
+            font-family: "IBM Plex Mono", ui-monospace, monospace; align-items: center; }
+  .legend .lgn { color: var(--ink3); margin-left: -11px; }
+  .legend .lim { font-size: 11px; padding: 1px 6px; border-radius: 3px; color: var(--ink3);
+                 background: repeating-linear-gradient(135deg, transparent 0 5px, var(--line2) 5px 6px); }
+
+  ul.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;
+            border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  ul.rows li { display: flex; align-items: center; gap: 11px; padding: 10px 15px;
+               border-bottom: 1px solid var(--line2); flex-wrap: wrap; }
+  ul.rows li:last-child { border-bottom: none; }
+  ul.rows .task { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10.5px;
+                  padding: 2px 6px; border-radius: 2px; border: 1px solid var(--line);
+                  color: var(--ink2); letter-spacing: .05em; }
+  ul.rows .ds { color: var(--ink3); font-size: 12.5px; }
+  ul.rows .nums { margin-left: auto; font-family: "IBM Plex Mono", ui-monospace, monospace;
+                  font-size: 12.5px; color: var(--ink2); font-variant-numeric: tabular-nums; }
+  ul.rows .nums em { font-style: normal; color: var(--ink3); margin: 0 3px; }
+  ul.rows .why { flex-basis: 100%; color: var(--ink3); font-size: 11.5px;
+                 font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  .notes { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+           border-radius: 3px; padding: 16px 19px; display: flex; flex-direction: column; gap: 9px; }
+  .notes.alarm { border-left-color: var(--bad); }
+  .notes p { margin: 0; font-size: 13.5px; color: var(--ink2); max-width: 78ch; }
+  .notes b { color: var(--ink); }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .9em; color: var(--ink); }
+  footer { color: var(--ink3); font-size: 12px; border-top: 1px solid var(--line); padding-top: 14px;
+           font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .empty { padding: 28px; text-align: center; color: var(--ink3); }
+
+  @media (max-width: 700px) { body { padding: 24px 14px 56px; } }
+</style>
+<body>
+<div class="wrap">
+  <header>
+    <div class="hrow">
+      <h1>HyperGC 베이스라인 재현 대조</h1>
+      <div class="controls">
+        <button class="ghost" type="button" id="cols" aria-pressed="false">결과 없는 열 펼치기</button>
+        <button class="ghost" type="button" id="theme">테마</button>
+      </div>
+    </div>
+    <p class="sub" id="lead"></p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+  <section id="updates"></section>
+  <div id="sections"></div>
+  <section id="auditSection"></section>
+  <section id="outlierSection"></section>
+  <section id="evidenceSection"></section>
+  <footer id="foot">불러오는 중…</footer>
+</div>
+
+<script>
+'use strict';
+
+// ── 셀 문자열 파서 ─────────────────────────────────────────────
+// Clerk 원장의 셀은 자유 서식이다. 예:
+//   '**41.05 ± 8.26** (Δ **+0.45**)'   정식 결과(볼드)
+//   '45.6 ± 0.0 source-1split (Δ −9.6)'
+//   '24.77 ± nan smoke (Δ −20.23)'      1 seed면 std가 nan
+//   'completed · metric collecting' / '— timeout-repair' / '— NMI-only runner'
+//   '— O.O.M (paper skip)' / 'O.O.M skip' / '— blocked-data'
+// 음수 기호가 U+2212(−)이므로 하이픈과 함께 받는다.
+const STATES = [
+  [/O\.O\.[MT]/i,            'limit',   'OOM/OOT',        true],
+  [/blocked-data/i,          'blocked', '데이터 결손',     true],
+  [/timeout-repair/i,        'blocked', '시간 초과 · 복구 중', true],
+  [/timeout/i,               'blocked', '시간 초과',       true],
+  [/NMI-only/i,              'blocked', 'NMI 전용 러너',   true],
+  [/deferred/i,              'blocked', '보류',            true],
+  [/metric collecting/i,     'running', '수치 수집 중',    false],
+  [/running/i,               'running', '실행 중',         false],
+  [/collect/i,               'running', '수집 중',         false],
+  [/pending/i,               'pending', '대기',            false],
+];
+
+function parseCell(raw) {
+  const text = String(raw == null ? '' : raw).trim();
+  const plain = text.replace(/\*\*/g, '').trim();
+  const out = { raw: text, plain, mean: null, std: null, delta: null, paper: null,
+                grade: null, state: null, label: '', hatch: false, note: '' };
+  if (!plain || plain === '—') { out.state = 'pending'; out.label = '대기'; return out; }
+
+  const d = plain.match(/Δ\s*([+−-])\s*([\d.]+)/);
+  if (d) out.delta = (d[1] === '+' ? 1 : -1) * parseFloat(d[2]);
+
+  const v = plain.match(/(\d+(?:\.\d+)?)\s*±\s*(nan|[\d.]+)/i);
+  if (v) {
+    out.mean = parseFloat(v[1]);
+    out.std = /nan/i.test(v[2]) ? null : parseFloat(v[2]);
+  } else {
+    const bare = plain.match(/^(\d+(?:\.\d+)?)(?=\s)/);
+    if (bare) out.mean = parseFloat(bare[1]);
+  }
+  if (out.mean !== null && out.delta !== null) out.paper = out.mean - out.delta;
+
+  if (out.mean !== null) {
+    if (/\*\*/.test(text) || /formal/i.test(plain)) out.grade = 'formal';
+    else if (/source-1split/i.test(plain)) out.grade = '1split';
+    else if (/smoke/i.test(plain)) out.grade = 'smoke';
+    const rest = plain
+      .replace(/\(?\s*Δ\s*[+−-]\s*[\d.]+\s*\)?/, '')
+      .replace(/(\d+(?:\.\d+)?)(\s*±\s*(nan|[\d.]+))?/i, '')
+      .replace(/\b(formal-20seed|source-1split|smoke|NMI|AUROC|accuracy)\b/gi, '')
+      .replace(/[\s;·,]{2,}/g, ' ')
+      .replace(/^[\s;·,]+|[\s;·,]+$/g, '');
+    if (rest && rest.length < 60) out.note = rest;
+    return out;
+  }
+
+  for (const [re, state, label, hatch] of STATES) {
+    if (re.test(plain)) { out.state = state; out.label = label; out.hatch = hatch; return out; }
+  }
+  out.state = 'pending';
+  out.label = plain.replace(/^—\s*/, '').slice(0, 30) || '대기';
+  return out;
+}
+
+/** Δ 심각도. 색은 여기서만 나온다. 부호는 숫자가 직접 말한다. */
+function severity(delta) {
+  if (delta === null) return 'none';
+  const a = Math.abs(delta);
+  return a <= 2 ? 'ok' : a <= 5 ? 'warn' : 'bad';
+}
+const signed = (n) => (n >= 0 ? '+' : '−') + Math.abs(n).toFixed(1);
+const fmt = (n, p) => (n === null || n === undefined ? '—' : n.toFixed(p === undefined ? 2 : p));
+
+// ── 상태 ───────────────────────────────────────────────────────
+let DATA = { tasks: [] };
+let showAllCols = false;
+let AUDIT = new Map();   // "T3|Model|Dataset" → 불일치 정보
+
+const $ = (id) => document.getElementById(id);
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function model() {
+  return (DATA.tasks || []).map((task) => {
+    const datasets = task.header.slice(1);
+    const reference = task.reference || {};
+    const rows = task.rows.map((row) => {
+      const paperRow = reference[row[0]] || {};
+      const cells = datasets.map((ds, i) => {
+        const cell = parseCell(row[i + 1]);
+        // 표시하는 Δ는 논문 PDF 기준으로 다시 계산한다. 원장이 적어 둔 Δ는
+        // 기준이 어긋난 칸이 있어 `ledgerDelta`로만 남겨 대조에 쓴다.
+        cell.ledgerDelta = cell.delta;
+        const paper = paperRow[ds];
+        if (cell.mean !== null && paper !== null && paper !== undefined) {
+          cell.paper = paper;
+          cell.delta = Math.round((cell.mean - paper) * 100) / 100;
+        } else if (cell.mean === null && paper === null && row[0] in reference) {
+          // 논문이 O.O.M/O.O.T로 보고한 칸은 재현 대상이 아니다.
+          if (!cell.hatch) { cell.state = 'limit'; cell.label = 'OOM/OOT'; cell.hatch = true; }
+        }
+        return cell;
+      });
+      return { name: row[0], cells };
+    });
+    const live = datasets.map((_, i) => i).filter((i) => rows.some((r) => r.cells[i].mean !== null));
+    return { ...task, datasets, rows, live };
+  });
+}
+
+// ── 렌더 ───────────────────────────────────────────────────────
+function renderHead(tasks) {
+  $('lead').textContent = DATA.note
+    || '전임자 스크립트(118.sh)를 Blackwell GPU용으로 승격한 환경에서 재실행하고, HyperGC 논문 표와 셀 단위로 대조한 결과다.';
+  const t3 = tasks.find((t) => t.key === 'T3');
+  const audit = DATA.audit || {};
+  const bits = [
+    ['원장', DATA.source || '—'],
+    ['모델', t3 ? `${t3.rows.length}개` : '—'],
+    ['데이터셋', t3 ? `${t3.datasets.length}개 중 ${t3.live.length}개 실행 가능` : '—'],
+    ['논문 대조', audit.available ? `${audit.agree}/${audit.checked} 일치` : '미실행'],
+  ];
+  $('meta').replaceChildren(...bits.map(([k, v]) => {
+    const s = el('span');
+    s.append(el('b', null, k), document.createTextNode(' ' + v));
+    return s;
+  }));
+}
+
+function renderCards(tasks) {
+  const cells = tasks.flatMap((t) => t.rows.flatMap((r) => t.live.map((i) => r.cells[i])));
+  const withDelta = cells.filter((c) => c.delta !== null);
+  const matched = withDelta.filter((c) => Math.abs(c.delta) <= 2);
+  const sorted = withDelta.map((c) => Math.abs(c.delta)).sort((a, b) => a - b);
+  const audit = DATA.audit || {};
+  const mismatch = (audit.mismatch || []).length;
+
+  const cards = [
+    ['대조 일치율', `${matched.length}/${withDelta.length}`,
+     `Δ ±2%p 이내${sorted.length ? ' · 중앙값 ' + sorted[Math.floor(sorted.length / 2)].toFixed(2) : ''}`],
+    ['정식 결과', String(cells.filter((c) => c.grade === 'formal').length),
+     `20 seed · 200 epoch · 총 ${cells.length}칸 중`],
+    ['기준값 불일치', String(mismatch),
+     audit.available ? '원장이 기준 삼은 논문값이 틀린 칸' : 'paper_reference.json 없음', mismatch > 0],
+    ['미실행 · 차단', String(cells.filter((c) => c.mean === null).length), '대기 · 결손 · 논문 제외'],
+  ];
+  $('cards').replaceChildren(...cards.map(([k, big, note, alarm]) => {
+    const box = el('div', 'card' + (alarm ? ' alarm' : ''));
+    box.append(el('span', 'k', k), el('span', 'big', big), el('span', 'note', note));
+    return box;
+  }));
+}
+
+function renderUpdates() {
+  const up = DATA.updates || {};
+  if (!up.items || !up.items.length) { $('updates').replaceChildren(); return; }
+  const section = $('updates');
+  const h2 = el('h2');
+  const [title, when] = (up.title || '').split('—');
+  h2.append(document.createTextNode('최근 완료'), el('span', 'm', (when || title || '').trim()));
+  const box = el('div', 'notes');
+  for (const item of up.items) {
+    const p = el('p');
+    const colon = item.indexOf(':');
+    if (colon > 0 && colon < 24) {
+      p.append(el('b', null, item.slice(0, colon)), document.createTextNode(item.slice(colon)));
+    } else {
+      p.textContent = item;
+    }
+    box.appendChild(p);
+  }
+  section.replaceChildren(h2, box);
+}
+
+function renderCell(cell, taskKey, modelName, dataset) {
+  const td = el('td');
+  if (cell.mean === null) {
+    td.className = cell.hatch ? 'lim' : 'na';
+    td.textContent = cell.state === 'limit' ? cell.label : (cell.hatch ? cell.label : '— ' + cell.label);
+    td.title = cell.plain;
+    return td;
+  }
+  td.appendChild(el('span', 'v', fmt(cell.mean, 1)));
+  if (cell.std !== null) td.appendChild(el('span', 'sd', '±' + fmt(cell.std, 1)));
+  if (cell.grade && cell.grade !== 'formal') td.appendChild(el('span', 'tag', cell.grade));
+
+  const bad = AUDIT.get(`${taskKey}|${modelName}|${dataset}`);
+  if (cell.delta === null) {
+    td.appendChild(el('span', 'd none', '—'));
+    td.title = '논문 대응값 없음';
+  } else {
+    td.appendChild(el('span', 'd ' + severity(cell.delta), signed(cell.delta)));
+    td.title = `내 결과 ${fmt(cell.mean)} · 논문 ${fmt(cell.paper)} · Δ ${signed(cell.delta)}`
+      + (cell.note ? ` · ${cell.note}` : '');
+  }
+  if (bad) {
+    td.classList.add('suspect');
+    const flag = el('span', 'flag', '⚠');
+    flag.title = `원장(experiment_now.md)은 이 칸의 Δ를 ${signed(bad.ledger_delta)}로 적었다.\n`
+      + `기준 삼은 값 ${fmt(bad.ledger_assumed)} ≠ 논문 실제값 ${fmt(bad.paper)}`
+      + (bad.owners && bad.owners.length ? `\n${fmt(bad.ledger_assumed)}는 ${bad.owners.join(', ')} 행의 값` : '');
+    td.appendChild(flag);
+  }
+  return td;
+}
+
+function renderSections(tasks) {
+  $('sections').replaceChildren(...tasks.map((task) => {
+    const cols = showAllCols ? task.datasets.map((_, i) => i) : task.live;
+    const section = el('section');
+
+    const h2 = el('h2');
+    h2.append(document.createTextNode(task.base), el('span', 'm', task.metric));
+    section.appendChild(h2);
+
+    const legend = el('div', 'legend');
+    legend.append(el('span', null, '내 결과 ±표준편차'),
+                  el('span', 'd ok', '±2'), el('span', 'd warn', '2–5'), el('span', 'd bad', '>5'),
+                  el('span', 'flag', '⚠'), el('span', 'lgn', '기준값 불일치'),
+                  el('span', 'lim', 'OOM'), el('span', 'lgn', '논문 제외 · 결손'),
+                  el('span', null, '—'), el('span', 'lgn', '미실행'));
+    section.appendChild(legend);
+
+    const tw = el('div', 'tw');
+    const table = el('table');
+    const thead = el('thead');
+    const hr = el('tr');
+    hr.appendChild(el('th', null, 'Model'));
+    for (const i of cols) hr.appendChild(el('th', null, task.datasets[i]));
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    const tbody = el('tbody');
+    for (const row of task.rows) {
+      const tr = el('tr');
+      tr.appendChild(el('th', null, row.name));
+      for (const i of cols) tr.appendChild(renderCell(row.cells[i], task.key, row.name, task.datasets[i]));
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    tw.appendChild(table);
+    section.appendChild(tw);
+
+    const hidden = task.datasets.length - cols.length;
+    if (hidden > 0) {
+      section.appendChild(el('div', 'legend',
+        `결과가 하나도 없는 ${hidden}개 열 접힘 — ${task.datasets.filter((_, i) => !cols.includes(i)).join(' · ')}`));
+    }
+    return section;
+  }));
+}
+
+function renderAudit() {
+  const audit = DATA.audit || {};
+  const section = $('auditSection');
+  if (!audit.available) {
+    section.replaceChildren();
+    return;
+  }
+  const h2 = el('h2');
+  h2.append(document.createTextNode('기준값 불일치'),
+            el('span', 'm', `${DATA.reference_source || 'HyperGC.pdf'} 대조`));
+
+  const list = audit.mismatch || [];
+  if (!list.length) {
+    section.replaceChildren(h2, el('div', 'notes', '원장의 Δ가 모두 논문값과 맞는다.'));
+    return;
+  }
+
+  const intro = el('div', 'notes alarm');
+  const p = el('p');
+  p.append(el('b', null, `원장(experiment_now.md)의 Δ ${audit.checked}칸 중 ${list.length}칸이 다른 행의 논문값으로 계산돼 있다.`),
+           document.createTextNode(
+             ' Δ = 내 평균 − 논문 평균이므로 (값, Δ)에서 원장이 가정한 논문값을 되돌릴 수 있는데, '
+             + '그 값이 HyperGC.pdf의 해당 칸과 다르다. 위 표의 Δ는 PDF 기준으로 다시 계산한 값이고, '
+             + '아래는 원장 쪽 수치와의 차이다. 원장 파일 자체는 고치지 않는다 — 그건 clerk의 일이다.'));
+  intro.appendChild(p);
+
+  const ul = el('ul', 'rows');
+  for (const m of list) {
+    const li = el('li');
+    li.append(el('span', 'task', m.task), el('b', null, m.model), el('span', 'ds', m.dataset));
+    const nums = el('span', 'nums');
+    nums.append(document.createTextNode(`원장 Δ ${signed(m.ledger_delta)}`), el('em', null, '→'),
+                document.createTextNode(`실제 Δ ${signed(m.true_delta)}`));
+    li.append(nums, el('span', 'd ' + severity(m.true_delta), signed(m.true_delta)));
+    li.appendChild(el('div', 'why',
+      `내 결과 ${fmt(m.mine)} · 원장이 가정한 논문값 ${fmt(m.ledger_assumed)} · 실제 논문값 ${fmt(m.paper)}`
+      + (m.owners && m.owners.length ? `  ← 가정값은 ${m.owners.join(', ')} 행의 값` : '')));
+    ul.appendChild(li);
+  }
+  section.replaceChildren(h2, intro, ul);
+}
+
+function renderOutliers(tasks) {
+  const rows = [];
+  for (const task of tasks) {
+    for (const row of task.rows) {
+      for (const i of task.live) {
+        const c = row.cells[i];
+        if (c.delta !== null && Math.abs(c.delta) > 3) {
+          rows.push({ code: task.key, model: row.name, ds: task.datasets[i], cell: c });
+        }
+      }
+    }
+  }
+  rows.sort((a, b) => Math.abs(b.cell.delta) - Math.abs(a.cell.delta));
+
+  const section = $('outlierSection');
+  const h2 = el('h2');
+  h2.append(document.createTextNode('이상치'), el('span', 'm', '논문 대비 3.0%p 초과'));
+  if (!rows.length) {
+    section.replaceChildren(h2, el('div', 'notes', '논문 대비 3.0%p를 넘는 칸이 없다.'));
+    return;
+  }
+  const ul = el('ul', 'rows');
+  for (const r of rows) {
+    const li = el('li');
+    li.append(el('span', 'task', r.code), el('b', null, r.model), el('span', 'ds', r.ds));
+    const nums = el('span', 'nums');
+    nums.append(document.createTextNode(fmt(r.cell.mean, 1)), el('em', null, 'vs'),
+                document.createTextNode(fmt(r.cell.paper, 1)));
+    li.append(nums, el('span', 'd ' + severity(r.cell.delta), signed(r.cell.delta)));
+    if (AUDIT.has(`${r.code}|${r.model}|${r.ds}`)) {
+      li.appendChild(el('div', 'why', '⚠ 이 칸은 기준값이 어긋나 있다 — 위 “기준값 불일치” 참고'));
+    }
+    ul.appendChild(li);
+  }
+  section.replaceChildren(h2, ul);
+}
+
+function renderEvidence() {
+  const items = DATA.evidence || [];
+  const section = $('evidenceSection');
+  if (!items.length) { section.replaceChildren(); return; }
+  const h2 = el('h2');
+  h2.append(document.createTextNode('증거와 데이터 계약'), el('span', 'm', '원장 기재'));
+  const box = el('div', 'notes');
+  for (const item of items) box.appendChild(el('p', null, item.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')));
+  section.replaceChildren(h2, box);
+}
+
+function render() {
+  const tasks = model();
+  if (!tasks.length) {
+    $('sections').replaceChildren(el('div', 'empty', '데이터가 없다.'));
+    return;
+  }
+  AUDIT = new Map(((DATA.audit || {}).mismatch || [])
+    .map((m) => [`${m.task}|${m.model}|${m.dataset}`, m]));
+  renderHead(tasks);
+  renderCards(tasks);
+  renderUpdates();
+  renderSections(tasks);
+  renderAudit();
+  renderOutliers(tasks);
+  renderEvidence();
+}
+
+// ── 컨트롤 ─────────────────────────────────────────────────────
+$('cols').onclick = () => {
+  showAllCols = !showAllCols;
+  $('cols').setAttribute('aria-pressed', String(showAllCols));
+  $('cols').textContent = showAllCols ? '결과 없는 열 접기' : '결과 없는 열 펼치기';
+  render();
+};
+$('theme').onclick = () => {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark'
+    || (!document.documentElement.hasAttribute('data-theme')
+        && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+};
+
+// ── 로드 ───────────────────────────────────────────────────────
+async function load() {
+  try {
+    const res = await fetch('/api/state', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    DATA = await res.json();
+    render();
+    const at = DATA.generated_at ? new Date(DATA.generated_at) : null;
+    $('foot').textContent =
+      `갱신 ${at ? at.toLocaleString('ko-KR', { hour12: false }) : '시각 없음'}`
+      + ` · 원장 ${DATA.source || '—'}`
+      + ` · 논문 기준 ${DATA.reference_source || '—'} · 10초마다 자동 갱신`;
+  } catch (err) {
+    $('foot').textContent = '불러오기 실패 — ' + err.message;
+    if (!(DATA.tasks || []).length) {
+      $('sections').replaceChildren(el('div', 'empty',
+        '/api/state 를 읽지 못했다. collector.py 로 state.json 을 만들었는지 확인한다.'));
+    }
+  }
+}
+load();
+setInterval(load, 10000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Namespace(data='imdb', num_seeds=20, lr=0.01, device='cuda:0', dropout=0.5, All_num_layers=2, MLP_hidden=128, lam0=0.0, lam1=5.0, alp=0.01, prop_step=8, phenomNN_variant=False, normalize_type='full', H=False, HisI=False, notresidual=False, twoHgamma=False, task='edge', epoch=200, num_features=3066, num_classes=3, method='PhenomNN')=> tensor([51.2213, 50.2389, 50.3340, 49.1075, 49.6333, 50.6751, 50.3867, 49.5675,
+        49.8648, 51.3638, 49.7017, 49.3458, 50.2478, 49.7663, 49.5939, 49.5742,
+        48.0564, 50.8691, 48.8390, 48.5022]),49.8 ± 0.9

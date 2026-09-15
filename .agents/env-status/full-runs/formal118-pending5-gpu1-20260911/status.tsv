@@ -1,0 +1,15 @@
+sehssl citeseer_cite 0
+sehssl cora_coauth 0
+sehssl imdb 0
+sehssl pubmed_cite 0
+sehssl aminer 0
+tricl citeseer_cite 2
+tricl cora_coauth 2
+tricl imdb 2
+tricl pubmed_cite 2
+tricl aminer 2
+villain citeseer_cite 1
+villain cora_coauth 0
+villain imdb 1
+villain pubmed_cite 0
+villain aminer 0

@@ -1,0 +1,46 @@
+citeseer_cite:
+  p_x: 0.2
+  p_e: 0.9
+  epoch: 120
+cora_cite:
+  p_x: 0.4
+  p_e: 0.9
+  epoch: 200
+pubmed_cite:
+  p_x: 0.0
+  p_e: 0.5
+  epoch: 180
+cora_coauth:
+  p_x: 0.4
+  p_e: 0.8
+  epoch: 200
+dblp_copub:
+  p_x: 0.1
+  p_e: 0.9
+  epoch: 120
+dblp_coauth:
+  p_x: 0.0
+  p_e: 0.6
+  epoch: 180
+aminer:
+  p_x: 0.2
+  p_e: 0.6
+  epoch: 100
+imdb:
+  p_x: 0.3
+  p_e: 0.9
+  epoch: 180
+modelnet_40:
+  p_x: 0.4
+  p_e: 0.5
+  epoch: 180
+news:
+  p_x: 0.2
+  p_e: 0.5
+  epoch: 80
+house:
+  p_x: 0.4
+  p_e: 0.8
+  epoch: 140
+
+

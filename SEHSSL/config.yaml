@@ -1,0 +1,51 @@
+cora_cite:
+  batch_size: 2048
+  batch_size_2: null
+  
+
+citeseer_cite:
+  batch_size: 2048
+  batch_size_2: null
+  
+
+pubmed_cite:
+  batch_size: 2048
+  batch_size_2: 4096
+  
+
+cora_coauth:
+  batch_size: 2048
+  batch_size_2: null
+
+dblp_copub:
+  batch_size: 2048
+  batch_size_2: 1024
+  
+
+dblp_coauth:
+  batch_size: 2048
+  batch_size_2: 2048
+  batch_size: 2048
+
+news:
+  batch_size: 2048
+  batch_size_2: 8192
+  
+
+modelnet_40:
+  batch_size: 2048
+  batch_size_2: 8192
+  
+
+aminer:
+  batch_size: 2048
+  batch_size_2: 8192
+  
+  
+imdb:
+  batch_size: 2048
+  batch_size_2: null
+  
+house:
+  batch_size: 2048
+  batch_size_2: null

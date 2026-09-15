@@ -1,0 +1,4 @@
+Namespace(data='cora_coauth', num_seeds=1, lr=0.01, device='cuda:0', dropout=0.5, All_num_layers=2, MLP_hidden=128, lam0=20.0, lam1=10.0, alp=0.1, prop_step=8, phenomNN_variant=False, normalize_type='full', H=False, HisI=False, notresidual=False, twoHgamma=False, task='node', epoch=15, num_features=1433, num_classes=7, method='PhenomNN')=> tensor([49.0606]),49.1 ± nan
+Namespace(data='cora_coauth', num_seeds=20, lr=0.01, device='cuda:0', dropout=0.5, All_num_layers=2, MLP_hidden=128, lam0=20.0, lam1=10.0, alp=0.1, prop_step=8, phenomNN_variant=False, normalize_type='full', H=False, HisI=False, notresidual=False, twoHgamma=False, task='node', epoch=200, num_features=1433, num_classes=7, method='PhenomNN')=> tensor([49.3168, 53.8002, 57.8992, 60.9735, 39.5389, 61.4005, 58.0273, 39.8804,
+        60.2903, 63.9624, 56.1486, 53.4159, 60.2477, 49.7438, 65.3288, 49.4449,
+        61.3578, 60.5038, 60.5465, 64.6456]),56.3 ± 7.5

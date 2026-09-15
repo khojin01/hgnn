@@ -1,0 +1,26 @@
+maskgae already-complete
+phenomnn aminer 1
+sehssl already-complete
+tricl house 0
+tricl citeseer_cite 0
+tricl cora_coauth 0
+tricl imdb 0
+tricl pubmed_cite 0
+tricl aminer 0
+unigcn2 already-complete
+villain-pretrain house 0
+villain-merge house 0
+villain house 0
+villain-pretrain citeseer_cite 0
+villain-merge citeseer_cite 0
+villain citeseer_cite 0
+villain-pretrain imdb 0
+villain-merge imdb 0
+villain imdb 0
+hypergrl citeseer_cite 124
+hypergrl imdb 124
+hypergrl pubmed_cite 124
+hypergrl aminer 124
+hypergcl house 0
+hypergcl citeseer_cite 0
+hypergcl cora_coauth 0

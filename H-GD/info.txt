@@ -1,0 +1,6 @@
+Hyperparameter
+- hid_dim: 128
+- weight decay: 1e^-6
+- p_x: {0.2,0.3,0.4}
+- p_e: {0.2,0.3,0.4}
+- lr: {0.01,0.001,0.0001}
