@@ -41,6 +41,7 @@ def main():
     from sklearn.metrics import normalized_mutual_info_score
 
     mdir = ROOT / a.model_dir
+    sys.path.insert(0, str(ROOT))      # 공용 loader.py 는 저장소 루트에 있다
     sys.path.insert(0, str(mdir))
     os.chdir(ROOT)                      # 로더가 data/<이름> 상대경로를 쓴다
     from loader import DatasetLoader    # 각 모델 디렉터리의 공용 로더

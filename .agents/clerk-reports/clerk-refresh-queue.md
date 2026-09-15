@@ -295,3 +295,7 @@
 - [2026-09-14 18:17 KST] 갱신 요청: `results/result_118.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님
 
 - [2026-09-14 20:07 KST] 갱신 요청: `results/result_118.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님
+
+- [2026-09-15 19:06 KST] 갱신 요청: `results/result_house_VilLain_cluster.txt` — 원장 Community detection 표에 House 열이 없음
+
+- [2026-09-15 19:06 KST] 갱신 요청: `results/result_citeseer_cite_VilLain_cluster.txt` — 원장 Community detection 표에 Citeseer 열이 없음
