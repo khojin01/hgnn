@@ -1,13 +1,13 @@
 ---
 type: home
-updated: 2026-09-15 13:15
+updated: 2026-09-15 13:16
 tags: [hgnn/overview]
 ---
 
 <!-- AUTO:BEGIN -->
 # HGNN 실험 노트
 
-<span class="lgn">dms2 가 만들고 GitHub 를 거쳐 여기로 온다 · 갱신 2026-09-15 13:15</span>
+<span class="lgn">dms2 가 만들고 GitHub 를 거쳐 여기로 온다 · 갱신 2026-09-15 13:16</span>
 
 ## 지금
 
@@ -17,8 +17,6 @@ tags: [hgnn/overview]
 ## 결과
 
 - [[논문 대조]] — HyperGC Table 3·4·5 vs 우리 정식 결과, Δ 배지
-
-- [[Charts]] — 태스크별 히트맵·순위
 
 ## 모델
 
