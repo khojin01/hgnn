@@ -39,7 +39,9 @@ def main():
     paper = {k: (d.get("paper", {}).get(k) or {}).get("agree") for k in ("T3", "T4", "T5")}
     head = (d.get("git") or {}).get("head")
 
-    state = json.dumps([jobs, term, auto, todo, paper, head, lab.get("questions"),
+    # head 는 서명에서 뺀다. 도구 파일만 고쳐도 커밋이 생겨 의미 없는 깨움이 났다.
+    # 결과가 바뀌면 term·paper·todo 가 먼저 움직이므로 놓치는 신호는 없다.
+    state = json.dumps([jobs, term, auto, todo, paper, lab.get("questions"),
                         lab.get("latest_journal")], ensure_ascii=False, sort_keys=True)
     sig = hashlib.sha1(state.encode("utf-8")).hexdigest()[:12]
 
