@@ -4,16 +4,16 @@ nc_models: 19
 nc_best: HypeBoy
 hp_models: 18
 hp_best: HypeBoy
-cd_models: 7
+cd_models: 8
 cd_best: TriCL
-updated: 2026-09-15 22:44
+updated: 2026-09-15 22:58
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Cora-CA
 
-<small>갱신 2026-09-15 22:44</small>
+<small>갱신 2026-09-15 22:58</small>
 
 ## Node classification — Accuracy
 
@@ -75,8 +75,9 @@ tags: [hgnn/dataset]
 | 5 | [[MaskGAE]] | 39.4 <span class="sd">±1.3</span> | 38.0 | <span class="d ok">+1.4</span> |
 | 6 | [[VilLain]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |
 | 7 | [[GGD]] | 6.7 <span class="sd">±0.4</span> | 6.0 | <span class="d ok">+0.7</span> |
+| 8 | [[HyperGCL]] | 6.3 <span class="sd">±0.2</span> | 30.6 | <span class="d bad">−24.2</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending)</small>
+<small>미실행·보류: HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 
