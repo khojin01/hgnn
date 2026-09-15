@@ -4,14 +4,16 @@ nc_models: 19
 nc_best: HypeBoy
 hp_models: 18
 hp_best: HypeBoy
-updated: 2026-09-15 15:36
+cd_models: 1
+cd_best: VilLain
+updated: 2026-09-15 19:07
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Cora-CA
 
-<small>갱신 2026-09-15 15:36</small>
+<small>갱신 2026-09-15 19:07</small>
 
 ## Node classification — Accuracy
 
@@ -64,9 +66,11 @@ tags: [hgnn/dataset]
 
 ## Community detection — NMI
 
-정식 결과 없음.
+| # | 모델 | 우리 | 논문 | Δ |
+|---:|---|---:|---:|---:|
+| 1 | [[VilLain]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |
 
-<small>미실행·보류: VilLain (pending), HyperGCL (pending), MaskGAE (pending), HyperGRL (pending)</small>
+<small>미실행·보류: HyperGCL (pending), MaskGAE (pending), HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 

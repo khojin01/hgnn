@@ -299,3 +299,7 @@
 - [2026-09-15 19:06 KST] 갱신 요청: `results/result_house_VilLain_cluster.txt` — 원장 Community detection 표에 House 열이 없음
 
 - [2026-09-15 19:06 KST] 갱신 요청: `results/result_citeseer_cite_VilLain_cluster.txt` — 원장 Community detection 표에 Citeseer 열이 없음
+
+- [2026-09-15 19:07 KST] 갱신 요청: `results/result_imdb_VilLain_cluster.txt` — 원장 Community detection 표에 IMDB 열이 없음
+
+- [2026-09-15 19:07 KST] 갱신 요청: `results/result_pubmed_cite_VilLain_cluster.txt` — 원장 Community detection 표에 Pubmed 열이 없음

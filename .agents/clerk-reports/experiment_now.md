@@ -79,7 +79,7 @@
 
 | Model | Cora-CA | DBLP-P | 20News |
 |---|---|---|---|
-| VilLain | — pending | — pending | — pending |
+| VilLain | **9.7 ± 2.2** (Δ **−0.0**) | — pending | — pending |
 | HyperGCL | — pending | O.O.M skip | — pending |
 | MaskGAE | — pending | — pending | O.O.T skip |
 | HyperGRL | — pending | — pending | O.O.T skip |

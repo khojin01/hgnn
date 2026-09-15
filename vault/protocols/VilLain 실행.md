@@ -2,14 +2,14 @@
 type: protocol
 model: VilLain
 env: hgnn-pyg
-updated: 2026-09-15 15:36
+updated: 2026-09-15 19:07
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # VilLain 실행
 
-결과 → [[VilLain]] · 코드 `VilLain/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 15:36</small>
+결과 → [[VilLain]] · 코드 `VilLain/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 19:07</small>
 
 ## 정식 명령 (`VilLain/118.sh`)
 
@@ -38,7 +38,7 @@ conda run --no-capture-output -n hgnn-pyg bash -lc '\
 | 스크립트 | `118.sh` · `edge.sh` · `node.sh` · `time.sh` |
 | 실행에 쓴 run-scripts | `edge-villain-six-after-hypergcl-gpu1.sh` · `formal118-house-remaining-gpu1.sh` · `formal118-house-resume-gpu1.sh` · `formal118-pending5-gpu1.sh` · `node-failure-repair-gpu1.sh` · `node-priority-order-after-hypergcn.sh` · `villain-accuracy-gpu1.sh` · `villain-cora-gpu0-parallel.sh` |
 | 게이트 파일 | `villain-edge-check.ok` |
-| 정식 완료 | NC 6칸 · HP 6칸 · CD 0칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 1칸 |
 | 돌리지 말 것 | 없음 |
 
 관련: [[실행 규약]] · [[VilLain]]
