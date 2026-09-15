@@ -746,7 +746,7 @@ def automation():
     return rows
 
 
-def git_log(n=12):
+def git_log(n=30):
     if not (ROOT / ".git").exists():
         return None
     out = sh(f"git -C '{ROOT}' log -{n} --date=iso-strict --format='%h|%ad|%s'")
@@ -759,6 +759,7 @@ def git_log(n=12):
                 dirty=int(sh(f"git -C '{ROOT}' status --porcelain | wc -l").strip() or 0),
                 last_push=last_push.isoformat() if last_push else None,
                 remote=sh(f"git -C '{ROOT}' remote get-url origin 2>/dev/null").strip(),
+                total=int(sh(f"git -C '{ROOT}' rev-list --count HEAD 2>/dev/null").strip() or 0),
                 commits=[dict(zip(("hash", "date", "msg"), l.split("|", 2))) for l in out.strip().splitlines() if l.count("|") >= 2])
 
 
