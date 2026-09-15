@@ -189,7 +189,26 @@ def q_paper():
     return "\n".join(out)
 
 
-HELP = """읽기만 한다. 실험을 시작하거나 멈추지 않는다.
+def record_order(text, who):
+    """지시를 lab/다음 할 일 에 적는다. order_exec.py 는 파일만 쓴다 — 여기서 실행되는 것은 없다."""
+    text = text.strip()
+    if not text:
+        return "무엇을 적을지 내용이 없다. `지시 TriCL num_edges 확장 방식 확인` 처럼 쓴다."
+    payload = json.dumps({"id": "discord-" + datetime.now(KST).strftime("%H%M%S"), "kind": "free",
+                          "text": "%s  (디스코드 · %s)" % (text, who)}, ensure_ascii=False)
+    r = subprocess.run([sys.executable if "venvs" not in sys.executable else "/home/dms2/miniconda/bin/python3",
+                        str(ROOT / "tools" / "order_exec.py"), payload], capture_output=True, timeout=30)
+    try:
+        out = json.loads(r.stdout.decode("utf-8", "replace").strip().splitlines()[-1])
+    except Exception:
+        return "기록하지 못했다: " + r.stderr.decode("utf-8", "replace")[-300:]
+    if out.get("status") != "done":
+        return "기록하지 못했다: " + str(out.get("result"))
+    return ("적었다." + "\n" + "\n" + out["result"] + "\n" + "\n" +
+            "실행·중지는 여기서 하지 않는다. 클로드가 세션에서 프로토콜을 읽고 판단해서 한다.")
+
+
+HELP = """묻는 말에 답하고 지시를 받아 적는다. 실험을 직접 시작하거나 멈추지는 않는다.
 
 `상태` 지금 무엇이 돌고 있나
 `gpu` GPU 사용률 (지금 값)
@@ -197,6 +216,7 @@ HELP = """읽기만 한다. 실험을 시작하거나 멈추지 않는다.
 `할일` 열린 할 일
 `일지` 최근 일지
 `논문` 논문 대조 요약
+`지시 <내용>` 다음 할 일에 적어 둔다
 `도움말` 이 안내
 
 실행이 끝나거나 실패하면 묻지 않아도 알린다."""
@@ -212,9 +232,13 @@ ROUTES = [
 ]
 
 
-def answer(text):
+def answer(text, who="?"):
     """(제목, 본문) 또는 None — 아는 말이 아니면 조용히 넘긴다."""
-    t = text.strip().lstrip("!/").lower()
+    raw = text.strip().lstrip("!/")
+    t = raw.lower()
+    for k in ("지시", "order"):
+        if t == k or t.startswith(k + " "):
+            return "지시 기록", record_order(raw[len(k):], who)
     for keys, title, fn in ROUTES:
         if any(t == k or t.startswith(k + " ") for k in keys):
             return title, fn()
@@ -305,7 +329,7 @@ def bot():
             return
         if channel and m.channel.id != int(channel):     # 정해진 채널 밖은 무시한다
             return
-        a = answer(m.content)
+        a = answer(m.content, str(m.author.display_name))
         if not a:
             return
         title, body = a
@@ -341,7 +365,7 @@ def main():
     elif cmd == "test":
         print("보냄" if embed("연결 확인", "웹훅이 살아 있다. 이제 실험이 끝나거나 실패하면 알린다.", GREEN) else "보내지 못함")
     elif cmd == "ask":
-        a = answer(" ".join(sys.argv[2:]))
+        a = answer(" ".join(sys.argv[2:]), "터미널")
         print("%s\n%s" % a if a else "모르는 말이다.\n\n" + HELP)
     else:
         print(__doc__)
