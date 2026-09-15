@@ -37,43 +37,45 @@ def write_todo(items):
         head = ["---", "type: lab", "tags: [hgnn/lab]", "---", "", "# 다음 할 일", ""]
     while head and not head[-1].strip():
         head.pop()
-    body = [f"- [{x if i.get(done) else  }] {str(i.get(text,)).strip()}" for i in items if str(i.get("text","")).strip()]
+    body = []
+    for i in items:
+        t = str(i.get("text", "")).strip()
+        if t:
+            body.append("- [x] " + t if i.get("done") else "- [ ] " + t)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text("\n".join(head + [""] + body) + "\n", encoding="utf-8")
-    return f"다음 할 일 {len(body)}줄 기록"
+    return "다음 할 일 %d줄 기록" % len(body)
 
 
 def write_journal(date, text):
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date or ""):
-        raise ValueError(f"날짜 형식이 아니다: {date}")
-    p = LAB / "일지" / f"{date}.md"
-    fm = f"---\ntype: lab\ndate: {date}\ntags: [hgnn/lab]\n---\n"
+        raise ValueError("날짜 형식이 아니다: %s" % date)
+    p = LAB / "일지" / (date + ".md")
+    fm = "---\ntype: lab\ndate: %s\ntags: [hgnn/lab]\n---\n" % date
     if p.exists():
-        old = p.read_text(encoding="utf-8")
-        m = re.match(r"^---\n.*?\n---\n", old, re.S)
+        m = re.match(r"^---\n.*?\n---\n", p.read_text(encoding="utf-8"), re.S)
         if m:
             fm = m.group(0)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(fm + "\n" + text.strip() + "\n", encoding="utf-8")
-    return f"일지 {date}.md {len(text.splitlines())}줄 기록"
+    return "일지 %s.md %d줄 기록" % (date, len(text.splitlines()))
 
 
 def main():
-    raw = sys.stdin.read()
     try:
-        d = json.loads(raw)
+        d = json.loads(sys.stdin.read())
         kind = d.get("kind")
         if kind == "todo":
             status, result = "done", write_todo(d.get("items") or [])
         elif kind == "journal":
             status, result = "done", write_journal(d.get("date"), d.get("text") or "")
         else:
-            status, result = "failed", f"모르는 종류: {kind}"
+            status, result = "failed", "모르는 종류: %s" % kind
     except Exception as e:
-        status, result = "failed", f"{type(e).__name__}: {e}"
+        status, result = "failed", "%s: %s" % (type(e).__name__, e)
     LOG.parent.mkdir(parents=True, exist_ok=True)
     with LOG.open("a", encoding="utf-8") as f:
-        f.write(f"\n[{datetime.now(KST).isoformat(timespec='seconds')}] 노트 편집 → {status}\n{result}\n")
+        f.write("\n[%s] 노트 편집 → %s\n%s\n" % (datetime.now(KST).isoformat(timespec="seconds"), status, result))
     print(json.dumps(dict(status=status, result=result), ensure_ascii=False))
     return 0
 
