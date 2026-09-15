@@ -8,15 +8,15 @@ max_abs_delta: 1.6
 worst_cell: "노드 분류 Pubmed −1.6"
 status: complete
 code_dir: AllSet
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # AllSet
 
-<small>코드 `AllSet/` · 결과 `results/result_*_AllSet_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `AllSet/` · 결과 `results/result_*_AllSet_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

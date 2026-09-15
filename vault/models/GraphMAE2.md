@@ -8,15 +8,15 @@ max_abs_delta: 0.9
 worst_cell: "노드 분류 IMDB −0.9"
 status: complete
 code_dir: GraphMAE2
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # GraphMAE2
 
-<small>코드 `GraphMAE2/` · 결과 `results/result_*_GraphMAE2_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `GraphMAE2/` · 결과 `results/result_*_GraphMAE2_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

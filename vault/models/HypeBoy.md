@@ -8,15 +8,15 @@ max_abs_delta: 1.0
 worst_cell: "노드 분류 House +1.0"
 status: complete
 code_dir: Hypeboy
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # HypeBoy
 
-<small>코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

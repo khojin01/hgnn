@@ -6,15 +6,15 @@ nc_best_value: 73.1
 hp_models: 18
 hp_best: MaskGAE
 hp_best_value: 88.2
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/dataset]
-cssclasses: [table-wide, row-alt]
+cssclasses: [row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # House
 
-<small>갱신 2026-09-15 15:02</small>
+<small>갱신 2026-09-15 15:11</small>
 
 ## Node classification — Accuracy
 

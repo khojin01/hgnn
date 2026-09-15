@@ -8,15 +8,15 @@ max_abs_delta: 2.9
 worst_cell: "노드 분류 Citeseer +2.9"
 status: partial
 code_dir: PhenomNN
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # PhenomNN
 
-<small>코드 `PhenomNN/` · 결과 `results/result_*_PhenomNN_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `PhenomNN/` · 결과 `results/result_*_PhenomNN_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

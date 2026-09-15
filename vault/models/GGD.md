@@ -8,15 +8,15 @@ max_abs_delta: 37.9
 worst_cell: "하이퍼엣지 예측 House −37.9"
 status: complete
 code_dir: H-GD
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # GGD
 
-<small>코드 `H-GD/` · 결과 `results/result_*_H-GD_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `H-GD/` · 결과 `results/result_*_H-GD_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

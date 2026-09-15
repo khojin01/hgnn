@@ -358,7 +358,7 @@ def note_paper(state, tasks, dry):
     lines += [small("원본 `.agents/clerk-reports/experiment_now.md` → `dashboard/state.json` · 기준값 `dashboard/paper_reference.json`"),
               "", "관련: [[모델 비교]] · [[Charts]] · [[Home]]"]
     return write_note(VAULT / "논문 대조.md", "\n".join(lines),
-                      front("overview", css="hg-wide, hg-sticky, wide-page, table-wide, row-alt, table-nowrap",
+                      front("overview", css="hg-wide, hg-sticky, wide-page, row-alt",
                             nc_agree=n3[1], nc_total=n3[0], hp_agree=n4[1], hp_total=n4[0], outliers=outs_all), dry)
 
 
@@ -423,7 +423,7 @@ def note_models(state, tasks, dry):
                                       height="220px"), ""]
         lines += [LEGEND, "", "관련: [[논문 대조]] · [[모델 비교]] · [[Home]]"]
         if write_note(VAULT / "models" / f"{m}.md", "\n".join(lines),
-                      front("model", css="hg-model, table-wide, row-alt", **props), dry):
+                      front("model", css="hg-model, row-alt", **props), dry):
             changed += 1
     return changed
 
@@ -471,7 +471,7 @@ def note_datasets(state, tasks, dry):
                 lines += [small("미실행·보류: " + ", ".join(f"{m} ({c.get('label') or c.get('reason')})" for m, c in others)), ""]
         lines += ["관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]"]
         if write_note(VAULT / "datasets" / f"{ds}.md", "\n".join(lines),
-                      front("dataset", css="table-wide, row-alt", **props), dry):
+                      front("dataset", css="row-alt", **props), dry):
             changed += 1
     return changed
 
@@ -718,7 +718,7 @@ def note_dashboard(dry):
                   md_table(["커밋", "시각", "메시지"], [[f"`{h}`", d, msg] for h, d, msg in commits]), ""]
     lines += ["관련: [[에이전트]] · [[논문 대조]] · [[Home]]"]
     return write_note(VAULT / "대시보드.md", "\n".join(lines),
-                      front("overview", css="hg-wide, wide-page, table-wide, table-nowrap", host=HOST,
+                      front("overview", css="hg-wide, wide-page", host=HOST,
                             running=len(live), active_runs=len(active)), dry, volatile=True)
 
 
@@ -822,7 +822,7 @@ def note_agents(dry):
                 lines += ["게이트 파일: " + " · ".join(f"`{p.name}` ({mtime(p).strftime('%m-%d %H:%M')})" for p in oks), ""]
     lines += ["관련: [[대시보드]] · [[Home]]"]
     return write_note(VAULT / "에이전트.md", "\n".join(lines),
-                      front("overview", css="table-wide, row-alt", host=HOST), dry)
+                      front("overview", css="row-alt", host=HOST), dry)
 
 
 # --------------------------------------------------------------------------

@@ -8,15 +8,15 @@ max_abs_delta: 2.3
 worst_cell: "하이퍼엣지 예측 IMDB +2.3"
 status: complete
 code_dir: HGNN
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # HGNN
 
-<small>코드 `HGNN/` · 결과 `results/result_*_HGNN_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `HGNN/` · 결과 `results/result_*_HGNN_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|

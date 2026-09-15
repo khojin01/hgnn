@@ -1,14 +1,14 @@
 ---
 type: dataset
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/dataset]
-cssclasses: [table-wide, row-alt]
+cssclasses: [row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # DBLP-A
 
-<small>갱신 2026-09-15 15:02</small>
+<small>갱신 2026-09-15 15:11</small>
 
 ## Node classification — Accuracy
 

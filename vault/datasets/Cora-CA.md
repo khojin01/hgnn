@@ -6,15 +6,15 @@ nc_best_value: 67.0
 hp_models: 18
 hp_best: HypeBoy
 hp_best_value: 87.4
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/dataset]
-cssclasses: [table-wide, row-alt]
+cssclasses: [row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # Cora-CA
 
-<small>갱신 2026-09-15 15:02</small>
+<small>갱신 2026-09-15 15:11</small>
 
 ## Node classification — Accuracy
 

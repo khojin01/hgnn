@@ -8,15 +8,15 @@ max_abs_delta: 1.2
 worst_cell: "노드 분류 Cora-CA +1.2"
 status: complete
 code_dir: MLP
-updated: 2026-09-15 15:02
+updated: 2026-09-15 15:11
 tags: [hgnn/model]
-cssclasses: [hg-model, table-wide, row-alt]
+cssclasses: [hg-model, row-alt]
 ---
 
 <!-- AUTO:BEGIN -->
 # MLP
 
-<small>코드 `MLP/` · 결과 `results/result_*_MLP_*.txt` · 갱신 2026-09-15 15:02</small>
+<small>코드 `MLP/` · 결과 `results/result_*_MLP_*.txt` · 갱신 2026-09-15 15:11</small>
 
 | NC 일치 | HP 일치 | 최대 편차 |
 |---|---|---|
