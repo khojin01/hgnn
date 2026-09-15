@@ -55,3 +55,6 @@ dashboard/state.json
 
 # 관제 아티팩트용 실시간 스냅샷 (매분 바뀜)
 dashboard/live.json
+dashboard/.pipeline.lock
+dashboard/pipeline.log
+dashboard/.refresh.lock
