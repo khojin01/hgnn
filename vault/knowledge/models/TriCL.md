@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 6
 hp_done: 6
 hp_agree: 1
-cd_done: 0
-cd_agree: 0
+cd_done: 2
+cd_agree: 1
 max_abs_delta: 5.4
 worst_cell: "하이퍼엣지 예측 House −5.4"
 status: complete
-updated: 2026-09-15 19:19
+updated: 2026-09-15 19:33
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # TriCL
 
-실행법 → [[TriCL 실행]] · 코드 `TriCL/` · 결과 `results/result_*_TriCL_*.txt` · <small>갱신 2026-09-15 19:19</small>
+실행법 → [[TriCL 실행]] · 코드 `TriCL/` · 결과 `results/result_*_TriCL_*.txt` · <small>갱신 2026-09-15 19:33</small>
 
-NC 6/6 일치 · HP 1/6 일치 · 최대 편차 하이퍼엣지 예측 House −5.4
+NC 6/6 일치 · HP 1/6 일치 · CD 1/2 일치 · 최대 편차 하이퍼엣지 예측 House −5.4
 
 ## Node classification — Table 3 · Accuracy
 
@@ -52,8 +52,8 @@ NC 6/6 일치 · HP 1/6 일치 · 최대 편차 하이퍼엣지 예측 House −
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
-| [[Citeseer]] | — | 38.5 |  | pending |
-| [[Cora-CA]] | — | 40.9 |  | pending |
+| [[Citeseer]] | 39.0 <span class="sd">±0.1</span> | 38.5 | <span class="d ok">+0.5</span> |  |
+| [[Cora-CA]] | 45.2 <span class="sd">±0.9</span> | 40.9 | <span class="d warn">+4.3</span> |  |
 | [[IMDB]] | — | 5.5 |  | pending |
 | [[House]] | — | 2.9 |  | pending |
 | [[Pubmed]] | — | 32.7 |  | pending |
