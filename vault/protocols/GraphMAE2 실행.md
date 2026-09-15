@@ -2,14 +2,14 @@
 type: protocol
 model: GraphMAE2
 env: hgnn-dgl-src
-updated: 2026-09-15 22:10
+updated: 2026-09-15 22:11
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # GraphMAE2 실행
 
-결과 → [[GraphMAE2]] · 코드 `GraphMAE2/` · 환경 `hgnn-dgl-src` · <small>갱신 2026-09-15 22:10</small>
+결과 → [[GraphMAE2]] · 코드 `GraphMAE2/` · 환경 `hgnn-dgl-src` · <small>갱신 2026-09-15 22:11</small>
 
 ## 정식 명령 (`GraphMAE2/118.sh`)
 
@@ -38,7 +38,7 @@ conda run --no-capture-output -n hgnn-dgl-src bash -lc '\
 | 스크립트 | `118.sh` · `exp0.sh` · `exp1.sh` · `time_node.sh` |
 | 실행에 쓴 run-scripts | `edge-graphmae2-gpu0.sh` · `formal118-graphmae2-node-gpu1.sh` · `formal118-house-remaining-gpu0.sh` |
 | 게이트 파일 | — |
-| 정식 완료 | NC 6칸 · HP 6칸 · CD 4칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 5칸 |
 | 돌리지 말 것 | 없음 |
 
 관련: [[실행 규약]] · [[GraphMAE2]]

@@ -239,3 +239,4 @@ cora_coauth,GraphMAE2,64.0 ± 5.8
 imdb,GraphMAE2,44.6 ± 4.5
 house,GraphMAE2,52.0 ± 3.2
 pubmed_cite,GraphMAE2,75.9 ± 3.2
+aminer,GraphMAE2,34.8 ± 2.4
