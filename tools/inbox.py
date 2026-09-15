@@ -45,7 +45,8 @@ def add(d):
     rows = load()
     now = datetime.now(KST)
     row = {"id": now.strftime("%m%d-%H%M%S"), "at": now.isoformat(timespec="seconds"),
-           "who": str(d.get("who", "?"))[:40], "text": str(d.get("text", "")).strip(), "handled": False}
+           "who": str(d.get("who", "?"))[:40], "uid": str(d.get("uid", "")),
+           "trusted": bool(d.get("trusted")), "text": str(d.get("text", "")).strip(), "handled": False}
     if not row["text"]:
         print(json.dumps({"status": "failed", "result": "내용이 비어 있다"}, ensure_ascii=False))
         return 0

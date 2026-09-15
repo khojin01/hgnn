@@ -18,6 +18,12 @@
 알림은 파이썬 표준 라이브러리만 쓴다. 조회 루프만 discord.py 가 필요하고,
 그건 `~/.venvs/discord` 안에만 설치해서 실험 환경을 건드리지 않는다.
 
+## 지시가 흐르는 길
+
+`@지시 <내용>` 은 `dashboard/inbox.jsonl` 에만 들어간다. 할 일 목록은 건드리지 않는다.
+클로드 세션이 그 파일을 지켜보다가 주인이 보낸 것이면 바로 가져가 수행한다.
+설정의 "owner" 가 디스코드 사용자 id 다. 다른 사람이 보낸 것은 기록만 되고 수행되지 않는다.
+
 ## 부르는 말 바꾸기
 
 `.discord.json` 에 "commands" 를 넣으면 기본 단어를 갈아치운다. 왼쪽 기능 이름은 고정이고
@@ -203,26 +209,30 @@ def q_paper():
     return "\n".join(out)
 
 
-def record_order(text, who):
-    """지시를 lab/다음 할 일 에 적는다. order_exec.py 는 파일만 쓴다 — 여기서 실행되는 것은 없다."""
+def record_order(text, who, uid=None):
+    """지시를 지시함에 넣는다. 할 일 목록에는 넣지 않는다 — 클로드가 바로 가져가 처리한다.
+
+    파일만 쓴다. 여기 담긴 글로 셸 명령을 만들지 않는다. 읽고 판단하는 것은 클로드다.
+    주인(설정의 owner)이 보낸 것만 바로 수행 대상이고, 나머지는 기록만 남는다.
+    """
     text = text.strip()
     if not text:
-        return "무엇을 적을지 내용이 없다. `지시 TriCL num_edges 확장 방식 확인` 처럼 쓴다."
-    payload = json.dumps({"id": "discord-" + datetime.now(KST).strftime("%H%M%S"), "kind": "free",
-                          "text": "%s  (디스코드 · %s)" % (text, who)}, ensure_ascii=False)
-    r = subprocess.run([PY3, str(ROOT / "tools" / "order_exec.py"), payload], capture_output=True, timeout=30)
+        return "무엇을 시킬지 내용이 없다. `@지시 Table 5 부터 돌려줘` 처럼 쓴다."
+    owner = str(conf().get("owner") or "")
+    trusted = bool(owner) and str(uid) == owner
+    r = subprocess.run([PY3, str(ROOT / "tools" / "inbox.py"), "add",
+                        json.dumps({"text": text, "who": who, "uid": str(uid or ""), "trusted": trusted},
+                                   ensure_ascii=False)],
+                       capture_output=True, timeout=30)
     try:
         out = json.loads(r.stdout.decode("utf-8", "replace").strip().splitlines()[-1])
     except Exception:
-        return "기록하지 못했다: " + r.stderr.decode("utf-8", "replace")[-300:]
+        return "받지 못했다: " + r.stderr.decode("utf-8", "replace")[-300:]
     if out.get("status") != "done":
-        return "기록하지 못했다: " + str(out.get("result"))
-    # 클로드 세션이 가져갈 수 있게 지시함에도 넣는다 (관제 갱신이 여기를 비운다)
-    subprocess.run([PY3, str(ROOT / "tools" / "inbox.py"), "add",
-                    json.dumps({"text": text, "who": "디스코드 · " + who}, ensure_ascii=False)],
-                   capture_output=True, timeout=30)
-    return ("적었다. 클로드가 다음 관제 갱신 때 가져간다." + "\n" + "\n" + out["result"] + "\n" + "\n" +
-            "실행·중지는 여기서 하지 않는다. 클로드가 세션에서 프로토콜을 읽고 판단해서 한다.")
+        return "받지 못했다: " + str(out.get("result"))
+    if trusted:
+        return "받았다. 클로드가 바로 가져간다."
+    return "받아서 적어 뒀다. 주인이 보낸 것이 아니라 바로 수행하지는 않는다."
 
 
 # 기본 명령어. `.discord.json` 의 "commands" 가 있으면 그쪽이 이긴다.
@@ -269,7 +279,7 @@ def help_text():
     return "\n".join(lines)
 
 
-def answer(text, who="?"):
+def answer(text, who="?", uid=None):
     """(제목, 본문) 또는 None — 아는 말이 아니면 조용히 넘긴다."""
     raw = text.strip().lstrip("!/")
     t = raw.lower()
@@ -278,7 +288,7 @@ def answer(text, who="?"):
             if t == k or t.startswith(k + " "):
                 title = FUNCS[key][1]
                 if key == "order":
-                    return title, record_order(raw[len(k):], who)
+                    return title, record_order(raw[len(k):], who, uid)
                 if key == "help":
                     return title, help_text()
                 return title, FUNCS[key][0]()
@@ -369,7 +379,7 @@ def bot():
             return
         if channel and m.channel.id != int(channel):     # 정해진 채널 밖은 무시한다
             return
-        a = answer(m.content, str(m.author.display_name))
+        a = answer(m.content, str(m.author.display_name), m.author.id)
         if not a:
             return
         title, body = a
@@ -405,7 +415,7 @@ def main():
     elif cmd == "test":
         print("보냄" if embed("연결 확인", "웹훅이 살아 있다. 이제 실험이 끝나거나 실패하면 알린다.", GREEN) else "보내지 못함")
     elif cmd == "ask":
-        a = answer(" ".join(sys.argv[2:]), "터미널")
+        a = answer(" ".join(sys.argv[2:]), "터미널", conf().get("owner"))
         print("%s\n%s" % a if a else "모르는 말이다.\n\n" + help_text())
     else:
         print(__doc__)
