@@ -46,3 +46,6 @@ __pycache__/
 .vscode/
 .idea/
 .DS_Store
+
+# 루트에 떨어진 잡 로그
+/log_*.txt
