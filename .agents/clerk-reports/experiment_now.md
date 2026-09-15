@@ -82,7 +82,7 @@
 | GraphMAE2 | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
 | MaskGAE | **34.4 ± 0.1** (Δ **−0.4**) | **39.4 ± 1.3** (Δ **+1.4**) | **3.2 ± 0.0** (Δ **+0.3**) | **0.2 ± 0.0** (Δ **−1.2**) | **29.9 ± 0.0** (Δ **+1.0**) | **36.3 ± 0.1** (Δ **−0.0**) | — pending | O.O.T skip |
 | GGD (H-GD) | **8.0 ± 0.0** (Δ **+1.7**) | **6.7 ± 0.4** (Δ **+0.7**) | **0.3 ± 0.1** (Δ **+0.0**) | **0.1 ± 0.0** (Δ **+0.1**) | **4.0 ± 0.0** (Δ **−2.7**) | **3.7 ± 0.2** (Δ **−0.7**) | — pending | — pending |
-| TriCL | **39.0 ± 0.1** (Δ **+0.5**) | **45.2 ± 0.9** (Δ **+4.3**) | — pending | — pending | — pending | — pending | — pending | — pending |
+| TriCL | **39.0 ± 0.1** (Δ **+0.5**) | **45.2 ± 0.9** (Δ **+4.3**) | **5.4 ± 0.1** (Δ **−0.1**) | — pending | — pending | — pending | — pending | — pending |
 | HyperGCL | — pending | — pending | — pending | — pending | — pending | — pending | O.O.M skip | — pending |
 | HyperGRL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | O.O.T skip |
 | HypeBoy | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |

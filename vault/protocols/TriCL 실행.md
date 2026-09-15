@@ -2,14 +2,14 @@
 type: protocol
 model: TriCL
 env: hgnn-pyg
-updated: 2026-09-15 19:33
+updated: 2026-09-15 19:34
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # TriCL 실행
 
-결과 → [[TriCL]] · 코드 `TriCL/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 19:33</small>
+결과 → [[TriCL]] · 코드 `TriCL/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 19:34</small>
 
 ## 정식 명령 (`TriCL/118.sh`)
 
@@ -28,7 +28,7 @@ conda run --no-capture-output -n hgnn-pyg bash -lc '\
 | 스크립트 | `118.sh` · `exp_embed.sh` · `time_node.sh` |
 | 실행에 쓴 run-scripts | `edge-tricl-six-after-gpu1.sh` · `formal118-house-remaining-gpu1.sh` · `formal118-house-resume-gpu1.sh` · `formal118-pending5-gpu1.sh` · `node-failure-repair-gpu1.sh` · `node-priority-order-after-hypergcn.sh` |
 | 게이트 파일 | — |
-| 정식 완료 | NC 6칸 · HP 6칸 · CD 2칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 3칸 |
 | 돌리지 말 것 | 없음 |
 
 관련: [[실행 규약]] · [[TriCL]]

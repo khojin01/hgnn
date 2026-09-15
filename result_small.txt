@@ -230,3 +230,5 @@ pubmed_cite,HGD,62.1 ± 5.0
 aminer,HGD,16.5 ± 2.6
 citeseer_cite,TriCL,52.7 ± 13.8
 cora_coauth,TriCL,61.8 ± 5.9
+imdb,TriCL,47.7 ± 5.1
+house,TriCL,63.2 ± 6.8
