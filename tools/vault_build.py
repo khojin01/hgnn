@@ -692,7 +692,7 @@ AGENTS = [
          role="결과 원장 관리자. 정식 20-seed 실행이 끝나면 `experiment_now.md` 에 값과 논문 Δ를 기록하고, 한글 보고서(개별/통합)를 쓴다. smoke 결과는 표에 올리지 않는다.",
          inputs="results/ · full-runs/status.tsv · paper_reference.json",
          outputs="clerk-reports/experiment_now.md · 개별/ · 통합/ · README.md",
-         process="clerk-refresh-loop.sh", activity=["clerk-reports/experiment_now.md", "env-status/clerk-refresh-loop.log", "clerk-reports/개별"]),
+         process="clerk-refresh-loop.sh", activity=["clerk-reports/experiment_now.md", "clerk-reports/개별"]),
     dict(name="env-builder", file=".agents/env-builder.md",
          role="모델별 Conda 환경 구축·유지. 모델 코드는 건드리지 않고 환경 변경과 차단 요인을 기록한다. HyperGCL 은 다른 모델이 모두 끝난 뒤에만.",
          inputs="*_require.txt · env-checker 피드백",
