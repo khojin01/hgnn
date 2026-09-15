@@ -37,8 +37,7 @@ run() {  # run <이름> <스크립트> [인자…] — 출력은 $OUT, 실패하
   OUT=$("$PYTHON" "$@" 2>&1); status=$?
   if (( status != 0 )); then
     log "FAIL $name 종료 코드 $status"
-    printf '%s
-' "$OUT" | tail -5 >>"$LOG"
+    echo "$OUT" | tail -5 >>"$LOG"
     trim
     exit "$status"
   fi
