@@ -751,8 +751,9 @@ def note_agents(dry):
         summary.append((a, state, pill, proc, act))
     lines += ["| 에이전트 | 상태 | 프로세스 | 마지막 활동 | 산출물 |", "|---|---|---|---|---|"]
     for a, state, pill, proc, act in summary:
-        pr = f"PID {proc[0]} · {dur(proc[1])}" if proc else "<span class=\"lgn\">상주 프로세스 없음 (Claude 세션에서 호출)</span>"
-        la = f"{ago(act[0])} · `{act[1]}`" if act else "—"
+        pr = (f"PID {proc[0]} · 시작 {(t0 - timedelta(seconds=proc[1])).strftime('%m-%d %H:%M')}"
+              if proc else "<span class=\"lgn\">상주 프로세스 없음 (Claude 세션에서 호출)</span>")
+        la = f"{act[0].strftime('%m-%d %H:%M')} · `{act[1]}`" if act else "—"
         lines.append(f"| [[#{a['name']}\\|{a['name']}]] | <span class=\"pill {pill}\">{state}</span> | {pr} | {la} | {a['outputs']} |")
     lines.append("")
 
@@ -793,13 +794,10 @@ def note_agents(dry):
                 qn = sum(1 for l in queue.read_text(encoding="utf-8", errors="replace").splitlines() if l.startswith("- ") or l.startswith("| "))
             lines += [f"최근 보고서 {len(reports)}건 · 갱신 대기열 {qn}줄", ""]
             lines += [f"- `{p.name}`" for p in reversed(reports)] + [""]
-            loglines = sh(f"tail -3 '{ENV_STATUS / 'clerk-refresh-loop.log'}'").strip().splitlines()
-            if loglines:
-                lines += ["루프 로그 꼬리:", "", "```"] + [l[:120] for l in loglines] + ["```", ""]
         if a["name"] == "env-checker":
             oks = sorted(ENV_STATUS.glob("*.ok"))
             if oks:
-                lines += ["게이트 파일: " + " · ".join(f"`{p.name}` ({ago(mtime(p))})" for p in oks), ""]
+                lines += ["게이트 파일: " + " · ".join(f"`{p.name}` ({mtime(p).strftime('%m-%d %H:%M')})" for p in oks), ""]
     lines += ["관련: [[대시보드]] · [[Home]]"]
     return write_note(VAULT / "에이전트.md", "\n".join(lines), front("overview", host=HOST), dry)
 
