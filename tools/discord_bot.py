@@ -53,7 +53,7 @@ def conf():
 
 
 def webhook():
-    w = str(conf().get("webhook", ""))
+    w = str(conf().get("webhook", "")).replace("discordapp.com", "discord.com")   # 옛 주소도 받는다
     return w if w.startswith("https://discord.com/api/webhooks/") else None
 
 
