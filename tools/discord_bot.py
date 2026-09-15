@@ -297,7 +297,7 @@ def bot():
 
     @client.event
     async def on_ready():
-        print("봇 접속: %s" % client.user)
+        print("봇 접속: %s · 서버 %d개" % (client.user, len(client.guilds)), flush=True)
 
     @client.event
     async def on_message(m):
