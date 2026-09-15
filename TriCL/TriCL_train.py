@@ -200,6 +200,7 @@ def node_prediction_linear_eval(args,node_splits,embeds,data):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('tricl unsupervised learning.')
     parser.add_argument('--data', type=str, default='cora_coauth')
+    parser.add_argument("--save-emb", dest="save_emb", type=str, default=None)
     parser.add_argument('--model_type', type=str, default='tricl', choices=['tricl_n', 'tricl_ng', 'tricl'])
     parser.add_argument('--num_seeds', type=int, default=20)
     parser.add_argument('--epoch', type=int, default=200)
@@ -241,6 +242,14 @@ if __name__ == '__main__':
         with torch.no_grad():
             model.eval() 
             embeds,_=model(data.features,data.hyperedge_index)
+        # Table 5(커뮤니티 탐지)용. 경로를 주면 노드 임베딩을 저장만 한다. 안 주면 원래 동작 그대로다.
+        if getattr(args, "save_emb", None):
+            import pickle as _pickle, os as _os
+            _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+            with open(args.save_emb, "wb") as _f:
+                _pickle.dump(embeds.detach().cpu().numpy(), _f)
+            print("saved embeddings:", args.save_emb)
+
         valid_results, test_results, epoch_results = node_prediction_linear_eval(args,node_splits,embeds,data)
     else: #edge
         valid_results,test_results=[],[]
