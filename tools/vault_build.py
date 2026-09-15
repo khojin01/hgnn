@@ -397,7 +397,7 @@ AGENTS = [
          role="정식 20-seed 실행이 끝나면 `experiment_now.md` 에 값과 논문 Δ를 기록하고, 한글 보고서(개별/통합)를 쓴다. smoke 결과는 표에 올리지 않는다.",
          inputs="`results/` · `full-runs/status.tsv` · `paper_reference.json`",
          outputs="`clerk-reports/experiment_now.md` · `개별/` · `통합/`",
-         process="clerk-refresh-loop.sh", activity=["clerk-reports/experiment_now.md", "clerk-reports/개별"]),
+         process="tools/refresh_all.sh (cron 1분)", activity=["clerk-reports/experiment_now.md", "clerk-reports/개별"]),
     dict(name="env-builder", file=".agents/env-builder.md", short="Conda 환경 구축",
          role="모델별 Conda 환경을 만들고 유지한다. 모델 코드는 건드리지 않고 환경 변경과 차단 요인을 기록한다. HyperGCL 은 다른 모델이 모두 끝난 뒤에만.",
          inputs="`*_require.txt` · env-checker 피드백", outputs="`env-status/env-builder.md` · `edge-builder-report.md`",
@@ -517,8 +517,8 @@ def note_protocol_common(tasks, dry):
              "## 돌리지 말 것 (논문이 O.O.M / O.O.T 로 보고)", ""] + [f"- {x}" for x in oom] + ["",
              "## 데이터셋 이름", "", md_table(["원시 이름", "논문 표기"], [[k, v] for k, v in DATASET_ALIAS.items()]), "",
              "## 결과가 원장에 오르는 길", "",
-             "`results/*.txt` → clerk 루프(10분)가 `experiment_now.md` 에 값·Δ 기록 → `collector.py`(5분)가 `state.json` → `vault_build.py`(1분)가 [[논문 대조]] · `knowledge/models/` 갱신.",
-             "실험 직후 노트에 안 보이면 이 세 단계 중 어디서 멈췄는지 `dashboard/refresh.log` · `.agents/env-status/clerk-refresh-loop.log` 로 본다."]
+             "`results/*.txt` → `tools/refresh_all.sh` 가 1분마다 한 줄로 돌린다: `clerk_refresh.py` 가 `experiment_now.md` 에 값·Δ 기록 → `collector.py` 가 `state.json` → `vault_build.py` 가 [[논문 대조]] · `knowledge/models/` 갱신 → 바뀐 노트만 커밋·푸시.",
+             "실험 직후 노트에 안 보이면 어느 단계에서 멈췄는지 `dashboard/pipeline.log` 로 본다."]
     return write_note(PROT / "실행 규약.md", "\n".join(lines), front("protocol"), dry,
                       tail_default="\n\n## 함정과 판단\n\n<!-- 클로드·사람이 실험하며 알게 된 것을 여기 쌓는다. 위 AUTO 구간은 덮어써진다. -->\n\n")
 
@@ -733,16 +733,15 @@ def run_dirs():
 
 
 def automation():
-    pats = [("clerk 갱신 루프 (10분)", "clerk-refresh-loop.sh"), ("collector 루프 (5분)", "dashboard/collector.py"),
-            ("웹 대시보드 :8765", "dashboard/server.py")]
+    pats = [("웹 대시보드 :8765", "dashboard/server.py")]
     ps = sh("ps -eo pid,etimes,args --no-headers")
     rows = []
     for label, pat in pats:
         hit = [l for l in ps.splitlines() if pat in l and "grep" not in l and "ssh" not in l]
         rows.append(dict(name=label, on=bool(hit), pid=int(hit[0].split()[0]) if hit else None, uptime=int(hit[0].split()[1]) if hit else None))
-    t = mtime(VAULT / ".sync.log")
-    rows.append(dict(name="vault 동기화 (cron 1분)", on=bool(t and (now() - t).total_seconds() < 180), pid=None,
-                     uptime=None, last=t.isoformat() if t else None))
+    t = mtime(ROOT / "dashboard" / "pipeline.log")
+    rows.insert(0, dict(name="실험 파이프라인 (cron 1분)", on=bool(t and (now() - t).total_seconds() < 180), pid=None,
+                        uptime=None, last=t.isoformat() if t else None))
     return rows
 
 
