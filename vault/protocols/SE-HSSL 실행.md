@@ -2,14 +2,14 @@
 type: protocol
 model: SE-HSSL
 env: hgnn-pyg
-updated: 2026-09-15 22:52
+updated: 2026-09-15 22:53
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # SE-HSSL 실행
 
-결과 → [[SE-HSSL]] · 코드 `SEHSSL/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 22:52</small>
+결과 → [[SE-HSSL]] · 코드 `SEHSSL/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 22:53</small>
 
 ## 정식 명령 (`SEHSSL/118.sh`)
 
@@ -22,7 +22,7 @@ tags: [hgnn/protocol]
 | 스크립트 | `node.sh` · `time.sh` |
 | 실행에 쓴 run-scripts | `cd-sehssl.sh` · `edge-sehssl-six-after-gpu0.sh` · `formal118-house-remaining-gpu1.sh` · `formal118-house-resume-gpu1.sh` · `formal118-pending5-gpu1.sh` |
 | 게이트 파일 | — |
-| 정식 완료 | NC 6칸 · HP 6칸 · CD 5칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 6칸 |
 | 돌리지 말 것 | 없음 |
 
 관련: [[실행 규약]] · [[SE-HSSL]]
