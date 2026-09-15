@@ -733,7 +733,7 @@ def run_dirs():
 
 
 def automation():
-    pats = [("웹 대시보드 :8765", "dashboard/server.py")]
+    pats = [("웹 대시보드 :8765", "dashboard/server.py"), ("디스코드 봇", "discord_bot.py bot")]
     ps = sh("ps -eo pid,etimes,args --no-headers")
     rows = []
     for label, pat in pats:

@@ -58,3 +58,6 @@ dashboard/live.json
 dashboard/.pipeline.lock
 dashboard/pipeline.log
 dashboard/.refresh.lock
+/.discord.json
+dashboard/.discord_seen.json
+dashboard/discord.log
