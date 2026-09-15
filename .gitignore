@@ -49,3 +49,6 @@ __pycache__/
 
 # 루트에 떨어진 잡 로그
 /log_*.txt
+
+# collector 가 5분마다 다시 쓰는 파생 파일 (원본은 experiment_now.md)
+dashboard/state.json

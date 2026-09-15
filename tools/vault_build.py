@@ -728,7 +728,7 @@ def note_agents(dry):
     t0 = now()
     ps = sh("ps -eo pid,etimes,args --no-headers")
     lines = [f"# 에이전트 <span class=\"m\">{HOST}</span>", "",
-             f"<span class=\"lgn\">정의서 `.agents/*.md` · 상태는 프로세스와 산출물 파일의 갱신 시각에서 읽는다 · {t0.strftime('%Y-%m-%d %H:%M')}</span>", ""]
+             f"<span class=\"lgn\">정의서 `.agents/*.md` · 상태는 프로세스와 산출물 파일의 시각에서 읽는다 · 갱신 {t0.strftime('%Y-%m-%d %H:%M')}</span>", ""]
     summary = []
     detail = []
     for a in AGENTS:
@@ -905,7 +905,7 @@ def note_home(tasks, dry, n_charts):
              "- [[에이전트]] — clerk / env-builder / env-checker 의 역할과 활성 상태", "",
              "## 결과", "",
              "- [[논문 대조]] — HyperGC Table 3·4·5 vs 우리 정식 결과, Δ 배지", ""]
-    if n_charts:
+    if (VAULT / "Charts.md").exists():          # 차트는 5분에 한 번만 그리므로 파일 존재로 판단
         lines += ["- [[Charts]] — 태스크별 히트맵·순위", ""]
     lines += ["## 모델", ""] + [f"- [[{m}]]" for m in models] + ["", "## 데이터셋", ""] + [f"- [[{d}]]" for d in datasets]
     lines += ["", "## 어떻게 갱신되나", "",
