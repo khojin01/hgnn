@@ -54,10 +54,6 @@ run build_report  "$ROOT/dashboard/build_report.py"
 run vault_build   "$ROOT/tools/vault_build.py"
 build=$OUT
 
-# 텔레그램 — .telegram.json 이 있을 때만 움직인다. 없으면 두 줄 다 조용히 지나간다.
-"$PYTHON" "$ROOT/tools/telegram.py" notify >/dev/null 2>>"$LOG"
-"$PYTHON" "$ROOT/tools/telegram.py" ensure-bot >/dev/null 2>>"$LOG"
-
 # git — 저장소가 아니면 여기서 끝.
 # vault_build.py 가 '날짜만 바뀐 경우' 를 스스로 건너뛰므로, diff 가 있으면 실제로 값이 바뀐 것이다.
 cd "$ROOT" || exit 1
