@@ -2,14 +2,14 @@
 type: protocol
 model: HypeBoy
 env: hgnn-pyg
-updated: 2026-09-15 19:19
+updated: 2026-09-15 22:17
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # HypeBoy 실행
 
-결과 → [[HypeBoy]] · 코드 `Hypeboy/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 19:19</small>
+결과 → [[HypeBoy]] · 코드 `Hypeboy/` · 환경 `hgnn-pyg` · <small>갱신 2026-09-15 22:17</small>
 
 ## 정식 명령 (`Hypeboy/118.sh`)
 
@@ -36,9 +36,9 @@ conda run --no-capture-output -n hgnn-pyg bash -lc '\
 | 항목 | 내용 |
 |---|---|
 | 스크립트 | `118.sh` · `time_node.sh` |
-| 실행에 쓴 run-scripts | `edge-phenom-hypeboy-after-hgd-gpu0.sh` · `formal118-house-gpu0.sh` · `formal118-hypeboy-node-gpu0.sh` |
+| 실행에 쓴 run-scripts | `cd-hypeboy.sh` · `edge-phenom-hypeboy-after-hgd-gpu0.sh` · `formal118-house-gpu0.sh` · `formal118-hypeboy-node-gpu0.sh` |
 | 게이트 파일 | — |
-| 정식 완료 | NC 6칸 · HP 6칸 · CD 0칸 |
+| 정식 완료 | NC 6칸 · HP 6칸 · CD 1칸 |
 | 돌리지 말 것 | 없음 |
 
 관련: [[실행 규약]] · [[HypeBoy]]

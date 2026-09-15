@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 6
 hp_done: 6
 hp_agree: 6
-cd_done: 0
+cd_done: 1
 cd_agree: 0
-max_abs_delta: 1.0
-worst_cell: "노드 분류 House +1.0"
+max_abs_delta: 2.2
+worst_cell: "커뮤니티 탐지 Citeseer −2.2"
 status: complete
-updated: 2026-09-15 19:19
+updated: 2026-09-15 22:17
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HypeBoy
 
-실행법 → [[HypeBoy 실행]] · 코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · <small>갱신 2026-09-15 19:19</small>
+실행법 → [[HypeBoy 실행]] · 코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · <small>갱신 2026-09-15 22:17</small>
 
-NC 6/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 House +1.0
+NC 6/6 일치 · HP 6/6 일치 · CD 0/1 일치 · 최대 편차 커뮤니티 탐지 Citeseer −2.2
 
 ## Node classification — Table 3 · Accuracy
 
@@ -52,7 +52,7 @@ NC 6/6 일치 · HP 6/6 일치 · 최대 편차 노드 분류 House +1.0
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
-| [[Citeseer]] | — | 40.9 |  | pending |
+| [[Citeseer]] | 38.7 <span class="sd">±0.1</span> | 40.9 | <span class="d warn">−2.2</span> |  |
 | [[Cora-CA]] | — | 41.9 |  | pending |
 | [[IMDB]] | — | 8.6 |  | pending |
 | [[House]] | — | 0.0 |  | pending |

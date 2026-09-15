@@ -347,3 +347,5 @@
 - [2026-09-15 19:25 KST] 갱신 요청: `results/result_pubmed_cite_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
 
 - [2026-09-15 19:25 KST] 갱신 요청: `results/result_aminer_H-GD_cluster.txt` — 원장 Community detection 표에 H-GD 행이 없음
+
+- [2026-09-15 22:17 KST] 갱신 요청: `results/result_Hypeboy_time.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님

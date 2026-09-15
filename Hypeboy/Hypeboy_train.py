@@ -25,6 +25,8 @@ if __name__ == "__main__" :
     parser.add_argument('-p_x', '--p_x', type=float, default=0.4)
     parser.add_argument('-p_e', '--p_e', type=float, default=0.9)
     parser.add_argument('-device', '--device', type=str, default='cuda:1')
+    # Table 5(커뮤니티 탐지)용 — 경로를 주면 자기지도 학습이 끝난 인코더의 노드 임베딩을 저장만 한다.
+    parser.add_argument('--save-emb', dest='save_emb', type=str, default=None)
     args = parser.parse_args()
     
     ## Related information
@@ -97,6 +99,18 @@ if __name__ == "__main__" :
         path=f'./results/result_Hypeboy_time.txt'
         with open(path, 'a+') as write_obj:
             write_obj.write(f'{data_name}=> {time}\n')
+
+        if args.save_emb:
+            import os as _os
+            encoder.load_state_dict(parameters)
+            encoder.eval()
+            with torch.no_grad():
+                _Z = encoder(X, H.to(device), torch.max(H[0]) + 1, torch.max(H[1]) + 1).detach()
+            _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+            with open(args.save_emb, 'wb') as _f:
+                pickle.dump(_Z.cpu().numpy(), _f)
+            print('saved embeddings:', args.save_emb)
+            raise SystemExit(0)
         for splits in tqdm(range(args.num_seeds)) : 
 
             train_idx, valid_idx, test_idx = data_splits[splits]
