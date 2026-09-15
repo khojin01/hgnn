@@ -694,6 +694,8 @@ def norm_contruction(data, option='all_one', TYPE='V2E'):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data', default='cora_cite')
+    # Table 5(커뮤니티 탐지)용 — 경로를 주면 첫 seed 학습이 끝난 뒤 노드 표현을 저장하고 멈춘다.
+    parser.add_argument('--save-emb', dest='save_emb', type=str, default=None)
     # method in ['SetGNN','CEGCN','CEGAT','HyperGCN','HGNN','HCHA']
     parser.add_argument('--method', default='AllDeepSets')
     parser.add_argument('--epochs', default=200, type=int)
@@ -875,6 +877,17 @@ if __name__ == '__main__':
                 result = evaluate_n(model, data, node_splits[seed], eval_func)
                 logger.add_result(local_seed, result[:3])
             
+            if getattr(args, "save_emb", None):
+                import pickle as _pickle, os as _os
+                model.eval()
+                with torch.no_grad():
+                    _z = model.forward_cl(copy.deepcopy(data).to(device))
+                _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+                with open(args.save_emb, "wb") as _f:
+                    _pickle.dump(_z[:data.features.shape[0]].detach().cpu().numpy(), _f)
+                print("saved embeddings:", args.save_emb, _z.shape)
+                raise SystemExit(0)
+
 
         else:
             data.hyperedge_index = edge_splits[seed][3].to(args.device)
