@@ -49,6 +49,8 @@ def build_args():
     parser = argparse.ArgumentParser(description="GAT")
     parser.add_argument("--num_seeds", type=int, default=20)
     parser.add_argument("--data", type=str, default="cora_cite")
+    # Table 5(커뮤니티 탐지)용 — 경로를 주면 학습 뒤 노드 임베딩을 저장만 한다.
+    parser.add_argument("--save-emb", dest="save_emb", type=str, default=None)
     parser.add_argument("--device", type=int, default=0)
     parser.add_argument("--max_epoch", type=int, default=200,
                         help="number of training epochs")

@@ -222,6 +222,14 @@ def main(args):
         with torch.no_grad():
             model.eval() 
             embeds=model.embed(graph,x)   
+        # Table 5(커뮤니티 탐지)용. 경로를 주면 노드 임베딩을 저장만 한다. 안 주면 원래 동작 그대로다.
+        if getattr(args, "save_emb", None):
+            import pickle as _pickle, os as _os
+            _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+            with open(args.save_emb, "wb") as _f:
+                _pickle.dump(embeds.detach().cpu().numpy(), _f)
+            print("saved embeddings:", args.save_emb)
+
         valid_results, test_results, epoch_results = node_prediction_linear_eval(args,node_splits,embeds,data)
 
 
