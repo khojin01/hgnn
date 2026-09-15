@@ -216,3 +216,4 @@ house,TriCL,84.6 ± 3.5
 pubmed_cite,TriCL,96.1 ± 0.6
 aminer,TriCL,86.0 ± 0.9
 house,HyperGCL,63.3 ± 9.5
+citeseer_cite,MaskGAE,52.7 ± 10.4

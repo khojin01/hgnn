@@ -184,6 +184,9 @@ if __name__=="__main__":
     parser.add_argument("--device", type=int, default=0)
     parser.add_argument('--full_data', action='store_true', help='Whether to use full data for pretraining. (default: False)')
     parser.add_argument("--task", type=str, default="node")
+    # Table 5(커뮤니티 탐지)용. 학습이 끝난 뒤 노드 임베딩을 이 경로에 저장만 한다.
+    # 주지 않으면 아무것도 바뀌지 않는다 — 기존 동작은 그대로다.
+    parser.add_argument("--save-emb", dest="save_emb", type=str, default=None)
     args = parser.parse_args()
 
     data = DatasetLoader().load(args.data).to(args.device)
@@ -244,6 +247,13 @@ if __name__=="__main__":
         with torch.no_grad():
             model.eval()
             embeds=model.encoder.get_embedding(graph_data.x,graph_data.edge_index)
+
+        if getattr(args, "save_emb", None):
+            import pickle as _pickle, os as _os
+            _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+            with open(args.save_emb, "wb") as _f:
+                _pickle.dump(embeds.detach().cpu().numpy(), _f)
+            print("saved embeddings:", args.save_emb)
 
         valid_results, test_results, epoch_results = node_prediction_linear_eval(args,node_splits,embeds,data)
 
