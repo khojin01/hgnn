@@ -81,7 +81,7 @@
 |---|---|---|---|---|---|---|---|---|
 | GraphMAE2 | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
 | MaskGAE | **34.4 ± 0.1** (Δ **−0.4**) | **39.4 ± 1.3** (Δ **+1.4**) | **3.2 ± 0.0** (Δ **+0.3**) | **0.2 ± 0.0** (Δ **−1.2**) | **29.9 ± 0.0** (Δ **+1.0**) | **36.3 ± 0.1** (Δ **−0.0**) | — pending | O.O.T skip |
-| GGD (H-GD) | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
+| GGD (H-GD) | **8.0 ± 0.0** (Δ **+1.7**) | **6.7 ± 0.4** (Δ **+0.7**) | **0.3 ± 0.1** (Δ **+0.0**) | **0.1 ± 0.0** (Δ **+0.1**) | **4.0 ± 0.0** (Δ **−2.7**) | **3.7 ± 0.2** (Δ **−0.7**) | — pending | — pending |
 | TriCL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | — pending |
 | HyperGCL | — pending | — pending | — pending | — pending | — pending | — pending | O.O.M skip | — pending |
 | HyperGRL | — pending | — pending | — pending | — pending | — pending | — pending | — pending | O.O.T skip |

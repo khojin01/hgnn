@@ -4,16 +4,16 @@ nc_models: 18
 nc_best: HypeBoy
 hp_models: 18
 hp_best: SE-HSSL
-cd_models: 2
+cd_models: 3
 cd_best: MaskGAE
-updated: 2026-09-15 19:20
+updated: 2026-09-15 19:27
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Citeseer
 
-<small>갱신 2026-09-15 19:20</small>
+<small>갱신 2026-09-15 19:27</small>
 
 ## Node classification — Accuracy
 
@@ -71,8 +71,9 @@ tags: [hgnn/dataset]
 |---:|---|---:|---:|---:|
 | 1 | [[MaskGAE]] | 34.4 <span class="sd">±0.1</span> | 34.8 | <span class="d ok">−0.4</span> |
 | 2 | [[VilLain]] | 9.1 <span class="sd">±4.5</span> | 11.3 | <span class="d warn">−2.2</span> |
+| 3 | [[GGD]] | 8.0 <span class="sd">±0.0</span> | 6.3 | <span class="d ok">+1.7</span> |
 
-<small>미실행·보류: GraphMAE2 (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: GraphMAE2 (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 

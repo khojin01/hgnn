@@ -4,16 +4,16 @@ nc_models: 17
 nc_best: PhenomNN
 hp_models: 17
 hp_best: TriCL
-cd_models: 2
+cd_models: 3
 cd_best: VilLain
-updated: 2026-09-15 19:20
+updated: 2026-09-15 19:27
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Pubmed
 
-<small>갱신 2026-09-15 19:20</small>
+<small>갱신 2026-09-15 19:27</small>
 
 ## Node classification — Accuracy
 
@@ -69,8 +69,9 @@ tags: [hgnn/dataset]
 |---:|---|---:|---:|---:|
 | 1 | [[VilLain]] | 32.9 <span class="sd">±0.0</span> | 32.9 | <span class="d ok">+0.0</span> |
 | 2 | [[MaskGAE]] | 29.9 <span class="sd">±0.0</span> | 28.9 | <span class="d ok">+1.0</span> |
+| 3 | [[GGD]] | 4.0 <span class="sd">±0.0</span> | 6.7 | <span class="d warn">−2.7</span> |
 
-<small>미실행·보류: GraphMAE2 (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: GraphMAE2 (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 

@@ -37,7 +37,7 @@ for row in "${settings[@]}"; do
   log="$OUT/$ds.log"
   date -Iseconds > "$log"
 
-  result="$ROOT/results/result_${ds}_${MODEL}_cluster.txt"
+  result="$ROOT/results/result_${ds}_HGD_cluster.txt"
   if [[ -s "$result" ]]; then
     echo "SKIP_EXISTING $result" >> "$log"; say "$ds" SKIP_EXISTING; continue
   fi
@@ -56,7 +56,7 @@ for row in "${settings[@]}"; do
   fi
 
   timeout 24h "$CONDA" run --no-capture-output -n "$ENV" \
-    python tools/cluster_eval.py --model-dir "$MODEL" --data "$ds" --emb "$emb" >> "$log" 2>&1
+    python tools/cluster_eval.py --model-dir "$MODEL" --data "$ds" --emb "$emb" --out-name HGD >> "$log" 2>&1
   code=$?
   if (( code == 0 )); then say "$ds" COMPLETE
   elif (( code == 124 )); then say "$ds" OOT
