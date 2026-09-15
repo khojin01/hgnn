@@ -61,8 +61,10 @@ def post(payload):
     url = webhook()
     if not url:
         return False
+    # 디스코드는 User-Agent 없는 요청을 막는다. 기본 urllib 헤더로는 403 이 온다.
     req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
-                                 headers={"Content-Type": "application/json"})
+                                 headers={"Content-Type": "application/json",
+                                          "User-Agent": "hgnn-lab/1.0 (+dms2 experiment monitor)"})
     try:
         with urllib.request.urlopen(req, timeout=20):
             return True
