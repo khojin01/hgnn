@@ -55,3 +55,9 @@ vault/
 사용자는 관제 아티팩트(연구 노트 탭)에서 `lab/다음 할 일.md` 의 체크리스트와 `lab/일지/<날짜>.md` 를 직접 고칠 수 있다.
 그 편집은 아티팩트 DB 의 `notes/todo` · `notes/journal` 에 쌓이고, 관제 갱신 루프가 `tools/note_write.py` 로 파일에 반영한다.
 `note_write.py` 는 stdin 으로 JSON 을 받아 파일만 쓴다. 할 일 목록은 통째로 교체되므로, 항목을 지우거나 순서를 바꾸는 편집은 사용자가 한 것이다.
+
+## 텔레그램
+
+`tools/telegram.py` 가 실험 알림과 조회를 맡는다. `refresh_all.sh` 가 매분 `notify` 로 상태 변화를 알리고
+`ensure-bot` 으로 조회 루프를 살려 둔다. 설정은 `.telegram.json` (토큰 · chat_id, 저장소에 안 들어간다).
+읽기 전용이다 — 봇으로 실험을 시작하거나 멈추지 않는다. 등록된 chat_id 외에는 응답하지 않는다.

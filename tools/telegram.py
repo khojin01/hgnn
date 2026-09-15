@@ -45,7 +45,8 @@ def conf():
         return None
     try:
         c = json.loads(CONF.read_text(encoding="utf-8"))
-        return c if c.get("token") else None
+        tok = str(c.get("token", ""))
+        return c if ":" in tok else None        # 자리표시자만 들어 있으면 없는 것으로 친다
     except Exception:
         return None
 
