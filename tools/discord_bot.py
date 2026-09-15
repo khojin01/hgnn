@@ -18,6 +18,19 @@
 알림은 파이썬 표준 라이브러리만 쓴다. 조회 루프만 discord.py 가 필요하고,
 그건 `~/.venvs/discord` 안에만 설치해서 실험 환경을 건드리지 않는다.
 
+## 부르는 말 바꾸기
+
+`.discord.json` 에 "commands" 를 넣으면 기본 단어를 갈아치운다. 왼쪽 기능 이름은 고정이고
+오른쪽 목록만 바꾼다. 없는 기능은 기본값을 쓰고, 빈 목록으로 두면 그 기능은 사라진다.
+
+    "commands": {
+      "status": ["상태", "ㅅㅌ", "how"],
+      "order":  ["시켜", "지시"],
+      "gpu":    ["gpu"]
+    }
+
+봇을 다시 띄울 필요 없다. 메시지마다 설정을 다시 읽는다.
+
 ## 무엇을 하지 않는가
 
 명령으로 셸을 돌리지 않는다. 실험을 시작하거나 멈추지 않는다. 파일을 읽어 답만 한다.
@@ -212,40 +225,63 @@ def record_order(text, who):
             "실행·중지는 여기서 하지 않는다. 클로드가 세션에서 프로토콜을 읽고 판단해서 한다.")
 
 
-HELP = """묻는 말에 답하고 지시를 받아 적는다. 실험을 직접 시작하거나 멈추지는 않는다.
+# 기본 명령어. `.discord.json` 의 "commands" 가 있으면 그쪽이 이긴다.
+# 왼쪽(기능 이름)은 고정이고, 오른쪽 목록만 마음대로 바꾼다.
+DEFAULT_WORDS = {
+    "status":  ["상태", "status"],
+    "gpu":     ["gpu", "지피유"],
+    "runs":    ["실행", "runs"],
+    "todo":    ["할일", "할 일", "todo"],
+    "journal": ["일지", "journal"],
+    "paper":   ["논문", "paper"],
+    "order":   ["지시", "order"],
+    "help":    ["도움말", "help", "?"],
+}
+FUNCS = {"status": (q_status, "실행 상태", "지금 무엇이 돌고 있나"),
+         "gpu": (q_gpu, "GPU", "GPU 사용률 (지금 값)"),
+         "runs": (q_runs, "최근 실행", "최근 실행 요약"),
+         "todo": (q_todo, "다음 할 일", "열린 할 일"),
+         "journal": (q_journal, "최근 일지", "최근 일지"),
+         "paper": (q_paper, "논문 대조", "논문 대조 요약"),
+         "order": (None, "지시 기록", "뒤에 쓴 내용을 다음 할 일에 적어 둔다"),
+         "help": (None, "실험 관리 봇", "이 안내")}
 
-`상태` 지금 무엇이 돌고 있나
-`gpu` GPU 사용률 (지금 값)
-`실행` 최근 실행 요약
-`할일` 열린 할 일
-`일지` 최근 일지
-`논문` 논문 대조 요약
-`지시 <내용>` 다음 할 일에 적어 둔다
-`도움말` 이 안내
 
-실행이 끝나거나 실패하면 묻지 않아도 알린다."""
+def words():
+    """기능 이름 → 그 기능을 부르는 말들. 설정에 없는 기능은 기본값을 쓴다."""
+    w = dict(DEFAULT_WORDS)
+    for k, v in (conf().get("commands") or {}).items():
+        if k in FUNCS:
+            w[k] = [str(x).strip().lower() for x in (v if isinstance(v, list) else [v]) if str(x).strip()]
+    return {k: v for k, v in w.items() if v}
 
-ROUTES = [
-    (("상태", "status", "지금"), "실행 상태", q_status),
-    (("gpu", "지피유", "그래픽"), "GPU", q_gpu),
-    (("실행", "runs", "run"), "최근 실행", q_runs),
-    (("할일", "할 일", "todo"), "다음 할 일", q_todo),
-    (("일지", "log", "journal"), "최근 일지", q_journal),
-    (("논문", "paper", "대조"), "논문 대조", q_paper),
-    (("도움말", "help", "?"), "실험 관리 봇", lambda: HELP),
-]
+
+def help_text():
+    w = words()
+    lines = ["묻는 말에 답하고 지시를 받아 적는다. 실험을 직접 시작하거나 멈추지는 않는다.", ""]
+    for k in ("status", "gpu", "runs", "todo", "journal", "paper", "order", "help"):
+        if k not in w:
+            continue
+        say = "`%s%s`" % (w[k][0], " <내용>" if k == "order" else "")
+        alt = (" (또는 %s)" % ", ".join(w[k][1:])) if len(w[k]) > 1 else ""
+        lines.append("%s %s%s" % (say, FUNCS[k][2], alt))
+    lines += ["", "실행이 끝나거나 실패하면 묻지 않아도 알린다."]
+    return "\n".join(lines)
 
 
 def answer(text, who="?"):
     """(제목, 본문) 또는 None — 아는 말이 아니면 조용히 넘긴다."""
     raw = text.strip().lstrip("!/")
     t = raw.lower()
-    for k in ("지시", "order"):
-        if t == k or t.startswith(k + " "):
-            return "지시 기록", record_order(raw[len(k):], who)
-    for keys, title, fn in ROUTES:
-        if any(t == k or t.startswith(k + " ") for k in keys):
-            return title, fn()
+    for key, keys in words().items():
+        for k in keys:
+            if t == k or t.startswith(k + " "):
+                title = FUNCS[key][1]
+                if key == "order":
+                    return title, record_order(raw[len(k):], who)
+                if key == "help":
+                    return title, help_text()
+                return title, FUNCS[key][0]()
     return None
 
 
@@ -370,7 +406,7 @@ def main():
         print("보냄" if embed("연결 확인", "웹훅이 살아 있다. 이제 실험이 끝나거나 실패하면 알린다.", GREEN) else "보내지 못함")
     elif cmd == "ask":
         a = answer(" ".join(sys.argv[2:]), "터미널")
-        print("%s\n%s" % a if a else "모르는 말이다.\n\n" + HELP)
+        print("%s\n%s" % a if a else "모르는 말이다.\n\n" + help_text())
     else:
         print(__doc__)
     return 0
