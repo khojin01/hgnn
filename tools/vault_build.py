@@ -734,7 +734,7 @@ def run_dirs():
 
 def automation():
     pats = [("clerk 갱신 루프 (10분)", "clerk-refresh-loop.sh"), ("collector 루프 (5분)", "dashboard/collector.py"),
-            ("웹 대시보드 :8765", "dashboard/server.py"), ("pixel bridge", "dashboard/pixel_bridge.py")]
+            ("웹 대시보드 :8765", "dashboard/server.py")]
     ps = sh("ps -eo pid,etimes,args --no-headers")
     rows = []
     for label, pat in pats:
