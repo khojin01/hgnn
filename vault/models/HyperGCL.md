@@ -1,14 +1,22 @@
 ---
 type: model
-datasets: 9
-updated: 2026-09-15 13:09
+nc_agree: 0
+nc_done: 3
+hp_agree: 0
+hp_done: 4
+max_abs_delta: 45.5
+worst_cell: "노드 분류 Cora-CA −45.5"
+status: partial
+code_dir: HyperGCL
+updated: 2026-09-15 14:20
 tags: [hgnn/model]
+cssclasses: [hg-model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGCL
 
-<span class="lgn">코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · 갱신 2026-09-15 13:09</span>
+<span class="lgn">코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · 갱신 2026-09-15 14:20</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">0/3</span><span class="note">|Δ| 중앙값 24.90</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">0/4</span><span class="note">|Δ| 중앙값 22.00</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">−45.5</span><span class="note">노드 분류 · Cora-CA</span></div></div>
 
@@ -26,6 +34,25 @@ tags: [hgnn/model]
 | [[MN-40]] | <span class="na">—</span> | 94.6 | | blocked-data |
 | [[20News]] | <span class="na">—</span> | 74.0 | | blocked-data |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, House]
+series:
+  - title: 우리
+    data: [18.5, 16.3, 54.6]
+  - title: 논문
+    data: [43.4, 61.8, 63.7]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 ## Hyperedge prediction <span class="m">Table 4 · AUROC</span>
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
@@ -39,6 +66,25 @@ tags: [hgnn/model]
 | [[DBLP-P]] | <span class="lim">OOM</span> | 83.6 | | O.O.M skip |
 | [[20News]] | <span class="na">—</span> | 76.3 | | blocked-data |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, IMDB, House]
+series:
+  - title: 우리
+    data: [51.9, 51.1, 50.9, 63.3]
+  - title: 논문
+    data: [73.9, 81.1, 53.8, 76.3]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 ## Community detection <span class="m">Table 5 · NMI</span>
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
@@ -49,7 +95,7 @@ tags: [hgnn/model]
 
 <div class="hg-legend"><span>우리값 <span class="sd">±표준편차</span></span><span class="d ok">±2 이내</span><span class="d warn">2–5</span><span class="d bad">5 초과</span><span class="lim">OOM</span><span class="lgn">논문이 수치를 못 낸 칸</span><span class="na">—</span><span class="lgn">미실행·보류</span></div>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[모델 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

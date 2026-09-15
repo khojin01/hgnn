@@ -1,14 +1,22 @@
 ---
 type: model
-datasets: 9
-updated: 2026-09-15 13:09
+nc_agree: 5
+nc_done: 6
+hp_agree: 6
+hp_done: 6
+max_abs_delta: 3.3
+worst_cell: "노드 분류 Cora-CA −3.3"
+status: complete
+code_dir: MaskGAE
+updated: 2026-09-15 14:20
 tags: [hgnn/model]
+cssclasses: [hg-model]
 ---
 
 <!-- AUTO:BEGIN -->
 # MaskGAE
 
-<span class="lgn">코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · 갱신 2026-09-15 13:09</span>
+<span class="lgn">코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · 갱신 2026-09-15 14:20</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">5/6</span><span class="note">|Δ| 중앙값 0.80</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">6/6</span><span class="note">|Δ| 중앙값 0.10</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">−3.3</span><span class="note">노드 분류 · Cora-CA</span></div></div>
 
@@ -26,6 +34,25 @@ tags: [hgnn/model]
 | [[MN-40]] | <span class="na">—</span> | 91.0 | | blocked-data |
 | [[20News]] | <span class="na">—</span> | — | | blocked-data |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, IMDB, House, Pubmed, AMiner]
+series:
+  - title: 우리
+    data: [52.7, 56.5, 44.7, 52.2, 74.6, 32.5]
+  - title: 논문
+    data: [53.2, 59.8, 45.0, 53.0, 75.4, 33.8]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 ## Hyperedge prediction <span class="m">Table 4 · AUROC</span>
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
@@ -39,6 +66,25 @@ tags: [hgnn/model]
 | [[DBLP-P]] | <span class="na">—</span> | 94.8 | | pending |
 | [[20News]] | <span class="lim">OOT</span> | — | | O.O.T skip |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, IMDB, House, Pubmed, AMiner]
+series:
+  - title: 우리
+    data: [86.7, 76.1, 54.5, 88.2, 95.5, 87.6]
+  - title: 논문
+    data: [86.7, 76.5, 54.4, 88.0, 95.5, 87.6]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 ## Community detection <span class="m">Table 5 · NMI</span>
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
@@ -49,7 +95,7 @@ tags: [hgnn/model]
 
 <div class="hg-legend"><span>우리값 <span class="sd">±표준편차</span></span><span class="d ok">±2 이내</span><span class="d warn">2–5</span><span class="d bad">5 초과</span><span class="lim">OOM</span><span class="lgn">논문이 수치를 못 낸 칸</span><span class="na">—</span><span class="lgn">미실행·보류</span></div>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[모델 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

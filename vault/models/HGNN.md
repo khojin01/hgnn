@@ -1,14 +1,22 @@
 ---
 type: model
-datasets: 9
-updated: 2026-09-15 13:09
+nc_agree: 5
+nc_done: 6
+hp_agree: 5
+hp_done: 6
+max_abs_delta: 2.3
+worst_cell: "하이퍼엣지 예측 IMDB +2.3"
+status: complete
+code_dir: HGNN
+updated: 2026-09-15 14:20
 tags: [hgnn/model]
+cssclasses: [hg-model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HGNN
 
-<span class="lgn">코드 `HGNN/` · 결과 `results/result_*_HGNN_*.txt` · 갱신 2026-09-15 13:09</span>
+<span class="lgn">코드 `HGNN/` · 결과 `results/result_*_HGNN_*.txt` · 갱신 2026-09-15 14:20</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">5/6</span><span class="note">|Δ| 중앙값 0.38</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">5/6</span><span class="note">|Δ| 중앙값 0.50</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">+2.3</span><span class="note">하이퍼엣지 예측 · IMDB</span></div></div>
 
@@ -26,6 +34,25 @@ tags: [hgnn/model]
 | [[MN-40]] | <span class="na">—</span> | 89.5 | | blocked-data |
 | [[20News]] | <span class="na">—</span> | 67.1 | | blocked-data |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, IMDB, House, Pubmed, AMiner]
+series:
+  - title: 우리
+    data: [38.1, 46.6, 41.9, 51.9, 70.6, 30.5]
+  - title: 논문
+    data: [38.1, 44.3, 41.5, 51.9, 70.8, 29.7]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 ## Hyperedge prediction <span class="m">Table 4 · AUROC</span>
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
@@ -39,9 +66,28 @@ tags: [hgnn/model]
 | [[DBLP-P]] | <span class="na">—</span> | 61.0 | | pending |
 | [[20News]] | <span class="na">—</span> | 49.4 | | blocked-data |
 
+```chart
+type: bar
+labels: [Citeseer, Cora-CA, IMDB, House, Pubmed, AMiner]
+series:
+  - title: 우리
+    data: [54.2, 64.5, 62.8, 50.0, 66.1, 69.1]
+  - title: 논문
+    data: [54.8, 65.0, 60.5, 50.4, 65.9, 69.6]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
+
 <div class="hg-legend"><span>우리값 <span class="sd">±표준편차</span></span><span class="d ok">±2 이내</span><span class="d warn">2–5</span><span class="d bad">5 초과</span><span class="lim">OOM</span><span class="lgn">논문이 수치를 못 낸 칸</span><span class="na">—</span><span class="lgn">미실행·보류</span></div>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[모델 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

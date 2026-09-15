@@ -1,0 +1,69 @@
+filters:
+  and:
+    - file.inFolder("hgnn/models")
+properties:
+  file.name:
+    displayName: 모델
+  nc_agree:
+    displayName: NC 일치
+  nc_done:
+    displayName: NC 완료
+  hp_agree:
+    displayName: HP 일치
+  hp_done:
+    displayName: HP 완료
+  max_abs_delta:
+    displayName: 최대 |Δ|
+  worst_cell:
+    displayName: 최대 편차 위치
+  status:
+    displayName: 상태
+  code_dir:
+    displayName: 코드
+views:
+  - type: table
+    name: 전체
+    order:
+      - file.name
+      - status
+      - nc_agree
+      - nc_done
+      - hp_agree
+      - hp_done
+      - max_abs_delta
+      - worst_cell
+    sort:
+      - property: max_abs_delta
+        direction: DESC
+  - type: table
+    name: 편차 5 초과
+    filters:
+      and:
+        - max_abs_delta > 5
+    order:
+      - file.name
+      - max_abs_delta
+      - worst_cell
+      - nc_agree
+      - hp_agree
+    sort:
+      - property: max_abs_delta
+        direction: DESC
+  - type: table
+    name: 미완료
+    filters:
+      and:
+        - status != "complete"
+    order:
+      - file.name
+      - status
+      - nc_done
+      - hp_done
+  - type: cards
+    name: 카드
+    order:
+      - file.name
+      - status
+      - nc_agree
+      - hp_agree
+      - max_abs_delta

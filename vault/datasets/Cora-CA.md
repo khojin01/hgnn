@@ -1,13 +1,19 @@
 ---
 type: dataset
-updated: 2026-09-15 13:09
+nc_models: 19
+nc_best: HypeBoy
+nc_best_value: 67.0
+hp_models: 18
+hp_best: HypeBoy
+hp_best_value: 87.4
+updated: 2026-09-15 14:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Cora-CA
 
-<span class="lgn">갱신 2026-09-15 13:09</span>
+<span class="lgn">갱신 2026-09-15 14:20</span>
 
 ## Node classification <span class="m">Accuracy</span>
 
@@ -32,6 +38,25 @@ tags: [hgnn/dataset]
 | 17 | [[VilLain]] | <span class="v">31.4</span><span class="sd">±4.1</span> | 31.4 | <span class="d ok">+0.0</span> |
 | 18 | [[GGD]] | <span class="v">28.3</span><span class="sd">±4.6</span> | 32.2 | <span class="d warn">−3.9</span> |
 | 19 | [[HyperGCL]] | <span class="v">16.3</span><span class="sd">±4.0</span> | 61.8 | <span class="d bad">−45.5</span> |
+
+```chart
+type: bar
+labels: [HypeBoy, GraphMAE2, SE-HSSL, TriCL, MaskGAE, PhenomNN, UniGCN2, AllSet, HNHN, UniGIN, UniGCN, HGNN, HyperGCN, HyperGRL, MLP, ED-HNN, VilLain, GGD, HyperGCL]
+series:
+  - title: 우리
+    data: [67.0, 64.0, 64.0, 61.9, 56.5, 56.3, 53.1, 53.1, 51.0, 47.6, 47.2, 46.6, 45.0, 42.0, 37.2, 36.5, 31.4, 28.3, 16.3]
+  - title: 논문
+    data: [67.0, 64.3, 63.9, 63.4, 59.8, 56.2, 55.3, 53.6, 53.1, 49.2, 46.3, 44.3, 45.0, 41.8, 36.0, 36.3, 31.4, 32.2, 61.8]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
 
 ## Hyperedge prediction <span class="m">AUROC</span>
 
@@ -58,6 +83,25 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: HyperGRL (unavailable: EP implementation missing)</span>
 
+```chart
+type: bar
+labels: [HypeBoy, SE-HSSL, TriCL, MaskGAE, GraphMAE2, VilLain, HGNN, UniGCN, UniGIN, ED-HNN, MLP, UniGCN2, HNHN, HyperGCL, AllSet, PhenomNN, HyperGCN, GGD]
+series:
+  - title: 우리
+    data: [87.4, 85.7, 85.0, 76.1, 74.7, 64.7, 64.5, 61.1, 59.7, 59.2, 58.6, 52.2, 51.8, 51.1, 50.8, 50.7, 48.9, 43.9]
+  - title: 논문
+    data: [87.3, 85.6, 87.8, 76.5, 74.7, 64.4, 65.0, 60.0, 58.7, 58.9, 58.6, 51.9, 51.6, 81.1, 51.2, 50.3, 49.3, 73.2]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
+
 ## Community detection <span class="m">NMI</span>
 
 | # | 모델 | 우리 | 논문 | Δ |
@@ -65,7 +109,7 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: VilLain (pending), HyperGCL (pending), MaskGAE (pending), HyperGRL (pending)</span>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

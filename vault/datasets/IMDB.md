@@ -1,13 +1,19 @@
 ---
 type: dataset
-updated: 2026-09-15 13:09
+nc_models: 17
+nc_best: SE-HSSL
+nc_best_value: 48.9
+hp_models: 18
+hp_best: HGNN
+hp_best_value: 62.8
+updated: 2026-09-15 14:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # IMDB
 
-<span class="lgn">갱신 2026-09-15 13:09</span>
+<span class="lgn">갱신 2026-09-15 14:20</span>
 
 ## Node classification <span class="m">Accuracy</span>
 
@@ -32,6 +38,25 @@ tags: [hgnn/dataset]
 | 17 | [[GGD]] | <span class="v">36.7</span><span class="sd">±2.6</span> | 37.6 | <span class="d ok">−0.9</span> |
 
 <span class="lgn">미실행·보류: HyperGRL (OOM), HyperGCL (diagnostic only: splits 19–20 (no formal aggregate))</span>
+
+```chart
+type: bar
+labels: [SE-HSSL, HypeBoy, TriCL, GraphMAE2, MaskGAE, UniGCN2, PhenomNN, HGNN, HNHN, UniGIN, HyperGCN, UniGCN, AllSet, VilLain, MLP, ED-HNN, GGD]
+series:
+  - title: 우리
+    data: [48.9, 48.0, 47.9, 44.7, 44.7, 42.5, 42.1, 41.9, 41.8, 41.1, 40.6, 40.5, 40.5, 39.2, 38.2, 38.0, 36.7]
+  - title: 논문
+    data: [48.9, 48.3, 47.5, 45.6, 45.0, 41.6, 42.1, 41.5, 42.5, 41.7, 40.6, 41.0, 41.7, 39.7, 37.6, 37.2, 37.6]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
 
 ## Hyperedge prediction <span class="m">AUROC</span>
 
@@ -58,7 +83,26 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: HyperGRL (unavailable: EP implementation missing)</span>
 
-관련: [[논문 대조]] · [[Home]]
+```chart
+type: bar
+labels: [HGNN, HypeBoy, UniGCN2, TriCL, MaskGAE, SE-HSSL, UniGIN, UniGCN, HyperGCL, AllSet, PhenomNN, ED-HNN, HyperGCN, HNHN, GraphMAE2, GGD, VilLain, MLP]
+series:
+  - title: 우리
+    data: [62.8, 59.3, 57.1, 56.8, 54.5, 54.1, 53.9, 53.3, 50.9, 50.6, 49.8, 49.1, 48.4, 48.2, 47.4, 46.1, 43.6, 41.7]
+  - title: 논문
+    data: [60.5, 59.4, 57.5, 58.9, 54.4, 55.6, 54.6, 53.7, 53.8, 50.3, 49.7, 49.4, 48.4, 48.2, 47.2, 53.1, 43.9, 42.0]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
+
+관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

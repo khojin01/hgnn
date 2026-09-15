@@ -1,13 +1,19 @@
 ---
 type: dataset
-updated: 2026-09-15 13:09
+nc_models: 19
+nc_best: MLP
+nc_best_value: 73.1
+hp_models: 18
+hp_best: MaskGAE
+hp_best_value: 88.2
+updated: 2026-09-15 14:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # House
 
-<span class="lgn">갱신 2026-09-15 13:09</span>
+<span class="lgn">갱신 2026-09-15 14:20</span>
 
 ## Node classification <span class="m">Accuracy</span>
 
@@ -32,6 +38,25 @@ tags: [hgnn/dataset]
 | 17 | [[GGD]] | <span class="v">49.9</span><span class="sd">±1.3</span> | 50.6 | <span class="d ok">−0.7</span> |
 | 18 | [[VilLain]] | <span class="v">49.3</span><span class="sd">±1.5</span> | 50.6 | <span class="d ok">−1.3</span> |
 | 19 | [[HyperGCN]] | <span class="v">48.2</span><span class="sd">±0.9</span> | 48.2 | <span class="d ok">+0.0</span> |
+
+```chart
+type: bar
+labels: [MLP, ED-HNN, PhenomNN, HypeBoy, TriCL, SE-HSSL, UniGCN2, HNHN, HyperGCL, MaskGAE, GraphMAE2, HGNN, UniGCN, UniGIN, HyperGRL, AllSet, GGD, VilLain, HyperGCN]
+series:
+  - title: 우리
+    data: [73.1, 71.7, 69.4, 68.7, 63.5, 60.7, 58.7, 56.7, 54.6, 52.2, 52.0, 51.9, 51.5, 51.0, 50.6, 50.2, 49.9, 49.3, 48.2]
+  - title: 논문
+    data: [73.1, 71.0, 69.4, 67.7, 65.2, 48.0, 58.8, 56.7, 63.7, 53.0, 52.4, 51.9, 51.7, 50.8, 50.4, 50.3, 50.6, 50.6, 48.2]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
 
 ## Hyperedge prediction <span class="m">AUROC</span>
 
@@ -58,7 +83,26 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: HyperGRL (unavailable: EP implementation missing)</span>
 
-관련: [[논문 대조]] · [[Home]]
+```chart
+type: bar
+labels: [MaskGAE, HyperGCN, HypeBoy, TriCL, SE-HSSL, VilLain, GraphMAE2, HNHN, HyperGCL, MLP, AllSet, PhenomNN, ED-HNN, UniGCN, UniGIN, UniGCN2, HGNN, GGD]
+series:
+  - title: 우리
+    data: [88.2, 87.7, 87.0, 84.6, 79.9, 77.5, 71.8, 69.7, 63.3, 54.8, 53.5, 50.6, 50.3, 50.0, 50.0, 50.0, 50.0, 50.0]
+  - title: 논문
+    data: [88.0, 87.7, 87.2, 90.0, 80.4, 77.2, 71.6, 69.7, 76.3, 54.8, 53.5, 50.8, 50.6, 50.0, 50.0, 50.0, 50.4, 87.9]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
+
+관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

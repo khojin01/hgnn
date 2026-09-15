@@ -1,14 +1,22 @@
 ---
 type: model
-datasets: 9
-updated: 2026-09-15 13:09
+nc_agree: 2
+nc_done: 2
+hp_agree: 0
+hp_done: 0
+max_abs_delta: 0.2
+worst_cell: "노드 분류 Cora-CA +0.2"
+status: partial
+code_dir: HyperGRL
+updated: 2026-09-15 14:20
 tags: [hgnn/model]
+cssclasses: [hg-model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGRL
 
-<span class="lgn">코드 `HyperGRL/` · 결과 `results/result_*_HyperGRL_*.txt` · 갱신 2026-09-15 13:09</span>
+<span class="lgn">코드 `HyperGRL/` · 결과 `results/result_*_HyperGRL_*.txt` · 갱신 2026-09-15 14:20</span>
 
 <div class="hg-cards"><div class="hg-card"><span class="k">NC 일치</span><span class="big">2/2</span><span class="note">|Δ| 중앙값 0.20</span></div><div class="hg-card"><span class="k">HP 일치</span><span class="big">0/0</span><span class="note">정식 결과 없음</span></div><div class="hg-card"><span class="k">최대 편차</span><span class="big">+0.2</span><span class="note">노드 분류 · Cora-CA</span></div></div>
 
@@ -25,6 +33,25 @@ tags: [hgnn/model]
 | [[DBLP-A]] | <span class="na">—</span> | 41.1 | | blocked-data |
 | [[MN-40]] | <span class="na">—</span> | 89.4 | | blocked-data |
 | [[20News]] | <span class="na">—</span> | — | | blocked-data |
+
+```chart
+type: bar
+labels: [Cora-CA, House]
+series:
+  - title: 우리
+    data: [42.0, 50.6]
+  - title: 논문
+    data: [41.8, 50.4]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 220px
+```
+
 
 ## Hyperedge prediction <span class="m">Table 4 · AUROC</span>
 
@@ -49,7 +76,7 @@ tags: [hgnn/model]
 
 <div class="hg-legend"><span>우리값 <span class="sd">±표준편차</span></span><span class="d ok">±2 이내</span><span class="d warn">2–5</span><span class="d bad">5 초과</span><span class="lim">OOM</span><span class="lgn">논문이 수치를 못 낸 칸</span><span class="na">—</span><span class="lgn">미실행·보류</span></div>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[모델 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

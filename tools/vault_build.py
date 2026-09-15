@@ -227,12 +227,32 @@ def write_note(path, body, frontmatter=None, dry_run=False, volatile=False):
     return True
 
 
-def front(kind, **kw):
-    lines = [f"type: {kind}"] + [f"{k}: {v}" for k, v in kw.items()]
+def front(kind, css=None, **kw):
+    lines = [f"type: {kind}"]
+    for k, v in kw.items():
+        if isinstance(v, str) and not re.match(r"^[\w.\-]+$", v):
+            v = '"' + v.replace('"', "'") + '"'
+        lines.append(f"{k}: {v}")
     lines.append(f"updated: {now().strftime('%Y-%m-%d %H:%M')}")
     tag = {"model": "hgnn/model", "dataset": "hgnn/dataset", "agent": "hgnn/agent"}.get(kind, "hgnn/overview")
     lines.append(f"tags: [{tag}]")
+    if css:
+        lines.append(f"cssclasses: [{css}]")
     return lines
+
+
+def chart_block(labels, series, kind="bar", height=None, begin_zero=False):
+    """obsidian-charts 코드블록. 플러그인이 없으면 그냥 코드블록으로 보인다."""
+    out = ["```chart", f"type: {kind}", "labels: [" + ", ".join(labels) + "]", "series:"]
+    for title, data in series:
+        out += [f"  - title: {title}",
+                "    data: [" + ", ".join("null" if v is None else f"{v:.1f}" for v in data) + "]"]
+    out += ["tension: 0.2", "width: 100%", "labelColors: false", "fill: false",
+            f"beginAtZero: {'true' if begin_zero else 'false'}", "legend: true", "stacked: false"]
+    if height:
+        out.append(f"height: {height}")
+    out.append("```")
+    return "\n".join(out)
 
 
 # --------------------------------------------------------------------------
@@ -280,25 +300,27 @@ def note_paper(state, tasks, dry):
                 ref = tasks[key]["reference"].get(m, {}).get(ds)
                 outs.append((abs(c["delta"]), tag, m, ds, c, ref))
     outs.sort(key=lambda x: -x[0])
-    lines += ["## 이상치 <span class=\"m\">|Δ| 3.0 초과</span>", ""]
+    lines += [f"> [!warning]- 이상치 {len(outs)}개 — |Δ| 3.0 초과", ">"]
     if outs:
-        lines.append('<ul class="hg-out">')
+        lines.append('> <ul class="hg-out">')
         for _, tag, m, ds, c, ref in outs:
             refs = f"{ref:.1f}" if isinstance(ref, (int, float)) else "?"
-            lines.append(f'<li><span class="tag">{tag}</span><b>{m}</b><span class="ds">{ds}</span>'
+            lines.append(f'> <li><span class="tag">{tag}</span><b>{m}</b><span class="ds">{ds}</span>'
                          f'<span class="nums">{c["value"]:.1f}<em>vs</em>{refs}</span>'
                          f'<span class="d {delta_class(c["delta"])}">{fmt_delta(c["delta"])}</span></li>')
-        lines.append("</ul>")
+        lines.append("> </ul>")
     else:
-        lines.append("없음.")
+        lines.append("> 없음.")
     # 최근 완료 소식 (원장에서)
     upd = state.get("updates", {})
     if upd.get("items"):
-        lines += ["", f"## 원장의 최근 기록 <span class=\"m\">{upd.get('title', '')}</span>", ""]
-        lines += [f"- {it}" for it in upd["items"][:8]]
+        lines += ["", f"> [!quote]- 원장의 최근 기록 — {upd.get('title', '')}", ">"]
+        lines += [f"> - {it}" for it in upd["items"][:8]]
     lines += ["", f"원본: `.agents/clerk-reports/experiment_now.md` → `dashboard/state.json` · 기준값 `dashboard/paper_reference.json`",
               "", "관련: [[Home]] · [[대시보드]]"]
-    return write_note(VAULT / "논문 대조.md", "\n".join(lines), front("overview"), dry)
+    return write_note(VAULT / "논문 대조.md", "\n".join(lines),
+                      front("overview", css="hg-wide, hg-sticky", nc_agree=n3[1], nc_total=n3[0],
+                            hp_agree=n4[1], hp_total=n4[0], outliers=total_outliers), dry)
 
 
 # --------------------------------------------------------------------------
@@ -330,6 +352,18 @@ def note_models(state, tasks, dry):
             cards.append(("최대 편차", fmt_delta(worst[2]),
                           f"{TASK_LABEL[worst[0]][1]} · {worst[1]}"))
         d = MODEL_DIR.get(m, m)
+        props = {}
+        for key, short in (("T3", "nc"), ("T4", "hp")):
+            if key in per:
+                vals = [c for c in per[key].values() if c["kind"] == "val"]
+                props[f"{short}_agree"] = sum(abs(c["delta"]) <= 2 for c in vals)
+                props[f"{short}_done"] = len(vals)
+        props["max_abs_delta"] = round(abs(worst[2]), 1) if worst else 0
+        props["worst_cell"] = f"{TASK_LABEL[worst[0]][1]} {worst[1]} {fmt_delta(worst[2])}" if worst else ""
+        nvals = props.get("nc_done", 0) + props.get("hp_done", 0)
+        props["status"] = ("blocked" if nvals == 0 else
+                           "complete" if props.get("nc_done", 0) >= 6 and props.get("hp_done", 0) >= 6 else "partial")
+        props["code_dir"] = d
         lines = [f"# {m}", "",
                  f"<span class=\"lgn\">코드 `{d}/` · 결과 `results/result_*_{d}_*.txt` · 갱신 {now().strftime('%Y-%m-%d %H:%M')}</span>", "",
                  cards_html(cards), ""]
@@ -351,9 +385,15 @@ def note_models(state, tasks, dry):
                     lines.append(f"| [[{ds}]] | <span class=\"lim\">{c['label']}</span> | {refs} | | {c['text']} |")
                 else:
                     lines.append(f"| [[{ds}]] | <span class=\"na\">—</span> | {refs} | | {c['reason']} |")
+            cds = [ds for ds in tasks[key]["header"] if per[key][ds]["kind"] == "val"]
+            if len(cds) >= 2:
+                ours = [per[key][ds]["value"] for ds in cds]
+                refs_ = [ref.get(ds) if isinstance(ref.get(ds), (int, float)) else None for ds in cds]
+                lines += ["", chart_block(cds, [("우리", ours), ("논문", refs_)], height="220px"), ""]
             lines.append("")
-        lines += [legend_html(), "", "관련: [[논문 대조]] · [[Home]]"]
-        if write_note(VAULT / "models" / f"{m}.md", "\n".join(lines), front("model", datasets=len(tasks["T3"]["header"])), dry):
+        lines += [legend_html(), "", "관련: [[논문 대조]] · [[모델 비교]] · [[Home]]"]
+        if write_note(VAULT / "models" / f"{m}.md", "\n".join(lines),
+                      front("model", css="hg-model", **props), dry):
             changed += 1
     return changed
 
@@ -368,6 +408,7 @@ def note_datasets(state, tasks, dry):
     for ds in datasets:
         lines = [f"# {ds}", "", f"<span class=\"lgn\">갱신 {now().strftime('%Y-%m-%d %H:%M')}</span>", ""]
         any_val = False
+        props = {}
         for key in ("T3", "T4", "T5"):
             t = tasks.get(key)
             if not t or ds not in t["header"]:
@@ -380,6 +421,11 @@ def note_datasets(state, tasks, dry):
                 continue
             lines += [f"## {en} <span class=\"m\">{metric}</span>", "",
                       "| # | 모델 | 우리 | 논문 | Δ |", "|---:|---|---:|---:|---:|"]
+            if vals:
+                short = {"T3": "nc", "T4": "hp", "T5": "cd"}[key]
+                props[f"{short}_models"] = len(vals)
+                props[f"{short}_best"] = vals[0][0]
+                props[f"{short}_best_value"] = round(vals[0][1]["value"], 1)
             for i, (m, c) in enumerate(vals, 1):
                 any_val = True
                 r = t["reference"].get(m, {}).get(ds)
@@ -389,9 +435,15 @@ def note_datasets(state, tasks, dry):
             if others:
                 lines += ["", "<span class=\"lgn\">미실행·보류: " +
                           ", ".join(f"{m} ({c.get('label') or c.get('reason')})" for m, c in others) + "</span>"]
+            if len(vals) >= 2:
+                names = [m for m, _ in vals]
+                ours = [c["value"] for _, c in vals]
+                refs_ = [t["reference"].get(m, {}).get(ds) for m, _ in vals]
+                refs_ = [r if isinstance(r, (int, float)) else None for r in refs_]
+                lines += ["", chart_block(names, [("우리", ours), ("논문", refs_)], height="260px"), ""]
             lines.append("")
-        lines += ["관련: [[논문 대조]] · [[Home]]"]
-        if write_note(VAULT / "datasets" / f"{ds}.md", "\n".join(lines), front("dataset"), dry):
+        lines += ["관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]"]
+        if write_note(VAULT / "datasets" / f"{ds}.md", "\n".join(lines), front("dataset", **props), dry):
             changed += 1
     return changed
 
@@ -650,8 +702,8 @@ def note_dashboard(dry):
             lines += [f"`{r['active_ds']}.log` 마지막 줄:", "", f"```", r["tail"], "```", ""]
 
     # 최근 실행 이력
-    lines += ["## 최근 실행 <span class=\"m\">full-runs · 최신 10개</span>", "",
-              "| 실행 | 시작 | 마지막 활동 | 결과 |", "|---|---|---|---|"]
+    lines += ["> [!info]- 최근 실행 — full-runs 최신 10개", ">",
+              "> | 실행 | 시작 | 마지막 활동 | 결과 |", "> |---|---|---|---|"]
     for r in runs[:10]:
         summ = defaultdict(int)
         for s in r["terminal"].values():
@@ -659,7 +711,7 @@ def note_dashboard(dry):
             summ[k] += 1
         res = " · ".join(f"{k} {v}" for k, v in summ.items()) or "<span class=\"lgn\">기록 없음</span>"
         flag = ' <span class="pill run">활성</span>' if r["active"] else ""
-        lines.append(f"| `{r['id']}`{flag} | {r['start'].strftime('%m-%d %H:%M')} | {ago(r['latest'])} | {res} |")
+        lines.append(f"> | `{r['id']}`{flag} | {r['start'].strftime('%m-%d %H:%M')} | {ago(r['latest'])} | {res} |")
     lines.append("")
 
     # 자동화 프로세스
@@ -681,7 +733,9 @@ def note_dashboard(dry):
             lines.append(f"| `{h}` | {d} | {msg} |")
         lines.append("")
     lines += ["관련: [[에이전트]] · [[논문 대조]] · [[Home]]"]
-    return write_note(VAULT / "대시보드.md", "\n".join(lines), front("overview", host=HOST), dry, volatile=True)
+    return write_note(VAULT / "대시보드.md", "\n".join(lines),
+                      front("overview", css="hg-wide", host=HOST, running=len(live), active_runs=len(active_runs)),
+                      dry, volatile=True)
 
 
 # --------------------------------------------------------------------------
@@ -906,7 +960,9 @@ def note_home(tasks, dry, n_charts):
              "## 결과", "",
              "- [[논문 대조]] — HyperGC Table 3·4·5 vs 우리 정식 결과, Δ 배지", ""]
     if (VAULT / "Charts.md").exists():          # 차트는 5분에 한 번만 그리므로 파일 존재로 판단
-        lines += ["- [[Charts]] — 태스크별 히트맵·순위", ""]
+        lines += ["- [[Charts]] — 태스크별 순위 차트 (호버로 값 확인)"]
+    lines += ["- [[모델 비교]] — 모델 19개를 일치율·편차로 정렬·필터 (Bases)",
+              "- [[데이터셋 비교]] — 데이터셋별 1위 모델 (Bases)", ""]
     lines += ["## 모델", ""] + [f"- [[{m}]]" for m in models] + ["", "## 데이터셋", ""] + [f"- [[{d}]]" for d in datasets]
     lines += ["", "## 어떻게 갱신되나", "",
               "| 무엇 | 누가 | 경로 |", "|---|---|---|",
@@ -914,15 +970,154 @@ def note_home(tasks, dry, n_charts):
               "| 이 노트들 | `tools/vault_build.py` (cron 1분) | `vault/` |",
               "| 로컬 PC 로 | 서버가 변경 시 git push → PC 가 1분마다 pull · 대시보드.md 는 ssh 로 직접 | `hgnn_sync.ps1` |", "",
               "> 각 노트의 자동 생성 구간(AUTO 주석 사이)만 덮어쓴다. **`## 메모`** 는 보존된다."]
-    return write_note(VAULT / "Home.md", "\n".join(lines), front("home"), dry)
+    return write_note(VAULT / "Home.md", "\n".join(lines), front("home", css="hg-home"), dry)
 
 
-def note_charts(dry):
-    lines = ["# 차트", "", f"<span class=\"lgn\">값은 clerk 원장의 정식 결과 · 갱신 {now().strftime('%Y-%m-%d %H:%M')}</span>", ""]
-    for short, en in (("node", "Node classification"), ("edge", "Hyperedge prediction")):
-        lines += [f"## {en}", "", f"![[{short}-heatmap-light.png]]", "", f"![[{short}-rank-light.png]]", ""]
-    lines += ["> 다크 테마에서는 같은 이름의 `-dark.png` 를 쓰면 된다.", "", "관련: [[논문 대조]] · [[Home]]"]
-    return write_note(VAULT / "Charts.md", "\n".join(lines), front("overview"), dry)
+def note_charts(tasks, dry):
+    lines = ["# 차트", "",
+             f"<span class=\"lgn\">clerk 원장의 정식 결과 · 막대에 마우스를 올리면 값이 보인다 · 갱신 {now().strftime('%Y-%m-%d %H:%M')}</span>", ""]
+    for key in ("T3", "T4"):
+        t = tasks[key]; en, ko, metric, short = TASK_LABEL[key]
+        ds = [d for d in t["header"] if any(t["rows"][m][d]["kind"] == "val" for m in t["rows"])]
+        mdl = [m for m in t["rows"] if any(t["rows"][m][d]["kind"] == "val" for d in ds)]
+        if not mdl:
+            continue
+
+        def mean_of(m, src):
+            vals = [src(m, d) for d in ds]
+            vals = [v for v in vals if isinstance(v, (int, float))]
+            return sum(vals) / len(vals) if vals else None
+        ours = {m: mean_of(m, lambda m, d: t["rows"][m][d]["value"] if t["rows"][m][d]["kind"] == "val" else None) for m in mdl}
+        refs = {m: mean_of(m, lambda m, d: t["reference"].get(m, {}).get(d) if t["rows"][m][d]["kind"] == "val" else None) for m in mdl}
+        mdl.sort(key=lambda m: -(ours[m] or 0))
+        lines += [f"## {en} <span class=\"m\">{metric} · 데이터셋 {len(ds)}개 평균</span>", "",
+                  chart_block(mdl, [("우리", [ours[m] for m in mdl]), ("논문", [refs[m] for m in mdl])], height="320px"), "",
+                  "> [!note]- 데이터셋별 히트맵 (PNG)", ">", f"> ![[{short}-heatmap-light.png]]", ">",
+                  "> 다크 테마에서는 같은 이름의 `-dark.png` 를 쓰면 된다.", ""]
+    lines += ["관련: [[논문 대조]] · [[모델 비교]] · [[Home]]"]
+    return write_note(VAULT / "Charts.md", "\n".join(lines), front("overview", css="hg-wide"), dry)
+
+
+# --------------------------------------------------------------------------
+# 8. Bases (옵시디언 1.9+ 코어) — 프론트매터를 정렬·필터되는 표/카드로
+# --------------------------------------------------------------------------
+BASES = {
+    "모델 비교.base": """filters:
+  and:
+    - file.inFolder("hgnn/models")
+properties:
+  file.name:
+    displayName: 모델
+  nc_agree:
+    displayName: NC 일치
+  nc_done:
+    displayName: NC 완료
+  hp_agree:
+    displayName: HP 일치
+  hp_done:
+    displayName: HP 완료
+  max_abs_delta:
+    displayName: 최대 |Δ|
+  worst_cell:
+    displayName: 최대 편차 위치
+  status:
+    displayName: 상태
+  code_dir:
+    displayName: 코드
+views:
+  - type: table
+    name: 전체
+    order:
+      - file.name
+      - status
+      - nc_agree
+      - nc_done
+      - hp_agree
+      - hp_done
+      - max_abs_delta
+      - worst_cell
+    sort:
+      - property: max_abs_delta
+        direction: DESC
+  - type: table
+    name: 편차 5 초과
+    filters:
+      and:
+        - max_abs_delta > 5
+    order:
+      - file.name
+      - max_abs_delta
+      - worst_cell
+      - nc_agree
+      - hp_agree
+    sort:
+      - property: max_abs_delta
+        direction: DESC
+  - type: table
+    name: 미완료
+    filters:
+      and:
+        - status != "complete"
+    order:
+      - file.name
+      - status
+      - nc_done
+      - hp_done
+  - type: cards
+    name: 카드
+    order:
+      - file.name
+      - status
+      - nc_agree
+      - hp_agree
+      - max_abs_delta
+""",
+    "데이터셋 비교.base": """filters:
+  and:
+    - file.inFolder("hgnn/datasets")
+properties:
+  file.name:
+    displayName: 데이터셋
+  nc_models:
+    displayName: NC 모델 수
+  nc_best:
+    displayName: NC 1위
+  nc_best_value:
+    displayName: NC 1위 값
+  hp_models:
+    displayName: HP 모델 수
+  hp_best:
+    displayName: HP 1위
+  hp_best_value:
+    displayName: HP 1위 값
+views:
+  - type: table
+    name: 전체
+    order:
+      - file.name
+      - nc_models
+      - nc_best
+      - nc_best_value
+      - hp_models
+      - hp_best
+      - hp_best_value
+    sort:
+      - property: nc_models
+        direction: DESC
+""",
+}
+
+
+def note_bases(dry):
+    changed = 0
+    for name, body in BASES.items():
+        p = VAULT / name
+        if p.exists() and p.read_text(encoding="utf-8") == body:
+            continue
+        if not dry:
+            p.write_text(body, encoding="utf-8")
+        changed += 1
+    return changed
 
 
 # --------------------------------------------------------------------------
@@ -941,8 +1136,9 @@ def main():
     changed += note_models(state, tasks, dry)
     changed += note_datasets(state, tasks, dry)
     n_charts = 0 if args.no_charts else charts(tasks, dry)
-    if n_charts:
-        changed += note_charts(dry)
+    if n_charts or (VAULT / "assets").is_dir():
+        changed += note_charts(tasks, dry)
+    changed += note_bases(dry)
     changed += note_agents(dry)
     changed += note_home(tasks, dry, n_charts)
     dash = note_dashboard(dry)

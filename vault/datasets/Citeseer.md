@@ -1,13 +1,19 @@
 ---
 type: dataset
-updated: 2026-09-15 13:09
+nc_models: 18
+nc_best: HypeBoy
+nc_best_value: 57.6
+hp_models: 18
+hp_best: SE-HSSL
+hp_best_value: 90.6
+updated: 2026-09-15 14:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Citeseer
 
-<span class="lgn">갱신 2026-09-15 13:09</span>
+<span class="lgn">갱신 2026-09-15 14:20</span>
 
 ## Node classification <span class="m">Accuracy</span>
 
@@ -34,6 +40,25 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: HyperGRL (OOM)</span>
 
+```chart
+type: bar
+labels: [HypeBoy, SE-HSSL, MaskGAE, TriCL, GraphMAE2, PhenomNN, HNHN, UniGCN2, AllSet, UniGIN, HGNN, UniGCN, ED-HNN, HyperGCN, MLP, VilLain, GGD, HyperGCL]
+series:
+  - title: 우리
+    data: [57.6, 57.0, 52.7, 52.7, 51.7, 45.1, 43.3, 41.5, 41.0, 40.3, 38.1, 37.7, 34.0, 33.7, 32.4, 28.5, 27.5, 18.5]
+  - title: 논문
+    data: [57.7, 57.0, 53.2, 53.0, 51.7, 42.2, 44.2, 39.6, 41.1, 41.4, 38.1, 39.8, 32.9, 33.8, 32.4, 33.6, 34.0, 43.4]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
+
 ## Hyperedge prediction <span class="m">AUROC</span>
 
 | # | 모델 | 우리 | 논문 | Δ |
@@ -59,7 +84,26 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: HyperGRL (unavailable: EP implementation missing)</span>
 
-관련: [[논문 대조]] · [[Home]]
+```chart
+type: bar
+labels: [SE-HSSL, TriCL, MaskGAE, HypeBoy, GraphMAE2, MLP, UniGCN2, ED-HNN, VilLain, HyperGCN, PhenomNN, HGNN, UniGCN, HNHN, UniGIN, GGD, HyperGCL, AllSet]
+series:
+  - title: 우리
+    data: [90.6, 89.1, 86.7, 86.4, 78.1, 65.6, 60.3, 58.1, 57.2, 54.9, 54.3, 54.2, 53.7, 53.7, 53.3, 52.9, 51.9, 50.7]
+  - title: 논문
+    data: [90.5, 90.5, 86.7, 86.4, 78.2, 65.6, 60.2, 58.0, 58.3, 54.9, 54.5, 54.8, 54.7, 53.7, 52.9, 72.2, 73.9, 51.8]
+tension: 0.2
+width: 100%
+labelColors: false
+fill: false
+beginAtZero: false
+legend: true
+stacked: false
+height: 260px
+```
+
+
+관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모

@@ -1,13 +1,13 @@
 ---
 type: dataset
-updated: 2026-09-15 13:09
+updated: 2026-09-15 14:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # 20News
 
-<span class="lgn">갱신 2026-09-15 13:09</span>
+<span class="lgn">갱신 2026-09-15 14:20</span>
 
 ## Node classification <span class="m">Accuracy</span>
 
@@ -30,7 +30,7 @@ tags: [hgnn/dataset]
 
 <span class="lgn">미실행·보류: VilLain (pending), HyperGCL (pending), MaskGAE (OOT), HyperGRL (OOT)</span>
 
-관련: [[논문 대조]] · [[Home]]
+관련: [[논문 대조]] · [[데이터셋 비교]] · [[Home]]
 <!-- AUTO:END -->
 
 ## 메모
