@@ -329,3 +329,9 @@
 - [2026-09-15 19:13 KST] 갱신 요청: `results/result_118.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님
 
 - [2026-09-15 19:13 KST] 갱신 요청: `results/result_pubmed_cite_MaskGAE_cluster.txt` — 원장 Community detection 표에 Pubmed 열이 없음
+
+- [2026-09-15 19:14 KST] 갱신 요청: `results/result_aminer_MaskGAE_node.txt` — 원시 배열과 평균±표준편차가 한 쌍으로 기록되지 않음
+
+- [2026-09-15 19:14 KST] 갱신 요청: `results/result_118.txt` — 파일명이 표준 result_<dataset>_<model>_<task>.txt 형식이 아님
+
+- [2026-09-15 19:14 KST] 갱신 요청: `results/result_aminer_MaskGAE_cluster.txt` — 원장 Community detection 표에 AMiner 열이 없음
