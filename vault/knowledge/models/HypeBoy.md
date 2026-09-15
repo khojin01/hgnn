@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 6
 hp_done: 6
 hp_agree: 6
-cd_done: 1
-cd_agree: 0
-max_abs_delta: 2.2
-worst_cell: "커뮤니티 탐지 Citeseer −2.2"
+cd_done: 3
+cd_agree: 1
+max_abs_delta: 2.8
+worst_cell: "커뮤니티 탐지 Cora-CA +2.8"
 status: complete
-updated: 2026-09-15 22:17
+updated: 2026-09-15 22:18
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HypeBoy
 
-실행법 → [[HypeBoy 실행]] · 코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · <small>갱신 2026-09-15 22:17</small>
+실행법 → [[HypeBoy 실행]] · 코드 `Hypeboy/` · 결과 `results/result_*_Hypeboy_*.txt` · <small>갱신 2026-09-15 22:18</small>
 
-NC 6/6 일치 · HP 6/6 일치 · CD 0/1 일치 · 최대 편차 커뮤니티 탐지 Citeseer −2.2
+NC 6/6 일치 · HP 6/6 일치 · CD 1/3 일치 · 최대 편차 커뮤니티 탐지 Cora-CA +2.8
 
 ## Node classification — Table 3 · Accuracy
 
@@ -53,8 +53,8 @@ NC 6/6 일치 · HP 6/6 일치 · CD 0/1 일치 · 최대 편차 커뮤니티 �
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
 | [[Citeseer]] | 38.7 <span class="sd">±0.1</span> | 40.9 | <span class="d warn">−2.2</span> |  |
-| [[Cora-CA]] | — | 41.9 |  | pending |
-| [[IMDB]] | — | 8.6 |  | pending |
+| [[Cora-CA]] | 44.7 <span class="sd">±0.9</span> | 41.9 | <span class="d warn">+2.8</span> |  |
+| [[IMDB]] | 8.9 <span class="sd">±0.0</span> | 8.6 | <span class="d ok">+0.3</span> |  |
 | [[House]] | — | 0.0 |  | pending |
 | [[Pubmed]] | — | 30.4 |  | pending |
 | [[AMiner]] | — | 42.2 |  | pending |
