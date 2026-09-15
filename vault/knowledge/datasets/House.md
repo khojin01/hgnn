@@ -4,14 +4,16 @@ nc_models: 19
 nc_best: MLP
 hp_models: 18
 hp_best: MaskGAE
-updated: 2026-09-15 19:19
+cd_models: 2
+cd_best: MaskGAE
+updated: 2026-09-15 19:20
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # House
 
-<small>갱신 2026-09-15 19:19</small>
+<small>갱신 2026-09-15 19:20</small>
 
 ## Node classification — Accuracy
 
@@ -64,9 +66,12 @@ tags: [hgnn/dataset]
 
 ## Community detection — NMI
 
-정식 결과 없음.
+| # | 모델 | 우리 | 논문 | Δ |
+|---:|---|---:|---:|---:|
+| 1 | [[MaskGAE]] | 0.2 <span class="sd">±0.0</span> | 1.4 | <span class="d ok">−1.2</span> |
+| 2 | [[VilLain]] | 0.1 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">+0.0</span> |
 
-<small>미실행·보류: GraphMAE2 (pending), MaskGAE (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), VilLain (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: GraphMAE2 (pending), GGD (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 

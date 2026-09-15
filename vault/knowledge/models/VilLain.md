@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 5
 hp_done: 6
 hp_agree: 6
-cd_done: 1
-cd_agree: 1
+cd_done: 6
+cd_agree: 5
 max_abs_delta: 5.1
 worst_cell: "노드 분류 Citeseer −5.1"
 status: complete
-updated: 2026-09-15 19:19
+updated: 2026-09-15 19:20
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # VilLain
 
-실행법 → [[VilLain 실행]] · 코드 `VilLain/` · 결과 `results/result_*_VilLain_*.txt` · <small>갱신 2026-09-15 19:19</small>
+실행법 → [[VilLain 실행]] · 코드 `VilLain/` · 결과 `results/result_*_VilLain_*.txt` · <small>갱신 2026-09-15 19:20</small>
 
-NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 Citeseer −5.1
+NC 5/6 일치 · HP 6/6 일치 · CD 5/6 일치 · 최대 편차 노드 분류 Citeseer −5.1
 
 ## Node classification — Table 3 · Accuracy
 
@@ -52,12 +52,12 @@ NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 C
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
-| [[Citeseer]] | — | 11.3 |  | pending |
+| [[Citeseer]] | 9.1 <span class="sd">±4.5</span> | 11.3 | <span class="d warn">−2.2</span> |  |
 | [[Cora-CA]] | 9.7 <span class="sd">±2.2</span> | 9.7 | <span class="d ok">+0.0</span> |  |
-| [[IMDB]] | — | 0.1 |  | pending |
-| [[House]] | — | 0.1 |  | pending |
-| [[Pubmed]] | — | 32.9 |  | pending |
-| [[AMiner]] | — | 16.2 |  | pending |
+| [[IMDB]] | 0.0 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">−0.1</span> |  |
+| [[House]] | 0.1 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">+0.0</span> |  |
+| [[Pubmed]] | 32.9 <span class="sd">±0.0</span> | 32.9 | <span class="d ok">+0.0</span> |  |
+| [[AMiner]] | 17.7 <span class="sd">±0.7</span> | 16.2 | <span class="d ok">+1.5</span> |  |
 | [[DBLP-P]] | — | 40.1 |  | pending |
 | [[20News]] | — | 38.8 |  | pending |
 

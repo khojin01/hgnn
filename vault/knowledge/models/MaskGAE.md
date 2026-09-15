@@ -5,21 +5,21 @@ nc_done: 6
 nc_agree: 5
 hp_done: 6
 hp_agree: 6
-cd_done: 1
-cd_agree: 1
+cd_done: 6
+cd_agree: 6
 max_abs_delta: 3.3
 worst_cell: "노드 분류 Cora-CA −3.3"
 status: complete
-updated: 2026-09-15 19:19
+updated: 2026-09-15 19:20
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # MaskGAE
 
-실행법 → [[MaskGAE 실행]] · 코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · <small>갱신 2026-09-15 19:19</small>
+실행법 → [[MaskGAE 실행]] · 코드 `MaskGAE/` · 결과 `results/result_*_MaskGAE_*.txt` · <small>갱신 2026-09-15 19:20</small>
 
-NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 Cora-CA −3.3
+NC 5/6 일치 · HP 6/6 일치 · CD 6/6 일치 · 최대 편차 노드 분류 Cora-CA −3.3
 
 ## Node classification — Table 3 · Accuracy
 
@@ -52,12 +52,12 @@ NC 5/6 일치 · HP 6/6 일치 · CD 1/1 일치 · 최대 편차 노드 분류 C
 
 | 데이터셋 | 우리 | 논문 | Δ | 비고 |
 |---|---:|---:|---:|---|
-| [[Citeseer]] | — | 34.8 |  | pending |
+| [[Citeseer]] | 34.4 <span class="sd">±0.1</span> | 34.8 | <span class="d ok">−0.4</span> |  |
 | [[Cora-CA]] | 39.4 <span class="sd">±1.3</span> | 38.0 | <span class="d ok">+1.4</span> |  |
-| [[IMDB]] | — | 2.9 |  | pending |
-| [[House]] | — | 1.4 |  | pending |
-| [[Pubmed]] | — | 28.9 |  | pending |
-| [[AMiner]] | — | 36.3 |  | pending |
+| [[IMDB]] | 3.2 <span class="sd">±0.0</span> | 2.9 | <span class="d ok">+0.3</span> |  |
+| [[House]] | 0.2 <span class="sd">±0.0</span> | 1.4 | <span class="d ok">−1.2</span> |  |
+| [[Pubmed]] | 29.9 <span class="sd">±0.0</span> | 28.9 | <span class="d ok">+1.0</span> |  |
+| [[AMiner]] | 36.3 <span class="sd">±0.1</span> | 36.3 | <span class="d ok">+0.0</span> |  |
 | [[DBLP-P]] | — | 61.6 |  | pending |
 | [[20News]] | <span class="lim">OOT</span> | — |  | O.O.T skip |
 
