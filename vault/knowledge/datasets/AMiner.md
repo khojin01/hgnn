@@ -4,16 +4,16 @@ nc_models: 16
 nc_best: GraphMAE2
 hp_models: 16
 hp_best: HypeBoy
-cd_models: 3
-cd_best: MaskGAE
-updated: 2026-09-15 19:27
+cd_models: 4
+cd_best: TriCL
+updated: 2026-09-15 19:37
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # AMiner
 
-<small>갱신 2026-09-15 19:27</small>
+<small>갱신 2026-09-15 19:37</small>
 
 ## Node classification — Accuracy
 
@@ -65,11 +65,12 @@ tags: [hgnn/dataset]
 
 | # | 모델 | 우리 | 논문 | Δ |
 |---:|---|---:|---:|---:|
-| 1 | [[MaskGAE]] | 36.3 <span class="sd">±0.1</span> | 36.3 | <span class="d ok">+0.0</span> |
-| 2 | [[VilLain]] | 17.7 <span class="sd">±0.7</span> | 16.2 | <span class="d ok">+1.5</span> |
-| 3 | [[GGD]] | 3.7 <span class="sd">±0.2</span> | 4.4 | <span class="d ok">−0.7</span> |
+| 1 | [[TriCL]] | 40.7 <span class="sd">±0.3</span> | 40.9 | <span class="d ok">−0.2</span> |
+| 2 | [[MaskGAE]] | 36.3 <span class="sd">±0.1</span> | 36.3 | <span class="d ok">+0.0</span> |
+| 3 | [[VilLain]] | 17.7 <span class="sd">±0.7</span> | 16.2 | <span class="d ok">+1.5</span> |
+| 4 | [[GGD]] | 3.7 <span class="sd">±0.2</span> | 4.4 | <span class="d ok">−0.7</span> |
 
-<small>미실행·보류: GraphMAE2 (pending), TriCL (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: GraphMAE2 (pending), HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 
