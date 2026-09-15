@@ -4,16 +4,16 @@ nc_models: 17
 nc_best: PhenomNN
 hp_models: 17
 hp_best: TriCL
-cd_models: 7
+cd_models: 8
 cd_best: GraphMAE2
-updated: 2026-09-15 22:52
+updated: 2026-09-16 00:07
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # Pubmed
 
-<small>갱신 2026-09-15 22:52</small>
+<small>갱신 2026-09-16 00:07</small>
 
 ## Node classification — Accuracy
 
@@ -73,9 +73,10 @@ tags: [hgnn/dataset]
 | 4 | [[HypeBoy]] | 30.3 <span class="sd">±0.0</span> | 30.4 | <span class="d ok">−0.1</span> |
 | 5 | [[MaskGAE]] | 29.9 <span class="sd">±0.0</span> | 28.9 | <span class="d ok">+1.0</span> |
 | 6 | [[SE-HSSL]] | 15.7 <span class="sd">±2.3</span> | 15.0 | <span class="d ok">+0.7</span> |
-| 7 | [[GGD]] | 4.0 <span class="sd">±0.0</span> | 6.7 | <span class="d warn">−2.7</span> |
+| 7 | [[HyperGCL]] | 4.8 <span class="sd">±0.0</span> | 24.2 | <span class="d bad">−19.4</span> |
+| 8 | [[GGD]] | 4.0 <span class="sd">±0.0</span> | 6.7 | <span class="d warn">−2.7</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending)</small>
+<small>미실행·보류: HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 

@@ -2,14 +2,14 @@
 type: protocol
 model: HyperGCL
 env: hgnn-hypergcl
-updated: 2026-09-15 23:24
+updated: 2026-09-16 00:07
 tags: [hgnn/protocol]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGCL 실행
 
-결과 → [[HyperGCL]] · 코드 `HyperGCL/` · 환경 `hgnn-hypergcl` · <small>갱신 2026-09-15 23:24</small>
+결과 → [[HyperGCL]] · 코드 `HyperGCL/` · 환경 `hgnn-hypergcl` · <small>갱신 2026-09-16 00:07</small>
 
 ## 정식 명령 (`HyperGCL/118.sh`)
 
@@ -22,7 +22,7 @@ tags: [hgnn/protocol]
 | 스크립트 | `exp_node.sh` · `time_node.sh` |
 | 실행에 쓴 run-scripts | `edge-hypergcl-six-after-tricl-gpu1.sh` · `formal118-house-remaining-gpu0.sh` · `formal118-house-resume-gpu0.sh` · `formal118-pending5-gpu0.sh` · `hypergcl-after-repairs-gpu0.sh` · `hypergcl-gpu-path-resume-gpu0.sh` · `node-priority-order-after-hypergcn.sh` |
 | 게이트 파일 | — |
-| 정식 완료 | NC 3칸 · HP 4칸 · CD 4칸 |
+| 정식 완료 | NC 3칸 · HP 4칸 · CD 5칸 |
 | 돌리지 말 것 | DBLP-P (HP), DBLP-P (CD) |
 
 ## info.txt
