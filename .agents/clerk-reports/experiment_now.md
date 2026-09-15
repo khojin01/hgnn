@@ -81,7 +81,7 @@
 |---|---|---|---|
 | VilLain | **9.7 ± 2.2** (Δ **−0.0**) | — pending | — pending |
 | HyperGCL | — pending | O.O.M skip | — pending |
-| MaskGAE | — pending | — pending | O.O.T skip |
+| MaskGAE | **39.4 ± 1.3** (Δ **+1.4**) | — pending | O.O.T skip |
 | HyperGRL | — pending | — pending | O.O.T skip |
 
 ## Evidence and data contract

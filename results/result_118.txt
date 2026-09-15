@@ -32,3 +32,5 @@ house,VilLain,77.5 ± 5.6
 pubmed_cite,VilLain,84.3 ± 0.8
 aminer,VilLain,61.9 ± 0.7
 citeseer_cite,MaskGAE,52.7 ± 10.4
+cora_coauth,MaskGAE,56.5 ± 6.8
+imdb,MaskGAE,44.7 ± 3.5
