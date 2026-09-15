@@ -4,16 +4,16 @@ nc_models: 19
 nc_best: MLP
 hp_models: 18
 hp_best: MaskGAE
-cd_models: 5
+cd_models: 6
 cd_best: TriCL
-updated: 2026-09-15 22:10
+updated: 2026-09-15 22:19
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # House
 
-<small>갱신 2026-09-15 22:10</small>
+<small>갱신 2026-09-15 22:19</small>
 
 ## Node classification — Accuracy
 
@@ -73,8 +73,9 @@ tags: [hgnn/dataset]
 | 3 | [[GraphMAE2]] | 0.1 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">+0.0</span> |
 | 4 | [[GGD]] | 0.1 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">+0.1</span> |
 | 5 | [[VilLain]] | 0.1 <span class="sd">±0.0</span> | 0.1 | <span class="d ok">+0.0</span> |
+| 6 | [[HypeBoy]] | 0.0 <span class="sd">±0.0</span> | 0.0 | <span class="d ok">+0.0</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending), HypeBoy (pending), SE-HSSL (pending)</small>
+<small>미실행·보류: HyperGCL (pending), HyperGRL (pending), SE-HSSL (pending)</small>
 
 <!-- AUTO:END -->
 
