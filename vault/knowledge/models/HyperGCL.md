@@ -5,21 +5,21 @@ nc_done: 3
 nc_agree: 0
 hp_done: 4
 hp_agree: 0
-cd_done: 5
+cd_done: 6
 cd_agree: 1
 max_abs_delta: 45.5
 worst_cell: "노드 분류 Cora-CA −45.5"
 status: partial
-updated: 2026-09-16 00:07
+updated: 2026-09-16 00:51
 tags: [hgnn/model]
 ---
 
 <!-- AUTO:BEGIN -->
 # HyperGCL
 
-실행법 → [[HyperGCL 실행]] · 코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · <small>갱신 2026-09-16 00:07</small>
+실행법 → [[HyperGCL 실행]] · 코드 `HyperGCL/` · 결과 `results/result_*_HyperGCL_*.txt` · <small>갱신 2026-09-16 00:51</small>
 
-NC 0/3 일치 · HP 0/4 일치 · CD 1/5 일치 · 최대 편차 노드 분류 Cora-CA −45.5
+NC 0/3 일치 · HP 0/4 일치 · CD 1/6 일치 · 최대 편차 노드 분류 Cora-CA −45.5
 
 ## Node classification — Table 3 · Accuracy
 
@@ -57,7 +57,7 @@ NC 0/3 일치 · HP 0/4 일치 · CD 1/5 일치 · 최대 편차 노드 분류 C
 | [[IMDB]] | 0.2 <span class="sd">±0.0</span> | 1.4 | <span class="d ok">−1.2</span> |  |
 | [[House]] | 6.2 <span class="sd">±0.0</span> | 11.5 | <span class="d bad">−5.3</span> |  |
 | [[Pubmed]] | 4.8 <span class="sd">±0.0</span> | 24.2 | <span class="d bad">−19.4</span> |  |
-| [[AMiner]] | — | 31.9 |  | pending |
+| [[AMiner]] | 1.7 <span class="sd">±0.0</span> | 31.9 | <span class="d bad">−30.2</span> |  |
 | [[DBLP-P]] | <span class="lim">OOM</span> | — |  | O.O.M skip |
 | [[20News]] | — | 38.2 |  | pending |
 

@@ -4,16 +4,16 @@ nc_models: 16
 nc_best: GraphMAE2
 hp_models: 16
 hp_best: HypeBoy
-cd_models: 7
+cd_models: 8
 cd_best: HypeBoy
-updated: 2026-09-15 22:53
+updated: 2026-09-16 00:51
 tags: [hgnn/dataset]
 ---
 
 <!-- AUTO:BEGIN -->
 # AMiner
 
-<small>갱신 2026-09-15 22:53</small>
+<small>갱신 2026-09-16 00:51</small>
 
 ## Node classification — Accuracy
 
@@ -72,8 +72,9 @@ tags: [hgnn/dataset]
 | 5 | [[MaskGAE]] | 36.3 <span class="sd">±0.1</span> | 36.3 | <span class="d ok">+0.0</span> |
 | 6 | [[VilLain]] | 17.7 <span class="sd">±0.7</span> | 16.2 | <span class="d ok">+1.5</span> |
 | 7 | [[GGD]] | 3.7 <span class="sd">±0.2</span> | 4.4 | <span class="d ok">−0.7</span> |
+| 8 | [[HyperGCL]] | 1.7 <span class="sd">±0.0</span> | 31.9 | <span class="d bad">−30.2</span> |
 
-<small>미실행·보류: HyperGCL (pending), HyperGRL (pending)</small>
+<small>미실행·보류: HyperGRL (pending)</small>
 
 <!-- AUTO:END -->
 
