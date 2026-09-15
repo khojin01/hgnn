@@ -55,7 +55,16 @@ crontab -l                        # 등록 상태
 
 ### 자동화되지 않는 것
 
-- **아티팩트**는 발행에 Claude 도구가 필요해 cron이 못 한다. 갱신이 필요하면 요청한다.
+- **아티팩트**는 발행에 Claude 도구가 필요해 cron이 못 한다. 디스크의 HTML은 매분 최신이지만,
+  그걸 claude.ai에 올리는 것은 세션만 할 수 있다. 세션이 깨어나면 **두 개를 모두** 발행한다:
+
+  | 아티팩트 | 파일 | URL 끝 |
+  |---|---|---|
+  | HGNN MAIN (관제) | `dashboard/live.json` → 로컬 템플릿 | `CmR71CY6fS8EVtFD8Ce3pY` |
+  | HyperGC 재현 대조(dms2) | `dashboard/hypergc-report.html` | `McC9c6qoLCw13GmFBqvZkb` |
+
+  로컬에서 `python bin/hgnn_build.py --out-dir <디렉터리>` 가 둘을 한 번에 받아 온다.
+  하나만 발행하면 다른 하나가 조용히 낡는다 — 실제로 대조 아티팩트가 이틀 낡은 적이 있다.
 - **논문 기준값**은 `paper_reference.json`이 이미 있으면 다시 뽑지 않는다.
   `HyperGC.pdf`가 바뀌면 `python3 dashboard/paper_reference.py`를 직접 돌린다.
 - **대시보드 서버**(`server.py`)는 이 스크립트가 관리하지 않는다. 죽으면 다시 띄운다:
