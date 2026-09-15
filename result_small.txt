@@ -233,3 +233,4 @@ cora_coauth,TriCL,61.8 ± 5.9
 imdb,TriCL,47.7 ± 5.1
 house,TriCL,63.2 ± 6.8
 pubmed_cite,TriCL,75.0 ± 3.4
+aminer,TriCL,33.6 ± 2.5
