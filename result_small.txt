@@ -228,3 +228,4 @@ imdb,HGD,35.9 ± 2.7
 house,HGD,49.9 ± 1.3
 pubmed_cite,HGD,62.1 ± 5.0
 aminer,HGD,16.5 ± 2.6
+citeseer_cite,TriCL,52.7 ± 13.8
