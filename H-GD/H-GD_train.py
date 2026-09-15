@@ -165,6 +165,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default='cuda:0')
     parser.add_argument('--data', type=str, default='cora_cite')
     parser.add_argument('--task', type=str, default='node')
+    parser.add_argument("--save-emb", dest="save_emb", type=str, default=None)
     parser.add_argument('--num_hop', type=int, default=0, help='graph power')
     parser.add_argument('--num_seeds', type=int, default=5, help='number of trails')
     
@@ -235,6 +236,14 @@ if __name__ == '__main__':
 
         embeds = or_embeds + pr_embeds
         torch.save(embeds,str(args.lr)+"ggd.pt")
+        # Table 5(커뮤니티 탐지)용. 경로를 주면 노드 임베딩을 거기에도 저장한다.
+        # 주지 않으면 아무것도 바뀌지 않는다.
+        if getattr(args, "save_emb", None):
+            import pickle as _pickle, os as _os
+            _os.makedirs(_os.path.dirname(args.save_emb), exist_ok=True)
+            with open(args.save_emb, "wb") as _f:
+                _pickle.dump(embeds.detach().cpu().numpy(), _f)
+            print("saved embeddings:", args.save_emb)
         valid_results, test_results, epoch_results = node_prediction_linear_eval(args,node_splits,embeds,data)
 
     else:
