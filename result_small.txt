@@ -219,3 +219,5 @@ house,HyperGCL,63.3 ± 9.5
 citeseer_cite,MaskGAE,52.7 ± 10.4
 cora_coauth,MaskGAE,56.5 ± 6.8
 imdb,MaskGAE,44.7 ± 3.5
+house,MaskGAE,52.2 ± 3.0
+pubmed_cite,MaskGAE,74.6 ± 4.2
