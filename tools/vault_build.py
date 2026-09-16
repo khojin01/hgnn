@@ -742,6 +742,10 @@ def automation():
     t = mtime(ROOT / "dashboard" / "pipeline.log")
     rows.insert(0, dict(name="실험 파이프라인 (cron 1분)", on=bool(t and (now() - t).total_seconds() < 180), pid=None,
                         uptime=None, last=t.isoformat() if t else None))
+    # 로컬 PC 가 매분 남기는 심장박동. 꺼지면 옵시디언 미러와 클로드 감시가 같이 멈춘다.
+    h = mtime(ROOT / "dashboard" / ".local_heartbeat.json")
+    rows.append(dict(name="로컬 PC (옵시디언 미러)", on=bool(h and (now() - h).total_seconds() < 1200), pid=None,
+                     uptime=None, last=h.isoformat() if h else None))
     return rows
 
 
