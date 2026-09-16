@@ -59,8 +59,9 @@ build=$OUT
 cp -u "$ROOT/.claude/사용 설명서.md" "$ROOT/vault/사용 설명서.md" 2>/dev/null || true
 
 # 디스코드 — .discord.json 이 있을 때만 움직인다. 없으면 두 줄 다 조용히 지나간다.
-"$PYTHON" "$ROOT/tools/discord_bot.py" notify >/dev/null 2>>"$LOG"
-"$PYTHON" "$ROOT/tools/discord_bot.py" ensure-bot >/dev/null 2>>"$LOG"
+# 디스코드가 느려도 뒤의 커밋이 막히면 안 된다. 매분 도는 파이프라인이라 시간을 끊어 둔다.
+timeout 45 "$PYTHON" "$ROOT/tools/discord_bot.py" notify >/dev/null 2>>"$LOG"
+timeout 30 "$PYTHON" "$ROOT/tools/discord_bot.py" ensure-bot >/dev/null 2>>"$LOG"
 
 # git — 저장소가 아니면 여기서 끝.
 # vault_build.py 가 '날짜만 바뀐 경우' 를 스스로 건너뛰므로, diff 가 있으면 실제로 값이 바뀐 것이다.
