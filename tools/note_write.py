@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LAB = ROOT / "vault" / "lab"
-LOG = ROOT / "dashboard" / "orders.log"
+LOG = ROOT / "dashboard" / "notes.log"   # 지시함(inbox.jsonl)과 섞이지 않게 따로 남긴다
 KST = timezone(timedelta(hours=9))
 
 
