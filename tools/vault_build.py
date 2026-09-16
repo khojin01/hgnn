@@ -732,6 +732,16 @@ def run_dirs():
     return out
 
 
+def artifacts():
+    """아티팩트 주소는 클로드 계정에 묶여 계정을 갈아타면 바뀐다.
+    관제 페이지가 스스로 링크를 그릴 수 있게 `.claude/artifacts.json` 을 그대로 실어 보낸다.
+    주소를 고칠 곳은 그 파일 하나다."""
+    try:
+        return json.loads((ROOT / ".claude" / "artifacts.json").read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
 def automation():
     pats = [("웹 대시보드 :8765", "dashboard/server.py"), ("디스코드 봇", "discord_bot.py bot")]
     ps = sh("ps -eo pid,etimes,args --no-headers")
@@ -781,6 +791,7 @@ def live_json(state, tasks, dry):
     live = dict(generated_at=now().isoformat(), host=HOST, gpus=gpu_info(), jobs=jobs(), runs=run_dirs()[:12],
                 automation=automation(), git=git_log(), agents=agent_status(), paper=paper,
                 audit=state.get("audit"), updates=state.get("updates"),
+                artifacts=artifacts(),
                 lab=dict(latest_journal=journals[-1].name if journals else None, latest_journal_text=latest_j,
                          todo=todo, questions=len([l for l in read(LAB / "질문.md").splitlines() if l.startswith("- [ ]")])))
     if not dry:

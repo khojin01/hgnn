@@ -1,0 +1,26 @@
+{
+  "_": "아티팩트 주소는 클로드 계정에 묶인다. 계정을 갈아타면 새로 발행되고 주소가 바뀐다. 그때 이 파일만 고치면 된다.",
+  "control": {
+    "name": "HGNN MAIN",
+    "url": "https://claude.ai/artifact/CmR71CY6fS8EVtFD8Ce3pY",
+    "desc": "실행 상태 · 에이전트 · 연구 노트 · 지시 · 커밋"
+  },
+  "papers": [
+    {
+      "name": "dms2 논문 대조",
+      "url": "https://claude.ai/artifact/McC9c6qoLCw13GmFBqvZkb",
+      "desc": "Table 3·4·5 재현값과 Δ",
+      "tag": "d2",
+      "color": "var(--accent2)",
+      "source": "dashboard/hypergc-report.html"
+    },
+    {
+      "name": "dms3 논문 대조",
+      "url": "https://claude.ai/artifact/AWffwKjv2eSUGENjtNMEHf",
+      "desc": "dms3 서버 재현값",
+      "tag": "d3",
+      "color": "var(--ok)",
+      "source": null
+    }
+  ]
+}
