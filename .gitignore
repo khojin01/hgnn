@@ -63,3 +63,4 @@ dashboard/.discord_seen.json
 dashboard/discord.log
 dashboard/inbox.jsonl
 dashboard/notes.log
+dashboard/.local_heartbeat.json

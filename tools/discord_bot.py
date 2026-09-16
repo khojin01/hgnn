@@ -338,12 +338,27 @@ def answer(text, who="?", uid=None):
 
 # ── 알림 ──────────────────────────────────────────────────────────────────────
 
+HEARTBEAT = ROOT / "dashboard" / ".local_heartbeat.json"
+
+
+def local_quiet_min():
+    """로컬 PC 가 몇 분째 소식이 없는지. 파일이 없으면 None."""
+    try:
+        d = json.loads(HEARTBEAT.read_text(encoding="utf-8"))
+        at = datetime.fromisoformat(d["checked_at"])
+    except Exception:
+        return None
+    return (datetime.now(KST) - at).total_seconds() / 60
+
+
 def snapshot(d):
     """알림 판정에 쓰는 최소 상태. 여기 담긴 값이 바뀔 때만 알린다."""
     return {
         "jobs": sorted("%s × %s %s" % (j["model"], j["dataset"], j["task"]) for j in d.get("jobs", [])),
         "terminal": {r["id"]: dict(r.get("terminal", {})) for r in d.get("runs", [])},
         "automation": {a["name"]: bool(a.get("on")) for a in d.get("automation", [])},
+        # 20분 = 1분 주기에 여유를 둔 값. 잠깐의 네트워크 끊김으로 알리지 않는다.
+        "local_alive": (lambda q: True if q is None else q <= 20)(local_quiet_min()),
     }
 
 
@@ -381,6 +396,14 @@ def notify():
     for name, on in cur["automation"].items():
         if old.get("automation", {}).get(name) and not on:
             events.append((RED, "자동화 '%s' 가 멈췄다" % name))
+
+    was, now_alive = old.get("local_alive", True), cur["local_alive"]
+    if was and not now_alive:
+        q = local_quiet_min()
+        events.append((AMBER, "로컬 PC 소식 끊김 — %s분째. 옵시디언 미러와 클로드 감시가 같이 멈춘다."
+                       % ("?" if q is None else int(q))))
+    elif not was and now_alive:
+        events.append((GREEN, "로컬 PC 돌아왔다 — 미러 동기화 재개"))
 
     if events:
         if ended and not cur["jobs"]:
