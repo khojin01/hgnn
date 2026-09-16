@@ -57,6 +57,7 @@ build=$OUT
 # 사용 설명서는 .claude/ 가 원본이다. 옵시디언은 vault/ 만 보므로 바뀌었을 때만 복사한다.
 # (사본을 두 군데서 고치면 어긋난다 — 고칠 때는 .claude/ 쪽을 고친다.)
 cp -u "$ROOT/.claude/사용 설명서.md" "$ROOT/vault/사용 설명서.md" 2>/dev/null || true
+cp -u "$ROOT/.claude/새 계정 프롬프트.md" "$ROOT/vault/새 계정 프롬프트.md" 2>/dev/null || true
 
 # 디스코드 — .discord.json 이 있을 때만 움직인다. 없으면 두 줄 다 조용히 지나간다.
 # 디스코드가 느려도 뒤의 커밋이 막히면 안 된다. 매분 도는 파이프라인이라 시간을 끊어 둔다.
