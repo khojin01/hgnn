@@ -54,6 +54,10 @@ run build_report  "$ROOT/dashboard/build_report.py"
 run vault_build   "$ROOT/tools/vault_build.py"
 build=$OUT
 
+# 사용 설명서는 .claude/ 가 원본이다. 옵시디언은 vault/ 만 보므로 바뀌었을 때만 복사한다.
+# (사본을 두 군데서 고치면 어긋난다 — 고칠 때는 .claude/ 쪽을 고친다.)
+cp -u "$ROOT/.claude/사용 설명서.md" "$ROOT/vault/사용 설명서.md" 2>/dev/null || true
+
 # 디스코드 — .discord.json 이 있을 때만 움직인다. 없으면 두 줄 다 조용히 지나간다.
 "$PYTHON" "$ROOT/tools/discord_bot.py" notify >/dev/null 2>>"$LOG"
 "$PYTHON" "$ROOT/tools/discord_bot.py" ensure-bot >/dev/null 2>>"$LOG"
